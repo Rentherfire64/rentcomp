@@ -13,37 +13,6 @@ body {
     background-color: #f8f8f8; /* Fondo muy claro */
     color: #333;
 }
-
-/* Contenedor principal de la tarjeta */
-.product-card {
-    max-width: 300px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-/* Contenedor de la imagen: no necesita mucho, solo para que la imagen fluya bien */
-.card-image-placeholder {
-    /* A veces ayuda darle una altura definida si todas tus imágenes son del mismo tamaño */
-    /* height: 200px; 
-    overflow: hidden; */
-}
-
-/* La imagen en sí */
-.product-card img {
-    width: 100%;
-    height: auto;
-    display: block;
-    /* Eliminar cualquier margen no deseado */
-    margin: 0; 
-}
-
-/* Contenido de texto y botón */
-.card-content {
-    padding: 16px;
-}
-
 /* 2. Estilos del Encabezado (Header) y Navegación */
 header {
     background-color: #3f51b5; /* Un azul corporativo */
@@ -240,3 +209,4 @@ footer a {
     }
 
 }
+
