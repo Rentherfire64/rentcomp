@@ -6,7 +6,51 @@
     <title>RentCompInformática - Accesorios y Productos 3D</title>
     <meta name="description" content="Tu solución en accesorios de informática y productos innovadores impresos en 3D.">
     <link rel="stylesheet" href="styles.css"> 
+
     <style>
+        .product-card-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 50px 5%;
+            flex-wrap: wrap; /* Para que se ajusten en móviles */
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+        .card-image-placeholder {
+            height: 200px; /* Tamaño fijo para las imágenes */
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #777;
+            font-weight: bold;
+        }
+        .card-content {
+            padding: 25px;
+        }
+        .card-content h3 {
+            color: #3f51b5;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        /* Estilo para resaltar el enlace activo en la navegación */
+        .nav-productos {
+             border-bottom: 3px solid #ffc107; 
+        }
+        
         /* Estilo para resaltar el enlace 'Inicio' cuando estés en la página principal */
         .nav-inicio { 
              border-bottom: 3px solid #ffc107; 
@@ -34,7 +78,39 @@
             </ul>
         </nav>
     </header>
+    <main id="productos-main">
+        <section style="text-align: center; padding-top: 40px;">
+            <h2>Explora Nuestras Líneas de Productos</h2>
+            <p>Elige una de nuestras categorías para ver nuestro catálogo completo.</p>
+        </section>
 
+        <div class="product-card-container">
+            
+            <div class="product-card">
+                <div class="card-image-placeholder">
+                    <img src="Imagen/alcohol1.jpg" />
+                </div>
+                <div class="card-content">
+                    <h3>Insumos de Informática y Limpieza</h3>
+                    <p>Todo lo que necesitas para el mantenimiento, reparación y cuidado de tus dispositivos: alcohol isopropílico, herramientas y accesorios esenciales.</p>
+                    <a href="productos-informatica.html" class="cta-button" style="background-color: #3f51b5; color: white;">Ver Catálogo</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                 <div class="card-image-placeholder">
+                    <img src="Imagen/images.jpg" />
+                </div>
+                <div class="card-content">
+                    <h3>Impresión 3D y Regalos Personalizados</h3>
+                    <p>Mates, llaveros, soportes para celulares, decoración y otros artículos únicos. Diseñamos e imprimimos tus ideas a medida.</p>
+                    <a href="productos-3d.html" class="cta-button">Ver Personalizados</a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
     <section id="hero">
         <div class="hero-content">
             <h2>Tu Solución en Informática y Novedades 3D Personalizadas.</h2>
@@ -70,6 +146,7 @@
 
 </body>
 </html>
+
 
 
 
