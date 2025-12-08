@@ -132,7 +132,7 @@
             </div>
             <div class="servicio-item">
                 <h4>Días de Feria</h4>
-                <p>¡Visítanos! En la plaza de Ferrari. Consulta nuestro <a href="https://wa.me/541122956069">WhatsApp</a> para la ubicación.</p>
+                <p>¡Visítanos! En la plaza de Ferrari. Consulta nuestro <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> para la ubicación.</p>
             </div>
         </div>
     </section>
@@ -180,15 +180,133 @@
         measurementId: "G-KZM6W1L4Y"
     };
 
-    // Inicializa la app, lo que hace disponible firebase.auth() y firebase.firestore()
     const app = firebase.initializeApp(firebaseConfig);
-    
-    // Define las variables globales que usa auth-functions.js
-    const auth = firebase.auth(); 
+    const auth = firebase.auth(); // ¡AQUÍ SE DEFINE LA VARIABLE 'auth'!
     const db = firebase.firestore(); 
 </script>
 
-<script src="auth-functions.js"></script>
+<script>
+    
+    // --- VARIABLES DEL DOM Y DE FIREBASE ---
+    const loginModal = document.getElementById('login-modal');
+    const emailInput = document.getElementById('auth-email');
+    const passwordInput = document.getElementById('auth-password');
+    const messageDisplay = document.getElementById('auth-message');
+    const authButton = document.getElementById('auth-button'); 
+
+
+    // --- MANEJO DEL MODAL ---
+
+    function mostrarModalLogin() {
+        loginModal.style.display = 'flex';
+    }
+
+    function cerrarModalLogin() {
+        loginModal.style.display = 'none';
+        emailInput.value = '';
+        passwordInput.value = '';
+        messageDisplay.textContent = "";
+    }
+
+
+    // --- FUNCIONES DE AUTENTICACIÓN ---
+
+    function registrarCliente() {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        messageDisplay.textContent = "";
+
+        // Usa 'auth', que ya fue definido en el bloque anterior
+        auth.createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const clienteID = user.uid;
+
+                messageDisplay.textContent = "✅ ¡Registro exitoso! Ya puedes iniciar sesión.";
+                
+                // Crear el documento inicial del cliente en Firestore
+                db.collection("clientes").doc(clienteID).set({
+                    email: email,
+                    fechaRegistro: firebase.firestore.FieldValue.serverTimestamp(),
+                    es_interesado_3D: true, 
+                    es_interesado_Muebles: false
+                });
+
+            })
+            .catch((error) => {
+                messageDisplay.textContent = "❌ Error al registrar: " + error.message;
+                console.error("Error de registro:", error.code, error.message);
+            });
+    }
+
+
+    function iniciarSesion() {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        messageDisplay.textContent = "";
+
+        // Usa 'auth', que ya fue definido en el bloque anterior
+        auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                cerrarModalLogin(); 
+            })
+            .catch((error) => {
+                messageDisplay.textContent = "❌ Error de login. Verifica tu email y contraseña.";
+                console.error("Error de login:", error.code, error.message);
+            });
+    }
+
+    function cerrarSesion() {
+        auth.signOut().then(() => {
+            console.log("Sesión cerrada.");
+        }).catch((error) => {
+            console.error("Error al cerrar sesión:", error);
+        });
+    }
+
+
+    // --- MANEJO DEL ESTADO DE LA SESIÓN ---
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            // EL CLIENTE ESTÁ LOGUEADO
+            console.log("Usuario activo:", user.uid);
+            
+            authButton.textContent = 'Cerrar Sesión';
+            authButton.onclick = cerrarSesion; 
+            
+            cargarDatosCliente(user.uid); 
+            
+        } else {
+            // NINGÚN CLIENTE LOGUEADO
+            console.log("Ningún usuario activo.");
+            
+            authButton.textContent = 'Iniciar Sesión';
+            authButton.onclick = mostrarModalLogin; 
+
+            // Aquí podrías mostrar un catálogo por defecto para no logueados
+        }
+    });
+
+
+    function cargarDatosCliente(clienteID) {
+        db.collection("clientes").doc(clienteID).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const userData = doc.data();
+                    console.log("Datos cargados. ¿Interesado en 3D?:", userData.es_interesado_3D);
+                    
+                    // Aquí irá la lógica para cargar productos personalizados en el futuro
+                } else {
+                    console.log("No se encontraron datos de perfil para este cliente.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error al obtener datos del cliente:", error);
+            });
+    }
+
+</script>
 
 </body>
 </html>
