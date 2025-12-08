@@ -1,0 +1,16 @@
+<div id="auth-container">
+    <h2>Acceso Clientes</h2>
+
+    <label for="auth-email">Correo Electronico:</label>
+    <input type="email" id="auth-email" placeholder="email@ejemplo.com" required>
+
+    <label for="auth-password">Contraseña:</label>
+    <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" required>
+    
+    <div style="margin-top: 20px;">
+        <button id="btn-login" onclick="iniciarSesion()">Iniciar Sesión</button>
+        <button id="btn-register" onclick="registrarCliente()">Registrarse</button>
+    </div>
+
+    <p id="auth-message" style="color: red; margin-top: 15px;"></p>
+</div>

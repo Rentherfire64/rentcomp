@@ -6,14 +6,14 @@
     <title>RentCompInformática - Accesorios y Productos 3D</title>
     <meta name="description" content="Tu solución en accesorios de informática y productos innovadores impresos en 3D.">
     <link rel="stylesheet" href="styles.css"> 
-
+    
     <style>
         .product-card-container {
             display: flex;
             justify-content: center;
             gap: 40px;
             padding: 50px 5%;
-            flex-wrap: wrap; /* Para que se ajusten en móviles */
+            flex-wrap: wrap;
         }
         .product-card {
             background-color: white;
@@ -29,7 +29,7 @@
             transform: translateY(-8px);
         }
         .card-image-placeholder {
-            height: 200px; /* Tamaño fijo para las imágenes */
+            height: 200px;
             background-color: #f0f0f0;
             display: flex;
             align-items: center;
@@ -46,14 +46,11 @@
             margin-top: 0;
             font-size: 1.8em;
         }
-        /* Estilo para resaltar el enlace activo en la navegación */
         .nav-productos {
-             border-bottom: 3px solid #ffc107; 
+            border-bottom: 3px solid #ffc107; 
         }
-        
-        /* Estilo para resaltar el enlace 'Inicio' cuando estés en la página principal */
         .nav-inicio { 
-             border-bottom: 3px solid #ffc107; 
+            border-bottom: 3px solid #ffc107; 
         }
     </style>
 </head>
@@ -77,6 +74,9 @@
                 <li><a href="https://www.instagram.com/rentcompinformatica/" target="_blank">Instagram</a></li>
             </ul>
         </nav>
+        <div class="auth-controls">
+            <button id="auth-button" onclick="mostrarModalLogin()">Iniciar Sesión</button>
+        </div>
     </header>
     <main id="productos-main">
         <section style="text-align: center; padding-top: 40px;">
@@ -98,7 +98,7 @@
             </div>
 
             <div class="product-card">
-                 <div class="card-image-placeholder">
+                   <div class="card-image-placeholder">
                     <img src="Imagen/images.jpg" />
                 </div>
                 <div class="card-content">
@@ -144,11 +144,51 @@
         </div>
     </footer>
 
+<div id="login-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <span class="close-button" onclick="cerrarModalLogin()">&times;</span>
+        <h2>Acceso Clientes</h2>
+
+        <label for="auth-email">Correo Electrónico:</label>
+        <input type="email" id="auth-email" placeholder="email@ejemplo.com" required>
+
+        <label for="auth-password">Contraseña:</label>
+        <input type="password" id="auth-password" placeholder="Mínimo 6 caracteres" required>
+        
+        <div style="margin-top: 20px;">
+            <button id="btn-login" onclick="iniciarSesion()">Iniciar Sesión</button>
+            <button id="btn-register" onclick="registrarCliente()">Registrarse</button>
+        </div>
+
+        <p id="auth-message" style="color: red; margin-top: 15px;"></p>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+
+<script>
+    // Credenciales tomadas de tu proyecto 'rentcompinformatica-8f90c'
+    const firebaseConfig = {
+        apiKey: "AIzaSyAzg2Lz_w8Tsz79zf2mPzKx9Oqw6_cU",
+        authDomain: "rentcompinformatica-8f90c.firebaseapp.com",
+        projectId: "rentcompinformatica-8f90c",
+        storageBucket: "rentcompinformatica-8f90c.appspot.com",
+        messagingSenderId: "1081992298946",
+        appId: "1:1081992298946:web:7df3d7657dace192ebdb36",
+        measurementId: "G-KZM6W1L4Y"
+    };
+
+    // Inicializa la app, lo que hace disponible firebase.auth() y firebase.firestore()
+    const app = firebase.initializeApp(firebaseConfig);
+    
+    // Define las variables globales que usa auth-functions.js
+    const auth = firebase.auth(); 
+    const db = firebase.firestore(); 
+</script>
+
+<script src="auth-functions.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
