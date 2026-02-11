@@ -1,0 +1,529 @@
+/* ================================== */
+/* 1. VARIABLES Y RESET BÁSICO */
+/* ================================== */
+:root {
+    --primary-color: #1A1A1A; /* Negro Oscuro */
+    --accent-color: #9C7A3E; /* Dorado/Cobre Elegante */
+    --light-gray: #F8F8F8;
+    --dark-text: #333;
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --font-stack: 'Arial', sans-serif;
+    --dropdown-bg: #000; /* Negro puro para el fondo del menú */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-stack);
+    background-color: #fff;
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* 🔑 CLAVE DE VERTICALIDAD: Rompe la herencia Flexbox para los elementos del desplegable */
+.dropdown-content ul, 
+.dropdown-content li, 
+.dropdown-content .sub-menu ul, 
+.dropdown-content .sub-menu li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* !important asegura que rompemos cualquier herencia conflictiva de display: flex; */
+    display: block !important; 
+    width: 100%; 
+}
+
+/* El UL dentro del dropdown debe ser de ancho completo y vertical */
+.dropdown-content ul {
+    width: 100%;
+    padding: 10px 0; 
+}
+
+.dropdown-content ul li {
+    margin-left: 0; 
+}
+
+/* --- ESTILOS DEL CARRUSEL (SLIDER) --- */
+
+/* Contenedor principal para limitar el espacio del carrusel */
+.carousel-container {
+    width: 600px; /* Define el ancho deseado para todas las imágenes */
+    height: 400px; /* Define el alto deseado para todas las imágenes */
+    margin: 20px auto; /* Centra el carrusel y añade margen */
+    position: relative; /* Esencial para posicionar las imágenes */
+    overflow: hidden; /* Oculta partes de las imágenes que se salgan del contenedor */
+    border: 1px solid #ccc;
+}
+
+/* Estilo para las imágenes dentro del carrusel */
+.carousel-image {
+    width: 100%; /* La imagen ocupará el 100% del ancho del contenedor (600px) */
+    height: 100%; /* La imagen ocupará el 100% del alto del contenedor (400px) */
+    object-fit: cover; /* Recorta la imagen para que cubra el contenedor sin distorsionarse */
+    position: absolute; /* Permite que se superpongan */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Oculta todas las imágenes por defecto */
+    transition: opacity 0.5s ease-in-out; /* Animación suave al cambiar */
+}
+
+/* Clase para mostrar la imagen activa */
+.carousel-image.active {
+    opacity: 1; /* Hace visible la imagen activa */
+}
+
+/* Estilos para el botón rojo */
+#nextButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #ff0000; /* Color Rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#nextButton:hover {
+    background-color: #cc0000; /* Rojo más oscuro al pasar el ratón */
+}
+
+/* ================================== */
+/* 2. ENCABEZADO (HEADER) y MENÚ PRINCIPAL */
+/* ================================== */
+.header {
+    background-color: var(--primary-color); 
+    border-bottom: 1px solid var(--accent-color);
+    padding: 15px 50px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #fff; 
+}
+
+.logo span {
+    color: var(--accent-color);
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex; 
+}
+
+.nav-menu ul li {
+    margin-left: 30px;
+    position: relative;
+}
+
+.nav-menu ul li a {
+    font-weight: 600;
+    padding: 5px 0;
+    transition: color 0.3s;
+    color: #fff; 
+    display: block; 
+}
+
+.nav-menu ul li a:hover {
+    color: var(--accent-color);
+}
+
+.nav-icons a {
+    margin-left: 20px;
+    font-size: 1.2em;
+    color: #fff; 
+}
+
+/* Indicador de flecha para el menú principal (PRODUCTOS) */
+.arrow-down::after {
+    content: '⌄'; 
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+
+/* ================================== */
+/* 3. ESTILOS DEL MENÚ DESPLEGABLE (Vertical + Lateral Flyout) */
+/* ================================== */
+.dropdown-content {
+    display: none; 
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    z-index: 1000; 
+    
+    background-color: var(--dropdown-bg); 
+    min-width: 280px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+    padding: 0;
+}
+
+/* Mostrar el menú cuando se pasa el cursor */
+.dropdown:hover > .dropdown-content {
+    display: block;
+}
+
+/* Estilo para los enlaces dentro del dropdown */
+.dropdown-content li a {
+    color: #ffffff; 
+    padding: 12px 16px;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+    text-transform: uppercase; 
+    white-space: nowrap;
+    width: 100%; 
+}
+
+.dropdown-content li a:hover {
+    background-color: #222222; 
+    color: var(--accent-color); 
+}
+
+/* --- ESTILOS PARA SUBMENÚ ANIDADO (Lateral Flyout) --- */
+
+.sub-menu-item {
+    /* CLAVE 1: Establece el LI padre como punto de origen para el submenú absoluto */
+    position: relative; 
+    display: block !important; 
+}
+
+.dropdown-content.sub-menu {
+    /* CLAVE 2: Cambiamos de static (vertical) a absolute (lateral) */
+    position: absolute; 
+    /* CLAVE 3: Coloca el submenú justo a la derecha (100% del ancho del padre) */
+    left: 100%; 
+    /* CLAVE 4: Alinea el borde superior del submenú con el borde superior del ítem padre */
+    top: 0; 
+    
+    border-top: none; /* Quitamos la línea que existía en el modo vertical */
+    padding-left: 0; 
+    background-color: var(--dropdown-bg); 
+    min-width: 250px; 
+    box-shadow: 4px 0px 8px 0px rgba(0,0,0,0.5); /* Sombra lateral */
+    display: none; 
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sub-menu-item:hover .dropdown-content.sub-menu {
+    display: block;
+}
+
+.dropdown-content.sub-menu li a {
+    padding-left: 20px; 
+    font-size: 0.9em; 
+}
+
+/* Indicador de flecha (>) para ítems con submenú */
+.arrow-indicator::after {
+    content: '›'; 
+    margin-left: 10px;
+    font-size: 1.2em;
+    color: #ffffff; 
+}
+
+/* ================================== */
+/* 4. SECCIÓN DE PRODUCTOS DESTACADOS (Tu cuadrícula) */
+/* ================================== */
+.featured-products {
+    padding: 80px 20px;
+    text-align: center;
+    background-color: #fff; 
+}
+
+.featured-products h2 {
+    font-size: 2.5em;
+    margin-bottom: 50px;
+    color: var(--primary-color);
+    display: inline-block;
+    position: relative;
+}
+
+.featured-products h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 30px; 
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    width: 100%;
+    max-width: 300px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center; 
+}
+
+.product-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+    position: relative;
+    height: 280px; 
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc; 
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.05);
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px; 
+    background-color: var(--accent-color); 
+    color: white;
+    padding: 6px 10px;
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.product-details {
+    padding: 20px;
+    text-align: center; 
+}
+
+.product-title {
+    font-size: 1.2em;
+    color: var(--primary-color);
+    margin: 0 0 5px 0;
+    font-weight: 700;
+    min-height: 40px; 
+}
+
+.product-category {
+    font-size: 0.85em;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.current-price {
+    font-size: 1.4em;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-right: 10px;
+}
+
+.old-price {
+    font-size: 1.0em;
+    color: #999;
+    text-decoration: line-through;
+}
+
+/* Botón */
+.btn-buy {
+    display: block;
+    width: 90%; 
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s;
+    text-transform: uppercase;
+}
+
+.btn-buy:hover {
+    background-color: var(--accent-color); 
+    color: var(--primary-color); 
+}
+
+/* ================================== */
+/* 5. PIE DE PÁGINA (FOOTER) y MEDIA QUERIES */
+/* ================================== */
+.footer {
+    /* Modificación del estilo base del footer */
+    background-color: var(--primary-color);
+    color: var(--light-gray);
+    padding: 40px 50px;
+    display: block; 
+}
+
+.footer-container {
+    /* AJUSTE 1: Reducción del ancho máximo y gap */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1100px; /* Ancho ajustado para ser más compacto */
+    margin: 0 auto 30px auto;
+    text-align: left;
+    gap: 30px; /* Espacio entre columnas reducido */
+}
+
+.footer-col {
+    /* Estilo base para cada columna del footer */
+    flex: 1; 
+    min-width: 200px; /* Ancho mínimo reducido */
+}
+
+.footer-col h3 {
+    color: #fff;
+    font-size: 1em; /* Títulos más pequeños */
+    font-weight: 700;
+    margin-bottom: 15px; /* Menos espacio abajo */
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+.contact-info p, .contact-info a {
+    color: var(--light-gray);
+    font-size: 0.9em; /* Texto de contacto más pequeño */
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilos de Íconos de Pago y Envío */
+.icons-grid {
+    display: grid;
+    /* AJUSTE 2: Más columnas para un diseño compacto de íconos */
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 5px; /* Espacio reducido entre los íconos */
+    margin-bottom: 20px;
+}
+
+.icons-grid img, .icons-row img {
+    /* AJUSTE 3: Definir un tamaño fijo para los íconos de pago y envío */
+    max-width: 100%;
+    height: 30px; /* Alto fijo para alinear los íconos */
+    object-fit: contain; /* Asegura que la imagen no se distorsione */
+    
+    background-color: #fff; /* Fondo blanco para los íconos */
+    border-radius: 4px;
+    padding: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.icons-row {
+    display: flex;
+    gap: 10px;
+}
+
+/* Redes Sociales (Ajuste de tamaño) */
+.social-icons a {
+    font-size: 1.2em; /* Íconos de redes más pequeños */
+    margin-right: 10px;
+    color: #fff;
+}
+
+/* Newsletter */
+.newsletter-form {
+    display: flex;
+    margin-top: 15px;
+}
+
+.newsletter-form input {
+    padding: 10px;
+    border: none;
+    flex-grow: 1;
+    border-radius: 4px 0 0 4px;
+}
+
+.newsletter-form button {
+    padding: 10px 15px;
+    background-color: #000;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Sección de abajo del footer */
+.footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.footer-bottom .logo {
+    margin: 15px 0;
+}
+
+.footer-bottom .footer-links {
+    margin-bottom: 10px;
+}
+
+/* Media Query para móvil */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    .footer-col {
+        min-width: 100%;
+    }
+    .footer-col h3 {
+        display: block;
+        text-align: center;
+    }
+    .icons-grid {
+        justify-content: center;
+        grid-template-columns: repeat(4, 1fr); /* Menos columnas en móvil */
+    }
+    .newsletter-form {
+        max-width: 300px;
+        margin: 15px auto;
+    }
+}

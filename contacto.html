@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto Profesional | Sergio Estilista</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* ================================== */
+        /* 1. VARIABLES Y RESET BÁSICO */
+        /* ================================== */
+        :root {
+            --primary-color: #1A1A1A; /* Negro Oscuro */
+            --accent-color: #9C7A3E; /* Dorado/Cobre Elegante */
+            --light-gray: #F8F8F8;
+            --dark-text: #333;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            --font-stack: 'Arial', sans-serif;
+            --dropdown-bg: #000; /* Negro puro para el fondo del menú */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: #fff;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+
+        /* ================================== */
+        /* 2. ENCABEZADO (HEADER) y MENÚ PRINCIPAL */
+        /* ================================== */
+        .header {
+            background-color: var(--primary-color); 
+            border-bottom: 1px solid var(--accent-color);
+            padding: 15px 50px;
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff; 
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex; 
+        }
+
+        .nav-menu ul li {
+            margin-left: 30px;
+            position: relative;
+        }
+        
+        /* Aseguramos que los enlaces del header sean blancos */
+        .nav-menu ul li a {
+            font-weight: 600;
+            padding: 5px 0;
+            transition: color 0.3s;
+            color: #fff; 
+            display: block; 
+        }
+
+        .nav-menu ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-icons a {
+            margin-left: 20px;
+            font-size: 1.2em;
+            color: #fff; 
+        }
+
+        /* ================================== */
+        /* 3. ESTILOS DE LA PÁGINA DE CONTACTO */
+        /* ================================== */
+
+        .contact-section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h1 {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .contact-header p {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .contact-form-col {
+            flex: 2;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .contact-info-col {
+            flex: 1;
+            padding: 30px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .contact-form-col h2, .contact-info-col h2, .contact-info-col h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* --- Estilos del Formulario --- */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-text);
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* --- Estilos de Información y WhatsApp --- */
+
+        .info-block {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .info-block i {
+            font-size: 1.5em;
+            color: var(--accent-color);
+            width: 30px;
+            text-align: center;
+        }
+
+        .info-block p {
+            margin-left: 10px;
+            color: var(--dark-text);
+        }
+
+        .btn-whatsapp {
+            display: block;
+            text-align: center;
+            background-color: #25d366; 
+            color: white;
+            padding: 15px;
+            border-radius: 50px; 
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 25px 0;
+            transition: background-color 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #128c7e;
+        }
+
+        .btn-whatsapp i {
+            margin-right: 10px;
+        }
+
+        .social-links a {
+            font-size: 1.8em;
+            margin-right: 15px;
+            color: var(--primary-color);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Estilos del Mapa --- */
+
+        .contact-map {
+            margin-top: 40px;
+        }
+
+        .contact-map h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ================================== */
+        /* 4. PIE DE PÁGINA (FOOTER) */
+        /* ================================== */
+
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--light-gray);
+            padding: 40px 50px;
+            display: block; 
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1100px;
+            margin: 0 auto 30px auto;
+            text-align: left;
+            gap: 30px;
+        }
+
+        .footer-col {
+            flex: 1; 
+            min-width: 200px; 
+        }
+
+        .footer-col h3 {
+            color: #fff;
+            font-size: 1em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .contact-info p, .contact-info a {
+            color: var(--light-gray);
+            font-size: 0.9em; 
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        /* Estilos de Íconos de Pago y Envío */
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); 
+            gap: 5px; 
+            margin-bottom: 20px;
+        }
+
+        .icons-grid img, .icons-row img {
+            max-width: 100%;
+            height: 30px; 
+            object-fit: contain; 
+            
+            background-color: #fff; 
+            border-radius: 4px;
+            padding: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .icons-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Redes Sociales */
+        .social-icons a {
+            font-size: 1.2em; 
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        /* Newsletter */
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            padding: 10px;
+            border: none;
+            flex-grow: 1;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .newsletter-form button {
+            padding: 10px 15px;
+            background-color: #000;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 700;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Sección de abajo del footer */
+        .footer-bottom {
+            /* Corregido el valor de border-top */
+            border-top: 1px solid #444; 
+            padding-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .footer-bottom .logo {
+            margin: 15px 0;
+        }
+
+        .footer-bottom .footer-links {
+            margin-bottom: 10px;
+        }
+        
+        /* 💡 ESTILO AÑADIDO/MODIFICADO PARA HACER LOS ENLACES BLANCOS */
+        .footer-bottom .footer-links a {
+            color: white; /* Hace los enlaces de T&C y PP blancos */
+            transition: color 0.3s;
+        }
+
+        .footer-bottom .footer-links a:hover {
+            color: var(--accent-color); /* Mantiene el hover dorado */
+        }
+
+        /* Media Query para Responsive Design */
+        @media (max-width: 900px) {
+            .contact-container {
+                flex-direction: column;
+            }
+            .contact-form-col, .contact-info-col {
+                flex: auto;
+                padding: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .footer-container {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+            .footer-col {
+                min-width: 100%;
+            }
+            .footer-col h3 {
+                display: block;
+                text-align: center;
+            }
+            .icons-grid {
+                justify-content: center;
+                grid-template-columns: repeat(4, 1fr); 
+            }
+            .newsletter-form {
+                max-width: 300px;
+                margin: 15px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Sergio<span>Estilista</span></div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">INICIO</a></li>
+                <li><a href="#">PRODUCTOS</a></li> 
+                <li><a href="#">BLOG</a></li>
+                <li><a href="contacto.html">CONTACTO</a></li>
+            </ul>
+        </nav>
+        <div class="nav-icons">
+            <a href="#">🛒0</a> 
+        </div>
+    </header>
+
+    <section class="contact-section">
+        <div class="contact-header">
+            <h1>Contáctanos</h1>
+            <p>Estamos aquí para ayudarte con tus pedidos, consultas y cursos.</p>
+        </div>
+
+        <div class="contact-container">
+            
+            <div class="contact-form-col">
+                <h2>Envíanos un Mensaje</h2>
+                <form id="contactForm" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Nombre Completo</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Tu Mensaje</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                    <p id="formStatus" style="margin-top: 15px; font-weight: bold;"></p>
+                </form>
+            </div>
+
+            <div class="contact-info-col">
+                
+                <h2>Información de Contacto</h2>
+
+                <div class="info-block">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Vidt 6325, Buenos Aires, Argentina</p>
+                </div>
+                
+                <div class="info-block">
+                    <i class="fas fa-envelope"></i>
+                    <p>estilista.serg@hotmail.com</p>
+                </div>
+
+                <div class="info-block">
+                    <i class="fas fa-phone"></i>
+                    <p>+54 11 3161-5266 (Martes a Sábado, 9hs a 19)</p>
+                </div>
+                
+                <hr>
+
+                <h3>Acceso Directo</h3>
+                <a href="https://wa.me/541131615266?text=Hola%2C%20quisiera%20consultar%20sobre%20un%20producto." target="_blank" class="btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Chatear por WhatsApp
+                </a>
+
+                <div class="social-links">
+                    
+                    <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="contact-map">
+            <h2>Nuestra Ubicación</h2>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d204.99635121751436!2d-58.780549205839634!3d-34.70665241350996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccb3a24501c9f%3A0xa2bdb32b4b33b159!2sEscuela%20Sergio%20Estilista!5e0!3m2!1ses!2sar!4v1765646995571!5m2!1ses!2sar" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <div class="logo">Sergio<span>Estilista</span></div>
+            <div class="footer-links">
+                <a href="terminos.html">Términos y Condiciones</a> | <a href="privacidad.html">Política de Privacidad</a>
+            </div>
+            <p>© 2025 Sergio Estilista. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contactForm');
+            const formStatus = document.getElementById('formStatus');
+
+            if (form) {
+                form.addEventListener('submit', (event) => {
+                    event.preventDefault(); 
+                    
+                    // Simulación de envío exitoso:
+                    formStatus.style.color = 'green';
+                    formStatus.textContent = '¡Mensaje enviado con éxito! Te responderemos pronto.';
+                    form.reset(); 
+
+                    // Ocultar el mensaje después de 5 segundos
+                    setTimeout(() => {
+                        formStatus.textContent = '';
+                    }, 5000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
