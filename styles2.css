@@ -2,6 +2,26 @@
 /* 1. VARIABLES Y RESET BÁSICO */
 /* ================================== */
 /* Contenedor Principal */
+.map-section {
+    text-align: center;
+}
+
+.map-container {
+    filter: grayscale(100%) invert(90%) contrast(90%); /* Filtro para que el mapa se vea oscuro/estilizado */
+    transition: filter 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.map-container:hover {
+    filter: none; /* Al pasar el mouse, el mapa recupera sus colores originales */
+}
+
+.map-caption {
+    font-size: 0.85rem;
+    color: #c5a059; /* El color dorado de tu marca */
+    margin-top: 10px;
+}
+
 .footer-professional {
     background-color: #111; /* Negro profundo */
     color: #ffffff;
@@ -655,3 +675,4 @@ a {
     }
 
 }
+
