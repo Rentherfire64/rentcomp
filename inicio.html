@@ -10,7 +10,6 @@
             --dorado: #c5a059;
             --blanco: #ffffff;
             --gris-claro: #f4f4f4;
-            --rojo-oferta: #d9534f;
             --altura-header: 90px;
         }
 
@@ -55,11 +54,9 @@
         }
         .nav-item:hover > .dropdown-vertical { display: block; }
         .dropdown-vertical a { color: var(--blanco); text-decoration: none; padding: 12px 20px; display: block; font-size: 0.8rem; border-bottom: 1px solid #222; }
-        .dropdown-vertical a:hover { background: #222; color: var(--dorado); }
 
-        /* PRODUCTOS CON OFERTAS */
+        /* GRILLA DE PRODUCTOS */
         .catalog { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
-        .catalog-title { text-align: center; margin-bottom: 40px; font-weight: bold; font-size: 2rem; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         
         .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; text-align: center; transition: 0.3s; }
@@ -68,7 +65,7 @@
         .badge-oferta { position: absolute; top: 10px; right: 10px; background: var(--dorado); color: white; padding: 5px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 3px; z-index: 10; }
         
         .img-container { height: 280px; background: #fff; }
-        .img-container img { width: 100%; height: 100%; object-fit: contain; padding: 10px; }
+        .img-container img { width: 100%; height: 100%; object-fit: contain; padding: 15px; }
         
         .info { padding: 20px; }
         .prod-cat { font-size: 0.7rem; color: #888; text-transform: uppercase; }
@@ -78,23 +75,32 @@
         .old-price { text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 10px; }
         .new-price { color: var(--negro); font-size: 1.3rem; font-weight: bold; }
 
-        .btn-add { display: block; background: var(--negro); color: white; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; transition: 0.3s; }
+        .btn-add { display: block; background: var(--negro); color: white; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; }
         .btn-add:hover { background: var(--dorado); }
 
-        /* FOOTER COMPLETO */
+        /* FOOTER */
         .footer { background: #111; color: white; padding: 60px 5% 20px; margin-top: 50px; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
-        
         .footer-h3 { color: var(--dorado); font-size: 1rem; margin-bottom: 20px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; }
         
         .icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
         .icon-grid img { width: 100%; background: white; padding: 4px; border-radius: 4px; }
         
-        .map-container iframe { width: 100%; height: 150px; border-radius: 8px; border: 0; }
-        
-        .contact-info p { margin-bottom: 12px; font-size: 0.9rem; color: #ccc; }
-        
-        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* WHATSAPP FLOTANTE CON MENSAJE PRE-CARGADO */
+        .whatsapp-float { 
+            position: fixed; 
+            bottom: 30px; 
+            right: 30px; 
+            background: #25d366; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 10000; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        }
     </style>
 </head>
 <body>
@@ -112,65 +118,99 @@
                     <ul class="dropdown-vertical">
                         <li><a href="#">SHAMPOO</a></li>
                         <li><a href="#">ARGÁN ORO LÍQUIDO</a></li>
-                        <li><a href="#">GEL FORTE</a></li>
                         <li><a href="#">CERA MATE</a></li>
-                        <li><a href="#">CERA EN POLVO</a></li>
+                        <li><a href="#">ACCESORIOS</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a href="#" class="nav-link">Cursos</a></li>
                 <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
             </ul>
         </nav>
-        <div style="color: white;">🛒 0</div>
+        <div style="color: white; font-weight: bold;">🛒 0</div>
     </header>
 
     <main class="catalog">
-        <h2 class="catalog-title">Productos & Cursos Destacados</h2>
         <div class="grid">
             
             <article class="card">
-                <span class="badge-oferta">OFERTA 15% OFF</span>
-                <div class="img-container">
-                    <img src="Imagen/Shampoo%20control%20caída.jpeg" alt="Shampoo">
-                </div>
+                <span class="badge-oferta">15% OFF</span>
+                <div class="img-container"><img src="Imagen/Shampoo%20control%20caída.jpeg"></div>
                 <div class="info">
-                    <p class="prod-cat">Cuidado Capilar | Shampoo</p>
+                    <p class="prod-cat">Shampoo</p>
                     <h3 class="prod-name">Shampoo Control Caída Profesional</h3>
-                    <div class="price-box">
-                        <span class="old-price">$20.000</span>
-                        <span class="new-price">$17.000</span>
-                    </div>
-                    <a href="#" class="btn-add">Agregar al Carrito</a>
+                    <div class="price-box"><span class="old-price">$20.000</span><span class="new-price">$17.000</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
                 </div>
             </article>
 
             <article class="card">
-                <span class="badge-oferta" style="background:#a38146;">¡Nuevo Curso!</span>
-                <div class="img-container">
-                    <img src="Imagen/curso%20barberia.jpg" alt="Curso">
-                </div>
+                <div class="img-container"><img src="Imagen/Cera%20modeladora.jpeg"></div>
                 <div class="info">
-                    <p class="prod-cat">Formación | Presencial</p>
-                    <h3 class="prod-name">Curso Barbería Masterclass - 12 meses</h3>
-                    <div class="price-box">
-                        <span class="new-price">$69.000</span>
-                    </div>
+                    <p class="prod-cat">Estilizado</p>
+                    <h3 class="prod-name">Cera Modeladora Acabado Mate</h3>
+                    <div class="price-box"><span class="old-price">$18.000</span><span class="new-price">$15.000</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="img-container"><img src="Imagen/Shampoo%20matizador.jpeg"></div>
+                <div class="info">
+                    <p class="prod-cat">Color</p>
+                    <h3 class="prod-name">Shampoo Matizador Blue Power</h3>
+                    <div class="price-box"><span class="new-price">$28.000</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <span class="badge-oferta">OFERTA</span>
+                <div class="img-container"><img src="Imagen/Semi%20de%20lino.jpeg"></div>
+                <div class="info">
+                    <p class="prod-cat">Tratamiento</p>
+                    <h3 class="prod-name">Ampollas Semi de Lino Alfaparf</h3>
+                    <div class="price-box"><span class="old-price">$17.500</span><span class="new-price">$15.000</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="img-container"><img src="Imagen/Cera%20en%20polvo.jpeg"></div>
+                <div class="info">
+                    <p class="prod-cat">Volumen</p>
+                    <h3 class="prod-name">Cera en Polvo Efecto Seco</h3>
+                    <div class="price-box"><span class="new-price">$19.000</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <span class="badge-oferta" style="background: #222;">NUEVO</span>
+                <div class="img-container"><img src="Imagen/curso%20barberia.jpg"></div>
+                <div class="info">
+                    <p class="prod-cat">Cursos</p>
+                    <h3 class="prod-name">Curso de Barbería Profesional</h3>
+                    <div class="price-box"><span class="new-price">$69.000</span></div>
                     <a href="#" class="btn-add">Inscribirme</a>
                 </div>
             </article>
 
             <article class="card">
-                <span class="badge-oferta" style="background:#555;">Top Ventas</span>
-                <div class="img-container">
-                    <img src="Imagen/Cera%20modeladora.jpeg" alt="Cera">
-                </div>
+                <div class="img-container"><img src="Imagen/Argán%20oro%20líquido.jpeg"></div>
                 <div class="info">
-                    <p class="prod-cat">Estilizado | Hombre</p>
-                    <h3 class="prod-name">Cera Modeladora Acabado Mate</h3>
-                    <div class="price-box">
-                        <span class="old-price">$18.500</span>
-                        <span class="new-price">$15.000</span>
-                    </div>
+                    <p class="prod-cat">Aceites</p>
+                    <h3 class="prod-name">Aceite de Argán Oro Líquido</h3>
+                    <div class="price-box"><span class="new-price">$12.500</span></div>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="card">
+                <div class="img-container"><img src="Imagen/Gel%20forte.jpeg"></div>
+                <div class="info">
+                    <p class="prod-cat">Fijación</p>
+                    <h3 class="prod-name">Gel Forte Fijación Extra Fuerte</h3>
+                    <div class="price-box"><span class="new-price">$8.500</span></div>
                     <a href="#" class="btn-add">Comprar</a>
                 </div>
             </article>
@@ -181,49 +221,25 @@
     <footer class="footer">
         <div class="footer-grid">
             <div>
-                <h3 class="footer-h3">MEDIOS DE PAGO</h3>
+                <h3 class="footer-h3">PAGOS Y ENVÍOS</h3>
                 <div class="icon-grid">
-                    <img src="Imagen/visa.png" alt="Visa">
-                    <img src="Imagen/mastercard.png" alt="Master">
-                    <img src="Imagen/american-express.png" alt="Amex">
-                    <img src="Imagen/naranja.png" alt="Naranja">
-                    <img src="Imagen/cabal.png" alt="Cabal">
-                    <img src="Imagen/mercadopago.png" alt="MP">
-                    <img src="Imagen/rapipago.png" alt="Rapi">
-                    <img src="Imagen/pagofacil.png" alt="Pago Facil">
-                </div>
-                <h3 class="footer-h3">MEDIOS DE ENVÍO</h3>
-                <div class="icon-grid" style="grid-template-columns: repeat(2, 1fr);">
-                    <img src="Imagen/acordar.png" alt="Local" title="Retiro en local">
-                    <img src="Imagen/envio.png" alt="Envio" title="Envío a domicilio">
+                    <img src="Imagen/visa.png"><img src="Imagen/mastercard.png">
+                    <img src="Imagen/mercadopago.png"><img src="Imagen/naranja.png">
+                    <img src="Imagen/rapipago.png"><img src="Imagen/pagofacil.png">
+                    <img src="Imagen/acordar.png"><img src="Imagen/envio.png">
                 </div>
             </div>
-
             <div>
-                <h3 class="footer-h3">NUESTRA UBICACIÓN</h3>
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.8!2d-58.4!3d-34.6!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzAwLjAiUyA1OMKwMjQnMDAuMCJX!5e0!3m2!1ses!2sar!4v1700000000000"></iframe>
-                </div>
-                <p style="margin-top:10px; font-size: 0.8rem; color: #888;">Te esperamos de Lunes a Sábado de 08:00 a 21:00.</p>
-            </div>
-
-            <div class="contact-info">
                 <h3 class="footer-h3">CONTACTO</h3>
-                <p>📸 Instagram: @sergio_estilista</p>
-                <p>📧 estilista.serg@hotmail.com</p>
-                <p>📞 +54 9 11 3161-5266</p>
                 <p>📍 Vidt 6325, Buenos Aires</p>
+                <p>📞 +54 9 11 3161-5266</p>
+                <p>📧 estilista.serg@hotmail.com</p>
             </div>
-        </div>
-
-        <div style="text-align: center; margin-top: 50px; border-top: 1px solid #222; padding-top: 20px;">
-            <p style="font-size: 1.2rem; font-weight: bold; color: var(--dorado);">Sergio<span>Estilista</span></p>
-            <p style="font-size: 0.7rem; color: #555; margin-top: 10px;">© 2025 Sergio Estilista. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <a href="https://wa.me/541131615266" class="whatsapp-float" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" alt="WhatsApp">
+    <a href="https://wa.me/541131615266?text=Hola%20Sergio,%20quisiera%20consultar%20sobre%20un%20producto." class="whatsapp-float" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
     </a>
 
 </body>
