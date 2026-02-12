@@ -3,34 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sergio Estilista - Tienda Profesional</title>
+    <title>Sergio Estilista - Tienda Profesional Completa</title>
     <style>
         /* ================================== */
-        /* 1. VARIABLES Y RESET */
+        /* 1. CONFIGURACIÓN GENERAL */
         /* ================================== */
         :root {
             --negro-pro: #0f0f0f;
             --dorado: #c5a059;
+            --gris-oscuro: #1a1a1a;
             --gris-texto: #b0b0b0;
             --blanco: #ffffff;
-            --fuente-principal: 'Segoe UI', Roboto, Arial, sans-serif;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: var(--fuente-principal);
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f8f8;
             color: #333;
-            line-height: 1.6;
         }
 
         /* ================================== */
-        /* 2. HEADER Y NAVEGACIÓN (EL ARREGLO) */
+        /* 2. HEADER Y MENÚS DESPLEGABLES */
         /* ================================== */
         .header {
             display: flex;
@@ -41,227 +36,173 @@
             position: sticky;
             top: 0;
             z-index: 2000;
-            height: 85px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            height: 90px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        .logo-container .logo-link {
+        .logo-link {
             display: flex;
             align-items: center;
             text-decoration: none;
             gap: 12px;
         }
 
-        .logo-img {
-            height: 50px;
-            width: auto;
-        }
+        .logo-img { height: 55px; width: auto; }
 
         .brand-text {
             font-size: 1.4rem;
             font-weight: bold;
             color: var(--blanco);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .brand-text span {
-            color: var(--dorado);
-        }
+        .brand-text span { color: var(--dorado); }
 
-        /* Menú de Navegación */
+        /* Navegación Principal */
         .nav-menu ul {
             display: flex;
             list-style: none;
             gap: 20px;
         }
 
-        .nav-menu ul li {
-            position: relative;
-        }
-
-        .nav-menu ul li a {
+        .nav-menu a {
             color: var(--blanco);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            transition: color 0.3s;
-            padding: 10px 0;
+            padding: 30px 0;
+            transition: 0.3s;
         }
 
-        .nav-menu ul li a:hover {
-            color: var(--dorado);
-        }
+        .nav-menu a:hover { color: var(--dorado); }
 
-        /* Dropdown (Menú Desplegable) */
+        /* Dropdowns (Menús que bajan) */
+        .dropdown { position: relative; }
+
         .dropdown-content {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
-            background-color: #1a1a1a;
-            min-width: 220px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            background-color: var(--gris-oscuro);
+            min-width: 240px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
             border-top: 3px solid var(--dorado);
-            padding: 10px 0;
         }
 
-        .dropdown:hover .dropdown-content {
+        .dropdown:hover > .dropdown-content { display: block; }
+
+        .dropdown-content li { width: 100%; position: relative; }
+
+        .dropdown-content a {
+            padding: 12px 20px;
             display: block;
-        }
-
-        .dropdown-content ul {
-            flex-direction: column;
-            gap: 0;
-        }
-
-        .dropdown-content ul li a {
-            padding: 10px 20px;
-            display: block;
-            font-size: 0.8rem;
             border-bottom: 1px solid #252525;
+            font-size: 0.75rem;
         }
 
-        .dropdown-content ul li a:hover {
+        /* Sub-menús laterales (como Accesorios -> Anillos) */
+        .sub-menu-content {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
             background-color: #222;
+            min-width: 180px;
+            border-left: 2px solid var(--dorado);
         }
 
-        .nav-icons a {
-            color: var(--blanco);
-            text-decoration: none;
-            font-size: 1.2rem;
-        }
+        .dropdown-content li:hover > .sub-menu-content { display: block; }
+
+        .nav-icons a { color: var(--blanco); text-decoration: none; font-size: 1.3rem; }
 
         /* ================================== */
-        /* 3. PRODUCTOS */
+        /* 3. GRILLA DE PRODUCTOS */
         /* ================================== */
-        .featured-products {
-            padding: 50px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .featured-products h2 {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 2rem;
-            text-transform: uppercase;
-        }
+        .shop-section { padding: 60px 5%; max-width: 1300px; margin: 0 auto; }
+        .shop-section h2 { text-align: center; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 2px; }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
         }
 
         .product-card {
             background: white;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
+        .product-card:hover { transform: translateY(-8px); }
 
-        .product-image-container {
-            position: relative;
-            height: 250px;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-badge {
+        .img-container { position: relative; height: 280px; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .badge {
             position: absolute;
             top: 10px;
-            right: 10px;
+            left: 10px;
             background: var(--dorado);
             color: white;
-            padding: 5px 10px;
+            padding: 4px 10px;
             font-size: 0.7rem;
             font-weight: bold;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
-        .product-details {
-            padding: 20px;
-            text-align: center;
-        }
+        .details { padding: 20px; text-align: center; flex-grow: 1; }
+        .category { font-size: 0.7rem; color: #888; text-transform: uppercase; margin-bottom: 5px; }
+        .title { font-size: 1rem; margin-bottom: 10px; height: 40px; overflow: hidden; }
+        .price { font-size: 1.2rem; font-weight: bold; color: var(--negro-pro); }
 
-        .product-title {
-            font-size: 1.1rem;
-            margin: 10px 0;
-        }
-
-        .current-price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--negro-pro);
-        }
-
-        .btn-buy {
-            display: inline-block;
+        .btn-add {
+            display: block;
             margin-top: 15px;
-            padding: 10px 20px;
+            padding: 10px;
             background: var(--negro-pro);
             color: white;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            transition: 0.3s;
         }
+        .btn-add:hover { background: var(--dorado); }
 
         /* ================================== */
         /* 4. FOOTER */
         /* ================================== */
-        .footer-professional {
-            background-color: var(--negro-pro);
-            color: var(--blanco);
-            padding: 60px 5% 30px;
+        .footer {
+            background: var(--negro-pro);
+            color: white;
+            padding: 60px 5% 20px;
             margin-top: 50px;
         }
 
-        .footer-container {
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
         }
 
-        .footer-title {
+        .footer-h3 {
             color: var(--dorado);
+            font-size: 1rem;
             margin-bottom: 20px;
             border-bottom: 1px solid #333;
             padding-bottom: 10px;
-            font-size: 1rem;
         }
 
-        .payment-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
+        .pay-icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .pay-icons img { width: 100%; background: white; padding: 3px; border-radius: 3px; }
 
-        .payment-grid img {
-            width: 100%;
-            background: white;
-            padding: 5px;
-            border-radius: 4px;
-        }
-
-        .contact-details p {
-            margin-bottom: 10px;
-            color: var(--gris-texto);
-            font-size: 0.9rem;
-        }
-
-        .whatsapp-float {
+        .whatsapp-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -272,16 +213,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             z-index: 3000;
         }
 
-        .whatsapp-float img { width: 35px; }
-
-        /* RESPONSIVE */
-        @media (max-width: 850px) {
-            .nav-menu { display: none; } /* Aquí deberías agregar un menú hamburguesa luego */
-            .brand-text { font-size: 1rem; }
+        @media (max-width: 900px) {
+            .nav-menu { display: none; }
         }
     </style>
 </head>
@@ -297,7 +234,8 @@
 
         <nav class="nav-menu">
             <ul>
-                <li><a href="#">INICIO</a></li>
+                <li><a href="inicio.html">INICIO</a></li>
+                
                 <li class="dropdown">
                     <a href="#">PRODUCTOS ▾</a>
                     <div class="dropdown-content">
@@ -305,22 +243,50 @@
                             <li><a href="#">SHAMPOO</a></li>
                             <li><a href="#">ARGÁN ORO LÍQUIDO</a></li>
                             <li><a href="#">GEL FORTE</a></li>
-                            <li><a href="#">CERA</a></li>
-                            <li><a href="#">SHAMPOO ANTICAIDA</a></li>
+                            <li><a href="#">CERA MATE</a></li>
+                            <li><a href="#">CERA EN POLVO</a></li>
+                            <li><a href="#">SHAMPOO MASCULINO</a></li>
                             <li><a href="#">SEMI DE LINO</a></li>
+                            <li><a href="#">SHAMPOO ANTICAIDA</a></li>
+                            
+                            <li class="dropdown">
+                                <a href="#">CUIDADO FACIAL ▸</a>
+                                <div class="sub-menu-content">
+                                    <a href="#">EXFOLIANTE</a>
+                                    <a href="#">LIMPIEZA DIARIA</a>
+                                    <a href="#">REGENERADORA</a>
+                                    <a href="#">HUMECTANTE</a>
+                                </div>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#">ACCESORIOS ▸</a>
+                                <div class="sub-menu-content">
+                                    <a href="#">ANILLOS MASCULINOS</a>
+                                    <a href="#">ANILLOS FEMENINOS</a>
+                                    <a href="#">AROS</a>
+                                    <a href="#">CADENAS</a>
+                                    <a href="#">RELOJES</a>
+                                </div>
+                            </li>
+                            <li><a href="#">PROMOCIONES</a></li>
                         </ul>
                     </div>
                 </li>
+
                 <li class="dropdown">
                     <a href="#">CURSOS ▾</a>
                     <div class="dropdown-content">
                         <ul>
-                            <li><a href="#">PELUQUERÍA</a></li>
-                            <li><a href="#">BARBERÍA</a></li>
+                            <li><a href="#">CURSO PELUQUERÍA</a></li>
+                            <li><a href="#">CURSO BARBERÍA</a></li>
                             <li><a href="#">COLORIMETRÍA</a></li>
+                            <li><a href="#">CORTE MASCULINO</a></li>
+                            <li><a href="#">CORTE FEMENINO</a></li>
                         </ul>
                     </div>
                 </li>
+
                 <li><a href="#">NOSOTROS</a></li>
                 <li><a href="contacto.html">CONTACTO</a></li>
             </ul>
@@ -331,73 +297,109 @@
         </div>
     </header>
 
-    <section class="featured-products">
-        <h2>Productos Destacados</h2>
+    <section class="shop-section">
+        <h2>Catálogo de Productos</h2>
         <div class="product-grid">
+            
             <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20control%20caída.jpeg" alt="Shampoo" class="product-image">
-                    <span class="product-badge">OFERTA</span>
+                <div class="img-container">
+                    <img src="Imagen/Shampoo%20control%20caída.jpeg" alt="Producto">
+                    <span class="badge">15% OFF</span>
                 </div>
-                <div class="product-details">
-                    <h3 class="product-title">Shampoo Control Caída</h3>
-                    <p class="current-price">$17.000</p>
-                    <a href="#" class="btn-buy">Ver Producto</a>
+                <div class="details">
+                    <p class="category">Shampoo</p>
+                    <h3 class="title">Shampoo Control Caída Profesional</h3>
+                    <p class="price">$17.000</p>
+                    <a href="#" class="btn-add">Ver Producto</a>
                 </div>
             </article>
 
             <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Cera%20modeladora.jpeg" alt="Cera" class="product-image">
+                <div class="img-container">
+                    <img src="Imagen/curso%20barberia.jpg" alt="Curso">
+                    <span class="badge">NUEVO</span>
                 </div>
-                <div class="product-details">
-                    <h3 class="product-title">Cera Modeladora Mate</h3>
-                    <p class="current-price">$15.000</p>
-                    <a href="#" class="btn-buy">Comprar</a>
+                <div class="details">
+                    <p class="category">Formación</p>
+                    <h3 class="title">Curso Barbería Masterclass</h3>
+                    <p class="price">$69.000</p>
+                    <a href="#" class="btn-add">Inscribirme</a>
                 </div>
             </article>
 
             <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20matizador.jpeg" alt="Matizador" class="product-image">
+                <div class="img-container">
+                    <img src="Imagen/Cera%20modeladora.jpeg" alt="Cera">
                 </div>
-                <div class="product-details">
-                    <h3 class="product-title">Shampoo Matizador</h3>
-                    <p class="current-price">$28.000</p>
-                    <a href="#" class="btn-buy">Comprar</a>
+                <div class="details">
+                    <p class="category">Estilizado</p>
+                    <h3 class="title">Cera Modeladora Acabado Mate</h3>
+                    <p class="price">$15.000</p>
+                    <a href="#" class="btn-add">Comprar</a>
                 </div>
             </article>
+
+            <article class="product-card">
+                <div class="img-container">
+                    <img src="Imagen/Shampoo%20matizador.jpeg" alt="Matizador">
+                </div>
+                <div class="details">
+                    <p class="category">Color</p>
+                    <h3 class="title">Shampoo Matizador Blue</h3>
+                    <p class="price">$28.000</p>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="img-container">
+                    <img src="Imagen/Semi%20de%20lino.jpeg" alt="Aceite">
+                </div>
+                <div class="details">
+                    <p class="category">Tratamiento</p>
+                    <h3 class="title">Semi de Lino Alfaparf</h3>
+                    <p class="price">$15.000</p>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
+            <article class="product-card">
+                <div class="img-container">
+                    <img src="Imagen/Cera%20en%20polvo.jpeg" alt="Cera">
+                </div>
+                <div class="details">
+                    <p class="category">Volumen</p>
+                    <h3 class="title">Cera en Polvo para Cabello</h3>
+                    <p class="price">$19.000</p>
+                    <a href="#" class="btn-add">Comprar</a>
+                </div>
+            </article>
+
         </div>
     </section>
 
-    <footer class="footer-professional">
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3 class="footer-title">MEDIOS DE PAGO</h3>
-                <div class="payment-grid">
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <h3 class="footer-h3">MEDIOS DE PAGO</h3>
+                <div class="pay-icons">
                     <img src="Imagen/visa.png" alt="Visa">
                     <img src="Imagen/mastercard.png" alt="Master">
                     <img src="Imagen/mercadopago.png" alt="MP">
                     <img src="Imagen/efectivo.png" alt="Efectivo">
                 </div>
             </div>
-
-            <div class="footer-column">
-                <h3 class="footer-title">CONTACTO</h3>
-                <div class="contact-details">
-                    <p>📧 estilista.serg@hotmail.com</p>
-                    <p>📍 Vidt 6325, Buenos Aires</p>
-                    <p>📸 @sergio_estilista</p>
-                </div>
+            <div>
+                <h3 class="footer-h3">CONTACTO</h3>
+                <p style="color: #888; font-size: 0.9rem;">📍 Vidt 6325, Palermo</p>
+                <p style="color: #888; font-size: 0.9rem;">📧 estilista.serg@hotmail.com</p>
             </div>
         </div>
-        <div style="text-align: center; margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
-            <p>© 2025 Sergio Estilista. Todos los derechos reservados.</p>
-        </div>
+        <p style="text-align: center; margin-top: 40px; color: #555; font-size: 0.8rem;">© 2025 Sergio Estilista.</p>
     </footer>
 
-    <a href="https://wa.me/541131615266" class="whatsapp-float" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    <a href="https://wa.me/541131615266" class="whatsapp-btn" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
     </a>
 
 </body>
