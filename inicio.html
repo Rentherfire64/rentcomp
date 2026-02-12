@@ -4,310 +4,401 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sergio Estilista - Tienda Profesional</title>
-    <link rel="stylesheet" href="styles2.css"> 
+    <style>
+        /* ================================== */
+        /* 1. VARIABLES Y RESET */
+        /* ================================== */
+        :root {
+            --negro-pro: #0f0f0f;
+            --dorado: #c5a059;
+            --gris-texto: #b0b0b0;
+            --blanco: #ffffff;
+            --fuente-principal: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--fuente-principal);
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ================================== */
+        /* 2. HEADER Y NAVEGACIÓN (EL ARREGLO) */
+        /* ================================== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            background-color: var(--negro-pro);
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            height: 85px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo-container .logo-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .brand-text {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--blanco);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .brand-text span {
+            color: var(--dorado);
+        }
+
+        /* Menú de Navegación */
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-menu ul li {
+            position: relative;
+        }
+
+        .nav-menu ul li a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 10px 0;
+        }
+
+        .nav-menu ul li a:hover {
+            color: var(--dorado);
+        }
+
+        /* Dropdown (Menú Desplegable) */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #1a1a1a;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            border-top: 3px solid var(--dorado);
+            padding: 10px 0;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content ul {
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .dropdown-content ul li a {
+            padding: 10px 20px;
+            display: block;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #252525;
+        }
+
+        .dropdown-content ul li a:hover {
+            background-color: #222;
+        }
+
+        .nav-icons a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        /* ================================== */
+        /* 3. PRODUCTOS */
+        /* ================================== */
+        .featured-products {
+            padding: 50px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .featured-products h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            text-transform: uppercase;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image-container {
+            position: relative;
+            height: 250px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--dorado);
+            color: white;
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .product-details {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--negro-pro);
+        }
+
+        .btn-buy {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: var(--negro-pro);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* ================================== */
+        /* 4. FOOTER */
+        /* ================================== */
+        .footer-professional {
+            background-color: var(--negro-pro);
+            color: var(--blanco);
+            padding: 60px 5% 30px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-title {
+            color: var(--dorado);
+            margin-bottom: 20px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .payment-grid img {
+            width: 100%;
+            background: white;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .contact-details p {
+            margin-bottom: 10px;
+            color: var(--gris-texto);
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 3000;
+        }
+
+        .whatsapp-float img { width: 35px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 850px) {
+            .nav-menu { display: none; } /* Aquí deberías agregar un menú hamburguesa luego */
+            .brand-text { font-size: 1rem; }
+        }
+    </style>
 </head>
 <body>
 
     <header class="header">
-<div class="logo-container">
-        <a href="inicio.html" class="logo-link">
-            <img src="Imagen/logo1.png" alt="Sergio Estilista Logo" class="logo-img">
-            <div class="brand-text">Sergio<span>Estilista</span></div>
-        </a>
-    </div>
+        <div class="logo-container">
+            <a href="inicio.html" class="logo-link">
+                <img src="Imagen/logo1.png" alt="Logo" class="logo-img">
+                <div class="brand-text">Sergio<span>Estilista</span></div>
+            </a>
+        </div>
+
         <nav class="nav-menu">
             <ul>
                 <li><a href="#">INICIO</a></li>
-                <li class="dropdown"> 
-                    <a href="#" class="arrow-down">PRODUCTOS</a>
+                <li class="dropdown">
+                    <a href="#">PRODUCTOS ▾</a>
                     <div class="dropdown-content">
                         <ul>
                             <li><a href="#">SHAMPOO</a></li>
                             <li><a href="#">ARGÁN ORO LÍQUIDO</a></li>
                             <li><a href="#">GEL FORTE</a></li>
                             <li><a href="#">CERA</a></li>
-                            <li><a href="#">CERA EN POLVO PARA EL CABELLO</a></li>
-                            <li><a href="#">SHAMPOO MASCULINO</a></li>
-                            <li><a href="#">SEMI DE LINO ALFAPARF</a></li>
-                            
-                            <li class="sub-menu-item">
-                                <a href="#" class="arrow-indicator">CURSOS</a>
-                                <div class="dropdown-content sub-menu">
-                                    <ul>
-                                        <li><a href="#">Curso Peluqueria</a></li>
-                                        <li><a href="#">Curso Barberia</a></li>
-                                        <li><a href="#">Curso Colorimetria I</a></li>
-                                        <li><a href="#">Curso corte Masculino</a></li>
-                                        <li><a href="#">Curso Corte Femenino</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            
                             <li><a href="#">SHAMPOO ANTICAIDA</a></li>
-                            
-                            <li class="sub-menu-item">
-                                <a href="#" class="arrow-indicator">CUIDADO FACIAL</a>
-                                <div class="dropdown-content sub-menu">
-                                    <ul>
-                                        <li><a href="#">Exfoliante</a></li>
-                                        <li><a href="#">Limpieza Diaria</a></li>
-                                        <li><a href="#">Regenadora</a></li>
-                                        <li><a href="#">Humectante</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            
-                            <li class="sub-menu-item">
-                                <a href="#" class="arrow-indicator">ACCESORIOS</a>
-                                <div class="dropdown-content sub-menu">
-                                    <ul>
-                                        <li class="sub-menu-item">
-                                            <a href="#" class="arrow-indicator">Anillos</a>
-                                            <div class="dropdown-content sub-menu">
-                                                <ul>
-                                                    <li><a href="#">Masculino</a></li>
-                                                    <li><a href="#">Femenino</a></li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li><a href="#">Aros</a></li>
-                                        <li><a href="#">Pulseras Femeninas</a></li>
-                                        <li><a href="#">Cadenas Masculinas</a></li>
-                                        <li><a href="#">Pulseras Masculinas</a></li>
-                                        <li><a href="#">Tobilleras</a></li>
-                                        <li><a href="#">Cadenas Femeninas</a></li>
-                                        <li><a href="#">Anillos Midis</a></li>
-                                        <li><a href="#">Relojes Pulseras</a></li>
-                                        <li><a href="#">Pulseras para compartir</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            
-                            <li><a href="#">CURSOS BARBERÍA</a></li>
-                            <li><a href="#">PROMOCIONES</a></li>
-                            <li><a href="#">PROMO PARA CABALLEROS</a></li>
+                            <li><a href="#">SEMI DE LINO</a></li>
                         </ul>
                     </div>
                 </li>
-                <li><a href="#">Nosotros</a></li>
+                <li class="dropdown">
+                    <a href="#">CURSOS ▾</a>
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><a href="#">PELUQUERÍA</a></li>
+                            <li><a href="#">BARBERÍA</a></li>
+                            <li><a href="#">COLORIMETRÍA</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><a href="#">NOSOTROS</a></li>
                 <li><a href="contacto.html">CONTACTO</a></li>
             </ul>
         </nav>
+
         <div class="nav-icons">
-            <a href="#">🛒0</a> 
+            <a href="#">🛒 0</a>
         </div>
     </header>
 
     <section class="featured-products">
-        <h2>Productos & Cursos Destacados</h2>
+        <h2>Productos Destacados</h2>
         <div class="product-grid">
-            
             <article class="product-card">
                 <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20control%20caída.jpeg" alt="Shampoo Anticaída" class="product-image">
-                    <span class="product-badge badge-sale">OFERTA 15% OFF</span>
+                    <img src="Imagen/Shampoo%20control%20caída.jpeg" alt="Shampoo" class="product-image">
+                    <span class="product-badge">OFERTA</span>
                 </div>
                 <div class="product-details">
-                    <p class="product-category">Cuidado Capilar | Shampoo</p>
-                    <h3 class="product-title">Shampoo Control Caída Profesional</h3>
-                    <div class="product-price">
-                        <span class="current-price">$17.000</span>
-                        <span class="old-price">$20.000</span>
-                    </div>
+                    <h3 class="product-title">Shampoo Control Caída</h3>
+                    <p class="current-price">$17.000</p>
                     <a href="#" class="btn-buy">Ver Producto</a>
                 </div>
             </article>
 
             <article class="product-card">
                 <div class="product-image-container">
-                    <img src="Imagen/curso%20barberia.jpg" alt="Curso de Barbería Profesional" class="product-image">
-                    <span class="product-badge">¡Nuevo Curso!</span>
+                    <img src="Imagen/Cera%20modeladora.jpeg" alt="Cera" class="product-image">
                 </div>
                 <div class="product-details">
-                    <p class="product-category">Formación | Presencial</p>
-                    <h3 class="product-title">Curso Barbería Masterclass</h3>
-                    <div class="product-price">
-                        <span class="current-price">$69.000</span>
-                    </div>
-                    <a href="#" class="btn-buy">Inscribirme Ahora</a>
-                </div>
-            </article>
-            
-            <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Cera%20modeladora.jpeg" alt="Cera Modeladora" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
-                </div>
-                <div class="product-details">
-                    <p class="product-category">Estilizado | Hombre</p>
-                    <h3 class="product-title">Cera Modeladora Acabado Mate</h3>
-                    <div class="product-price">
-                        <span class="current-price">$15.000</span>
-                    </div>
+                    <h3 class="product-title">Cera Modeladora Mate</h3>
+                    <p class="current-price">$15.000</p>
                     <a href="#" class="btn-buy">Comprar</a>
                 </div>
             </article>
 
             <article class="product-card">
                 <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20protector%20del%20color.jpeg" alt="Shampoo Protector del Color" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
+                    <img src="Imagen/Shampoo%20matizador.jpeg" alt="Matizador" class="product-image">
                 </div>
                 <div class="product-details">
-                    <p class="product-category">Cuidado Capilar | Color</p>
-                    <h3 class="product-title">Shampoo protector del color</h3>
-                    <div class="product-price">
-                        <span class="current-price">$14.000</span>
-                    </div>
+                    <h3 class="product-title">Shampoo Matizador</h3>
+                    <p class="current-price">$28.000</p>
                     <a href="#" class="btn-buy">Comprar</a>
                 </div>
             </article>
-
-            <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20matizador.jpeg" alt="Shampoo Matizador" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
-                </div>
-                <div class="product-details">
-                    <p class="product-category">Cuidado Capilar | Matizador</p>
-                    <h3 class="product-title">Shampoo matizador</h3>
-                    <div class="product-price">
-                        <span class="current-price">$28.000</span>
-                    </div>
-                    <a href="#" class="btn-buy">Comprar</a>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Shampoo%20de%20keratina.jpeg" alt="Shampoo de Keratina" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
-                </div>
-                <div class="product-details">
-                    <p class="product-category">Cuidado Capilar | Keratina</p>
-                    <h3 class="product-title">Shampoo de keratina</h3>
-                    <div class="product-price">
-                        <span class="current-price">$11.500</span>
-                    </div>
-                    <a href="#" class="btn-buy">Comprar</a>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Semi%20de%20lino.jpeg" alt="Semi de Lino" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
-                </div>
-                <div class="product-details">
-                    <p class="product-category">Tratamiento | Aceite</p>
-                    <h3 class="product-title">Semi de lino</h3>
-                    <div class="product-price">
-                        <span class="current-price">$15.000</span>
-                    </div>
-                    <a href="#" class="btn-buy">Comprar</a>
-                </div>
-            </article>
-
-            <article class="product-card">
-                <div class="product-image-container">
-                    <img src="Imagen/Cera%20en%20polvo.jpeg" alt="Cera en Polvo" class="product-image">
-                    <span class="product-badge">Top Ventas</span>
-                </div>
-                <div class="product-details">
-                    <p class="product-category">Estilizado | Textura</p>
-                    <h3 class="product-title">Cera en polvo</h3>
-                    <div class="product-price">
-                        <span class="current-price">$19.000</span>
-                    </div>
-                    <a href="#" class="btn-buy">Comprar</a>
-                </div>
-            </article>
-
         </div>
     </section>
 
-<footer class="footer-professional">
-    <div class="footer-container">
-        <div class="footer-column">
-            <h3 class="footer-title">MEDIOS DE PAGO</h3>
-            <div class="payment-grid">
-                <img src="Imagen/visa.png" alt="Visa">
-                <img src="Imagen/mastercard.png" alt="Mastercard">
-                <img src="Imagen/american-express.png" alt="American Express">
-                <img src="Imagen/naranja.png" alt="Naranja">
-                <img src="Imagen/cabal.png" alt="Cabal">
-                <img src="Imagen/diners-club.png" alt="Diners Club">
-                <img src="Imagen/nativa.png" alt="Nativa">
-                <img src="Imagen/argencard.png" alt="Argencard">
-                <img src="Imagen/rapipago.png" alt="Rapipago">
-                <img src="Imagen/pagofacil.png" alt="Pago Fácil">
-                <img src="Imagen/mercadopago.png" alt="Mercado Pago">
-                <img src="Imagen/efectivo.png" alt="Efectivo">
-                <img src="Imagen/acordar.png" alt="Acordar">
+    <footer class="footer-professional">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3 class="footer-title">MEDIOS DE PAGO</h3>
+                <div class="payment-grid">
+                    <img src="Imagen/visa.png" alt="Visa">
+                    <img src="Imagen/mastercard.png" alt="Master">
+                    <img src="Imagen/mercadopago.png" alt="MP">
+                    <img src="Imagen/efectivo.png" alt="Efectivo">
+                </div>
             </div>
 
-            <h3 class="footer-title mt-20">MEDIOS DE ENVÍO</h3>
-            <div class="shipping-flex">
-                <img src="Imagen/retiro-local.png" alt="Retiro">
-                <img src="Imagen/acordar.png" alt="Envío">
+            <div class="footer-column">
+                <h3 class="footer-title">CONTACTO</h3>
+                <div class="contact-details">
+                    <p>📧 estilista.serg@hotmail.com</p>
+                    <p>📍 Vidt 6325, Buenos Aires</p>
+                    <p>📸 @sergio_estilista</p>
+                </div>
             </div>
         </div>
-
-        <div class="footer-column map-section">
-            <h3 class="footer-title">NUESTRA UBICACIÓN</h3>
-            <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.508544975731!2d-58.7803882!3d-34.7066525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbb3a24501c9f%3A0xa2bdb32b4b33b159!2sEscuela%20Sergio%20Estilista!5e0!3m2!1ses!2sar!4v1710000000000!5m2!1ses!2sar" 
-                    width="100%" 
-                    height="200" 
-                    style="border:0; border-radius: 8px;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
-            <p class="map-caption">Te esperamos de Lunes a Sábado de 08:00 a 21:00.</p>
+        <div style="text-align: center; margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+            <p>© 2025 Sergio Estilista. Todos los derechos reservados.</p>
         </div>
-        
-        <div class="footer-column contact-section">
-            <div class="social-links">
-                <a href="https://www.instagram.com/sergio_estilista" target="_blank">Instagram</a>
-                <a href="https://linktr.ee/Sergio_estilista77" target="_blank">Mis enlaces</a>
-            </div>
+    </footer>
 
-            <h3 class="footer-title">CONTACTO</h3>
-            <div class="contact-details">
-                <p><span>📧</span> estilista.serg@hotmail.com</p>
-                <p><span>📞</span> +54 9 11 XXXX-XXXX</p>
-                <p><span>📍</span> Vidt 6325</p>
-            </div>
-        </div>
-    </div>
+    <a href="https://wa.me/541131615266" class="whatsapp-float" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </a>
 
-    <div class="footer-bottom-pro">
-        <div class="footer-logo">Sergio<span>Estilista</span></div>
-        <div class="footer-legal">
-            <a href="terminos.html">Términos y Condiciones</a>
-            <span class="separator">|</span>
-            <a href="privacidad.html">Política de Privacidad</a>
-        </div>
-        <p class="copyright">&copy; 2025 Sergio Estilista. Todos los derechos reservados.</p>
-    </div>
-</footer>
-
-    <script src="script1.js"></script> 
-    <a href="https://api.whatsapp.com/send/?phone=541131615266&text=Hola%2C+quisiera+consultar+sobre+un+producto.&type=phone_number&app_absent=0" 
-   class="whatsapp-float" 
-   target="_blank" 
-   rel="noopener noreferrer">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="whatsapp-icon">
-    <span class="tooltip-whatsapp">¡Escribinos!</span>
-</a>
 </body>
 </html>
-
-
-
-
-
-
