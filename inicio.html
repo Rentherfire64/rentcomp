@@ -14,9 +14,16 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--gris-claro); padding-top: var(--altura-header); }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--gris-claro); 
+            padding-top: var(--altura-header); 
+            overflow-x: hidden;
+        }
 
+        /* ================================== */
         /* HEADER FIJO */
+        /* ================================== */
         .header {
             background-color: var(--negro);
             display: flex;
@@ -36,12 +43,13 @@
         .brand-name { color: var(--blanco); font-size: 1.5rem; font-weight: bold; text-transform: uppercase; }
         .brand-name span { color: var(--dorado); }
 
-        /* NAVEGACIÓN */
+        /* NAVEGACIÓN COMPLETA */
         .nav-list { display: flex; list-style: none; }
         .nav-item { position: relative; }
         .nav-link { color: var(--blanco); text-decoration: none; padding: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
         .nav-link:hover { color: var(--dorado); }
 
+        /* Desplegable Vertical y Flyout (Cursos) */
         .dropdown-vertical {
             display: none;
             position: absolute;
@@ -52,10 +60,65 @@
             list-style: none;
             border-top: 2px solid var(--dorado);
         }
-        .nav-item:hover > .dropdown-vertical { display: block; }
-        .dropdown-vertical a { color: var(--blanco); text-decoration: none; padding: 12px 20px; display: block; font-size: 0.8rem; border-bottom: 1px solid #222; }
 
+        .nav-item:hover > .dropdown-vertical { display: block; }
+
+        .dropdown-vertical li { position: relative; border-bottom: 1px solid #222; }
+        .dropdown-vertical a { color: var(--blanco); text-decoration: none; padding: 12px 20px; display: block; font-size: 0.8rem; }
+        .dropdown-vertical a:hover { background: #1a1a1a; color: var(--dorado); }
+
+        /* Submenú lateral para Cursos */
+        .sub-menu {
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background-color: var(--negro);
+            min-width: 200px;
+            border-left: 2px solid var(--dorado);
+        }
+        .has-submenu:hover > .sub-menu { display: block; }
+
+        /* ================================== */
+        /* CARRUSEL DE ANCHO COMPLETO */
+        /* ================================== */
+        .carousel-container {
+            width: 100%;
+            height: 60vh;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .carousel-image.active { opacity: 1; }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            padding: 20px 10px;
+            cursor: pointer;
+            z-index: 100;
+            font-size: 2rem;
+        }
+        #nextBtn { right: 0; border-radius: 5px 0 0 5px; }
+        #prevBtn { left: 0; border-radius: 0 5px 5px 0; }
+
+        /* ================================== */
         /* GRILLA DE PRODUCTOS */
+        /* ================================== */
         .catalog { padding: 50px 5%; max-width: 1300px; margin: 0 auto; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; }
         
@@ -69,24 +132,28 @@
         
         .info { padding: 20px; }
         .prod-cat { font-size: 0.7rem; color: #888; text-transform: uppercase; }
-        .prod-name { font-size: 1rem; margin: 10px 0; height: 40px; overflow: hidden; }
+        .prod-name { font-size: 1rem; margin: 10px 0; height: 40px; overflow: hidden; font-weight: 600; }
         
         .price-box { margin-bottom: 15px; }
         .old-price { text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 10px; }
         .new-price { color: var(--negro); font-size: 1.3rem; font-weight: bold; }
 
-        .btn-add { display: block; background: var(--negro); color: white; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; }
+        .btn-add { display: block; background: var(--negro); color: white; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; transition: 0.3s; }
         .btn-add:hover { background: var(--dorado); }
 
+        /* ================================== */
         /* FOOTER */
+        /* ================================== */
         .footer { background: #111; color: white; padding: 60px 5% 20px; margin-top: 50px; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
         .footer-h3 { color: var(--dorado); font-size: 1rem; margin-bottom: 20px; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 10px; }
         
         .icon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-        .icon-grid img { width: 100%; background: white; padding: 4px; border-radius: 4px; }
+        .icon-grid img { width: 100%; background: white; padding: 4px; border-radius: 4px; height: 35px; object-fit: contain; }
         
-        /* WHATSAPP FLOTANTE CON MENSAJE PRE-CARGADO */
+        .footer-bottom { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; font-size: 0.8rem; opacity: 0.6; }
+
+        /* WHATSAPP FLOTANTE */
         .whatsapp-float { 
             position: fixed; 
             bottom: 30px; 
@@ -100,7 +167,9 @@
             align-items: center; 
             z-index: 10000; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+            transition: 0.3s;
         }
+        .whatsapp-float:hover { transform: scale(1.1); background: #128c7e; }
     </style>
 </head>
 <body>
@@ -119,15 +188,30 @@
                         <li><a href="#">SHAMPOO</a></li>
                         <li><a href="#">ARGÁN ORO LÍQUIDO</a></li>
                         <li><a href="#">CERA MATE</a></li>
+                        <li class="has-submenu">
+                            <a href="#">CURSOS ❯</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">BARBERÍA</a></li>
+                                <li><a href="#">PELUQUERÍA</a></li>
+                            </ul>
+                        </li>
                         <li><a href="#">ACCESORIOS</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="#" class="nav-link">Cursos</a></li>
                 <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
             </ul>
         </nav>
-        <div style="color: white; font-weight: bold;">🛒 0</div>
+        <div style="color: white; font-weight: bold; cursor: pointer;">🛒 0</div>
     </header>
+
+    <section class="carousel-container">
+        <img src="Imagen/banner1.jpg" class="carousel-image active" alt="Banner 1">
+        <img src="Imagen/banner2.jpg" class="carousel-image" alt="Banner 2">
+        <img src="Imagen/banner3.jpg" class="carousel-image" alt="Banner 3">
+        
+        <button class="carousel-btn" id="prevBtn">❮</button>
+        <button class="carousel-btn" id="nextBtn">❯</button>
+    </section>
 
     <main class="catalog">
         <div class="grid">
@@ -136,7 +220,7 @@
                 <span class="badge-oferta">15% OFF</span>
                 <div class="img-container"><img src="Imagen/Shampoo%20control%20caída.jpeg"></div>
                 <div class="info">
-                    <p class="prod-cat">Shampoo</p>
+                    <p class="prod-cat">Capilar</p>
                     <h3 class="prod-name">Shampoo Control Caída Profesional</h3>
                     <div class="price-box"><span class="old-price">$20.000</span><span class="new-price">$17.000</span></div>
                     <a href="#" class="btn-add">Comprar</a>
@@ -175,16 +259,6 @@
             </article>
 
             <article class="card">
-                <div class="img-container"><img src="Imagen/Cera%20en%20polvo.jpeg"></div>
-                <div class="info">
-                    <p class="prod-cat">Volumen</p>
-                    <h3 class="prod-name">Cera en Polvo Efecto Seco</h3>
-                    <div class="price-box"><span class="new-price">$19.000</span></div>
-                    <a href="#" class="btn-add">Comprar</a>
-                </div>
-            </article>
-
-            <article class="card">
                 <span class="badge-oferta" style="background: #222;">NUEVO</span>
                 <div class="img-container"><img src="Imagen/curso%20barberia.jpg"></div>
                 <div class="info">
@@ -205,16 +279,6 @@
                 </div>
             </article>
 
-            <article class="card">
-                <div class="img-container"><img src="Imagen/Gel%20forte.jpeg"></div>
-                <div class="info">
-                    <p class="prod-cat">Fijación</p>
-                    <h3 class="prod-name">Gel Forte Fijación Extra Fuerte</h3>
-                    <div class="price-box"><span class="new-price">$8.500</span></div>
-                    <a href="#" class="btn-add">Comprar</a>
-                </div>
-            </article>
-
         </div>
     </main>
 
@@ -223,10 +287,13 @@
             <div>
                 <h3 class="footer-h3">PAGOS Y ENVÍOS</h3>
                 <div class="icon-grid">
-                    <img src="Imagen/visa.png"><img src="Imagen/mastercard.png">
-                    <img src="Imagen/mercadopago.png"><img src="Imagen/naranja.png">
-                    <img src="Imagen/rapipago.png"><img src="Imagen/pagofacil.png">
-                    <img src="Imagen/acordar.png"><img src="Imagen/envio.png">
+                    <img src="Imagen/visa.png" alt="Visa">
+                    <img src="Imagen/mastercard.png" alt="Mastercard">
+                    <img src="Imagen/mercadopago.png" alt="MP">
+                    <img src="Imagen/naranja.png" alt="Naranja">
+                    <img src="Imagen/rapipago.png" alt="Rapipago">
+                    <img src="Imagen/pagofacil.png" alt="Pago Facil">
+                    <img src="Imagen/envio.png" alt="Envio">
                 </div>
             </div>
             <div>
@@ -235,12 +302,39 @@
                 <p>📞 +54 9 11 3161-5266</p>
                 <p>📧 estilista.serg@hotmail.com</p>
             </div>
+            <div>
+                <h3 class="footer-h3">REDES SOCIALES</h3>
+                <p>Próximamente enlaces a Instagram y Facebook.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Sergio Estilista. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <a href="https://wa.me/541131615266?text=Hola%20Sergio,%20quisiera%20consultar%20sobre%20un%20producto." class="whatsapp-float" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" alt="WhatsApp">
     </a>
+
+    <script>
+        // Lógica del Carrusel
+        const images = document.querySelectorAll('.carousel-image');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        let index = 0;
+
+        function showImage(n) {
+            images[index].classList.remove('active');
+            index = (n + images.length) % images.length;
+            images[index].classList.add('active');
+        }
+
+        nextBtn.addEventListener('click', () => showImage(index + 1));
+        prevBtn.addEventListener('click', () => showImage(index - 1));
+
+        // Cambio automático cada 5 segundos
+        setInterval(() => showImage(index + 1), 5000);
+    </script>
 
 </body>
 </html>
