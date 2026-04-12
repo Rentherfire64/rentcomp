@@ -3,479 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impresión 3D - RentCompInformática</title>
-    <meta name="description" content="Mates, soportes, llaveros y decoración personalizados. Diseños únicos impresos en 3D.">
-    <link rel="stylesheet" href="styles.css"> 
+    <title>Catálogo 3D - RentComp</title>
     <style>
-        .nav-impresion3d { border-bottom: 3px solid #ffc107; }
+        /* 1. Globales y Estética General */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* 2. Header y Navegación (Igual al index para mantener coherencia) */
+        header {
+            background-color: #3f51b5;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo h1 { font-size: 1.5rem; margin: 0; }
+        nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { color: white; text-decoration: none; font-weight: bold; }
+
+        /* 3. Contenedor del Catálogo */
+        .catalogo-container {
+            padding: 40px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 4. Tarjeta Estilo Ficha (Según la imagen) */
+        .producto-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Cabecera de la tarjeta */
+        .card-header {
+            background-color: #383838;
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: capitalize;
+        }
+
+        /* Área de Imagen */
+        .card-img {
+            height: 250px;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .card-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Detalles Estilo Tabla */
+        .card-details {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 0.95rem;
+        }
+        .detail-label { font-weight: bold; color: #555; }
+        .detail-value { color: #222; }
+
+        /* Círculos de Colores */
+        .color-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+        }
+
+        /* Colores específicos de la imagen */
+        .white  { background-color: #ffffff; }
+        .blue   { background-color: #4a90e2; }
+        .navy   { background-color: #2b00ff; }
+        .green  { background-color: #00ff2b; }
+        .purple { background-color: #9013fe; }
+        .grey   { background-color: #d8d8d8; }
+        .red    { background-color: #d0021b; }
+        .yellow { background-color: #f8e71c; }
+        .orange { background-color: #f5a623; }
+
+        /* Botón de Pedido */
+        .btn-pedido {
+            display: block;
+            text-align: center;
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-pedido:hover { background-color: #1ebe57; }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            .catalogo-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <h1>RentCompInformática</h1>
-        </div>
+        <div class="logo"><h1>RentComp 3D</h1></div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li>
-                    <a href="#" class="nav-impresion3d">Productos</a> 
-                    <ul class="dropdown">
-                        <li><a href="productos-informatica.html">Informática</a></li>
-                        <li><a href="productos-3d.html">Impresión 3D</a></li>
-                    </ul>
-                </li>
-                <li><a href="contactos.html">Contactos</a></li>
-                <li><a href="https://www.instagram.com/rentcompinformatica/" target="_blank">Instagram</a></li>
+                <li><a href="contactos.html">Contacto</a></li>
             </ul>
         </nav>
     </header>
 
-    <main id="impresion3d-main" style="padding: 50px 5%; max-width: 1200px; margin: 0 auto;">
-    <h2 style="text-align: center; font-size: 2.5em; color: #333; margin-bottom: 40px; text-transform: uppercase; font-weight: 700;">
-        Catálogo de Productos 3D
-    </h2>
-    <p style="text-align: center; margin-bottom: 40px; font-size: 1.1em;">
-        Explora nuestra galería de artículos impresos en 3D. ¡Si lo imaginas, lo creamos!
-    </p>
+    <h2 style="text-align: center; margin-top: 30px;">Catálogo de Impresión 3D</h2>
 
-    <div class="catalogo-grid">
+    <div class="catalogo-container">
 
         <div class="producto-card">
-            <div class="producto-titulo">Mates personalizados</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/mate-personalizado-blanco.jpg" alt="Mate Personalizado" id="img-mates-personalizados">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Mates personalizados</span>
+            <div class="card-header">Macetas</div>
+            <div class="card-img">
+                <img src="Imagen/maceta.jpg" alt="Maceta 3D"> </div>
+            <div class="card-details">
+                <div class="detail-row">
+                    <span class="detail-label">Modelo</span>
+                    <span class="detail-value">Maceta</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
+                <div class="detail-row">
+                    <span class="detail-label">Material</span>
+                    <span class="detail-value">PLA, PLA+ / PETG / ABS</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-mates-personalizados', 'mate-personalizado-naranja.jpg')"></span>
-                    </span>
+                <div class="detail-row" style="border-bottom: none;">
+                    <span class="detail-label">Colores</span>
+                    <div class="color-dots">
+                        <div class="dot white"></div>
+                        <div class="dot blue"></div>
+                        <div class="dot navy"></div>
+                        <div class="dot green"></div>
+                        <div class="dot purple"></div>
+                        <div class="dot grey"></div>
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot orange"></div>
+                    </div>
                 </div>
             </div>
+            <a href="https://wa.me/541122956069?text=Hola! Quiero consultar por las Macetas 3D" class="btn-pedido">Consultar por WhatsApp</a>
         </div>
 
         <div class="producto-card">
-            <div class="producto-titulo">FUNKO</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/FUNKO-blanco.jpg" alt="Funko Personalizado" id="img-FUNKO">
+            <div class="card-header">Portavelas</div>
+            <div class="card-img">
+                <img src="Imagen/portavelas.jpg" alt="Portavelas 3D">
             </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">FUNKO</span>
+            <div class="card-details">
+                <div class="detail-row">
+                    <span class="detail-label">Modelo</span>
+                    <span class="detail-value">Portavelas</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
+                <div class="detail-row">
+                    <span class="detail-label">Material</span>
+                    <span class="detail-value">PLA, PLA+ / PETG / ABS</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-rojo.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-oro.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-FUNKO', 'FUNKO-naranja.jpg')"></span>
-                    </span>
+                <div class="detail-row" style="border-bottom: none;">
+                    <span class="detail-label">Colores</span>
+                    <div class="color-dots">
+                        <div class="dot white"></div>
+                        <div class="dot blue"></div>
+                        <div class="dot navy"></div>
+                        <div class="dot green"></div>
+                        <div class="dot purple"></div>
+                        <div class="dot grey"></div>
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot orange"></div>
+                    </div>
                 </div>
             </div>
+            <a href="https://wa.me/541122956069?text=Hola! Quiero consultar por los Portavelas 3D" class="btn-pedido">Consultar por WhatsApp</a>
         </div>
 
         <div class="producto-card">
-            <div class="producto-titulo">Llaveros Exceso</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/llavero-Exceso-blanco.jpg" alt="Llavero Exceso" id="img-llavero-Exceso">
+            <div class="card-header">Juguetes</div>
+            <div class="card-img">
+                <img src="Imagen/juguetes.jpg" alt="Juguetes 3D">
             </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Llaveros Exceso</span>
+            <div class="card-details">
+                <div class="detail-row">
+                    <span class="detail-label">Modelo</span>
+                    <span class="detail-value">Juguetes</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
+                <div class="detail-row">
+                    <span class="detail-label">Material</span>
+                    <span class="detail-value">PLA, PLA+ / PETG / ABS</span>
                 </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-llavero-Exceso', 'llavero-Exceso-blanco.jpg')"></span> 
-                    </span>
+                <div class="detail-row" style="border-bottom: none;">
+                    <span class="detail-label">Colores</span>
+                    <div class="color-dots">
+                        <div class="dot white"></div>
+                        <div class="dot blue"></div>
+                        <div class="dot navy"></div>
+                        <div class="dot green"></div>
+                        <div class="dot purple"></div>
+                        <div class="dot grey"></div>
+                        <div class="dot red"></div>
+                        <div class="dot yellow"></div>
+                        <div class="dot orange"></div>
+                    </div>
                 </div>
             </div>
+            <a href="https://wa.me/541122956069?text=Hola! Quiero consultar por los Juguetes 3D" class="btn-pedido">Consultar por WhatsApp</a>
         </div>
 
-        <div class="producto-card">
-            <div class="producto-titulo">Macetas</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/maceta-blanco.jpg" alt="Maceta" id="img-maceta">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Maceta</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-maceta', 'maceta-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="producto-card">
-            <div class="producto-titulo">portavelas</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/portavelas-blanco.jpg" alt="portavelas" id="img-portavelas">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">portavelas</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-portavelas', 'portavelas-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="producto-card">
-            <div class="producto-titulo">Juguetes</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/juguetes-blanco.jpg" alt="Juguetes" id="img-juguetes">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Juguetes</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-juguetes', 'juguetes-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="producto-card">
-            <div class="producto-titulo">Pesca</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/Pesca-blanco.jpg" alt="Pesca" id="img-Pesca">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Pesca</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-Pesca', 'Pesca-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="producto-card">
-            <div class="producto-titulo">Cascos llaveros</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/Cascos-blanco.jpg" alt="Cascos" id="img-repuestos">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">Repuestos</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PETG</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-Cascos', 'Cascos-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="producto-card">
-            <div class="producto-titulo">llaveros</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/llaveros-blanco.jpg" alt="llaveros" id="img-llaveros">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">llaveros</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-llaveros', 'llaveros-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="producto-card">
-            <div class="producto-titulo">DRAGONES FLEXIS</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/dragones-blanco.jpg" alt="DRAGONES FLEXIS" id="img-dragones-flexis">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">DRAGONES</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-blanco.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #5185c5;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-celeste.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #3503ff;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-azul.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #00ff00;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-verde.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #a200ff;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-violeta.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #d2d2d290;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-gris.jpg')"></span>
-                        <span class="color-swatch" style="background-color: #ff0000;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-rojo.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #eac102;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-oro.jpg')"></span> 
-                        <span class="color-swatch" style="background-color: #e25f23;" 
-                            onclick="cambiarImagen('img-dragones-flexis', 'dragones-naranja.jpg')"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-        <div class="producto-card">
-            <div class="producto-titulo">kuromi</div>
-            <div class="producto-imagen">
-                <img src="assets/imagenes/kuromi.jpg" alt="kuromi" id="img-kuromi">
-            </div>
-            <div class="producto-detalles">
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Modelo</span>
-                    <span class="detalle-valor">kuromi</span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Material</span>
-                    <span class="detalle-valor">PLA, PLA+ / PETG / ABS</span>
-                    <span class="icono-info"></span>
-                </div>
-                <div class="detalle-fila">
-                    <span class="detalle-etiqueta">Colores</span>
-                    <span class="colores">
-                        <span class="color-swatch" style="background-color: #ffffff;" 
-                            onclick="cambiarImagen('img-kuromi', 'kuromi.jpg')"></span> 
-                    </span>
-                </div>
-            </div>
-        </div>
-        
     </div>
-</main>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2026 RentCompInformática. Todos los derechos reservados.</p>
-            <p>Contacto Rápido: <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> | Email: rentcompinformatica@gmail.com</p>
-        </div>
+    <footer style="text-align: center; padding: 20px; background: #333; color: white; margin-top: 40px;">
+        <p>&copy; 2026 RentComp - Productos Personalizados 3D</p>
     </footer>
-    <script src="scripts.js"></script>
+
 </body>
-
 </html>
-
-
-
-
-
