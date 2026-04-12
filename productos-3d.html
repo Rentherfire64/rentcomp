@@ -3,142 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo 3D Personalizado - RentComp</title>
+    <title>Catálogo 3D - RentComp</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f4f4f4; }
-        
+        /* 1. Globales y Colores */
+        :root {
+            --primary: #3f51b5;
+            --dark: #383838;
+            --accent: #ffc107;
+            --success: #25d366;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
+
+        /* 2. Header y Menú Hamburguesa (Copiado de tu index) */
         header {
-            background-color: #3f51b5; color: white; padding: 15px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
+        .logo h1 { font-size: 1.5rem; margin: 0; }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+        .menu-toggle span { width: 25px; height: 3px; background: white; transition: 0.3s; }
+
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+        nav ul li a { color: white; text-decoration: none; font-weight: bold; }
+        nav ul li a:hover { color: var(--accent); }
+
+        /* 3. Cuadrícula de Productos */
         .catalogo-container {
-            padding: 40px 5%; display: grid;
+            padding: 40px 5%;
+            display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; max-width: 1200px; margin: 0 auto;
+            gap: 25px;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
+        /* 4. Tarjeta Estilo Ficha */
         .producto-card {
-            background: white; border-radius: 8px; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
         }
+        .producto-card:hover { transform: translateY(-5px); }
 
         .card-header {
-            background-color: #383838; color: white; padding: 12px;
-            text-align: center; font-weight: bold; text-transform: uppercase;
+            background-color: var(--dark);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
-        .card-img { height: 200px; display: flex; align-items: center; justify-content: center; background: #fff; }
-        .card-img img { max-width: 90%; max-height: 90%; object-fit: contain; transition: 0.3s; }
+        .card-img { height: 220px; background: #fff; display: flex; align-items: center; justify-content: center; padding: 10px; }
+        .card-img img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
         .card-details { padding: 15px; border-top: 1px solid #eee; }
-        .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f1f1; }
-        .detail-label { font-weight: bold; color: #555; }
+        .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f1f1; font-size: 0.9rem; }
+        .detail-label { font-weight: bold; color: #666; }
 
         /* Colores */
-        .color-dots { display: flex; gap: 6px; flex-wrap: wrap; max-width: 150px; justify-content: flex-end; }
+        .color-dots { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; max-width: 160px; }
         .dot {
-            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ddd;
+            width: 18px; height: 18px; border-radius: 50%; border: 1px solid #ddd;
             cursor: pointer; transition: 0.2s;
         }
-        .dot:hover { transform: scale(1.2); border-color: #333; }
-        .dot.selected { border-color: #3f51b5; transform: scale(1.2); box-shadow: 0 0 5px rgba(0,0,0,0.3); }
+        .dot:hover, .dot.active { transform: scale(1.2); border: 2px solid var(--primary); }
 
         .btn-pedido {
-            display: block; text-align: center; background-color: #25d366;
+            display: block; text-align: center; background-color: var(--success);
             color: white; text-decoration: none; padding: 12px;
             margin: 15px; border-radius: 5px; font-weight: bold; transition: 0.3s;
         }
-        .btn-pedido:hover { background-color: #1ebe57; transform: translateY(-2px); }
+        .btn-pedido:hover { background-color: #1ebe57; }
 
-        /* Colores */
-        .c-blanco { background: #fff; } .c-azul { background: #4a90e2; }
-        .c-negro { background: #000; } .c-verde { background: #00ff2b; }
-        .c-violeta { background: #9013fe; } .c-rojo { background: #d0021b; }
-        .c-amarillo { background: #f8e71c; } .c-naranja { background: #f5a623; }
-        .c-rosa { background: #ffc0cb; }
+        /* Clases de Colores */
+        .c-blanco { background: #fff; } .c-azul { background: #2196F3; } .c-negro { background: #000; }
+        .c-verde { background: #4CAF50; } .c-violeta { background: #9C27B0; } .c-rojo { background: #F44336; }
+        .c-amarillo { background: #FFEB3B; } .c-naranja { background: #FF9800; } .c-rosa { background: #E91E63; }
+
+        /* 5. Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            nav ul {
+                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                background: var(--primary); flex-direction: column; align-items: center;
+                justify-content: center; transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+            }
+            nav ul.active { right: 0; }
+        }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo"><h1>RentComp 3D</h1></div>
-    <nav><a href="index.html" style="color:white; text-decoration:none;">Volver al Inicio</a></nav>
+    <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+    </div>
+    <nav>
+        <ul id="nav-list">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos-informatica.html">Informática</a></li>
+            <li><a href="productos-3d.html">Impresión 3D</a></li>
+            <li><a href="contactos.html">Contactos</a></li>
+        </ul>
+    </nav>
 </header>
 
-<div class="catalogo-container" id="catalogo">
+<div class="catalogo-container" id="catalogo-grid">
     </div>
 
 <script>
     const productos = [
-        { id: 1, nombre: "Mate Personalizado", img: "Imagen/mate.jpg", material: "PLA / PETG" },
-        { id: 2, nombre: "Funko Pop Custom", img: "Imagen/funko.jpg", material: "Resina / PLA" },
-        { id: 3, nombre: "Llavero Pesca", img: "Imagen/pesca.jpg", material: "PLA+" },
-        { id: 4, nombre: "Casco Llavero", img: "Imagen/casco.jpg", material: "PLA" },
-        { id: 5, nombre: "Dragón Flexi", img: "Imagen/dragon.jpg", material: "PLA Silk" },
-        { id: 6, nombre: "Kuromi 3D", img: "Imagen/kuromi.jpg", material: "PLA / Pintado" }
+        "Mates personalizados", "FUNKO", "Llaveros Exceso", "Pesca", 
+        "Cascos llaveros", "Llaveros comunes", "DRAGONES FLEXIS", 
+        "Kuromi", "Macetas", "Portavelas", "Juguetes"
     ];
 
     const colores = [
-        { nombre: "Blanco", clase: "c-blanco" },
-        { nombre: "Azul", clase: "c-azul" },
-        { nombre: "Negro", clase: "c-negro" },
-        { nombre: "Verde", clase: "c-verde" },
-        { nombre: "Violeta", clase: "c-violeta" },
-        { nombre: "Rojo", clase: "c-rojo" },
-        { nombre: "Amarillo", clase: "c-amarillo" },
-        { nombre: "Naranja", clase: "c-naranja" },
-        { nombre: "Rosa", clase: "c-rosa" }
+        { n: "Blanco", c: "c-blanco" }, { n: "Azul", c: "c-azul" }, { n: "Negro", c: "c-negro" },
+        { n: "Verde", c: "c-verde" }, { n: "Violeta", c: "c-violeta" }, { n: "Rojo", c: "c-rojo" },
+        { n: "Amarillo", c: "c-amarillo" }, { n: "Naranja", c: "c-naranja" }, { n: "Rosa", c: "c-rosa" }
     ];
 
-    const container = document.getElementById('catalogo');
+    const grid = document.getElementById('catalogo-grid');
 
-    productos.forEach(p => {
-        let selectedColor = "Original";
-        
+    productos.forEach((prod, index) => {
         const card = document.createElement('div');
         card.className = 'producto-card';
         card.innerHTML = `
-            <div class="card-header">${p.nombre}</div>
-            <div class="card-img"><img src="${p.img}" id="img-${p.id}" alt="${p.nombre}"></div>
+            <div class="card-header">${prod}</div>
+            <div class="card-img"><img src="Imagen/3d-${index}.jpg" alt="${prod}" onerror="this.src='https://via.placeholder.com/200?text=3D+RentComp'"></div>
             <div class="card-details">
-                <div class="detail-row"><span class="detail-label">Modelo</span><span id="mod-${p.id}">${p.nombre}</span></div>
-                <div class="detail-row"><span class="detail-label">Material</span><span>${p.material}</span></div>
+                <div class="detail-row"><span class="detail-label">Modelo</span><span>${prod}</span></div>
+                <div class="detail-row"><span class="detail-label">Material</span><span>PLA / PETG</span></div>
                 <div class="detail-row" style="border:none">
-                    <span class="detail-label">Color: <small id="txt-color-${p.id}" style="color:#3f51b5">Elegí uno</small></span>
-                    <div class="color-dots" id="colors-${p.id}"></div>
+                    <span class="detail-label">Color: <span id="color-name-${index}" style="color:var(--primary)">Cualquiera</span></span>
+                    <div class="color-dots" id="dots-${index}"></div>
                 </div>
             </div>
-            <a href="#" id="wsp-${p.id}" class="btn-pedido" target="_blank">Pedir en WhatsApp</a>
+            <a href="#" id="wsp-${index}" class="btn-pedido" target="_blank">Consultar por WhatsApp</a>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
 
-        // Generar puntitos de colores
-        const colorDiv = document.getElementById(`colors-${p.id}`);
-        colores.forEach(c => {
+        const dotsContainer = document.getElementById(`dots-${index}`);
+        colores.forEach(col => {
             const dot = document.createElement('div');
-            dot.className = `dot ${c.clase}`;
+            dot.className = `dot ${col.c}`;
             dot.onclick = () => {
-                // Quitar selección previa
-                document.querySelectorAll(`#colors-${p.id} .dot`).forEach(d => d.classList.remove('selected'));
-                dot.classList.add('selected');
+                // Resetear activos
+                dotsContainer.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
                 
                 // Actualizar texto y link
-                document.getElementById(`txt-color-${p.id}`).innerText = c.nombre;
-                updateWspLink(p.id, p.nombre, c.nombre);
+                document.getElementById(`color-name-${index}`).innerText = col.n;
+                const msg = encodeURIComponent(`Hola Rentcomp, quiero un ${prod} de color ${col.n}`);
+                document.getElementById(`wsp-${index}`).href = `https://wa.me/541122956069?text=${msg}`;
             };
-            colorDiv.appendChild(dot);
+            dotsContainer.appendChild(dot);
         });
 
-        // Link inicial
-        updateWspLink(p.id, p.nombre, "a elección");
+        // Link por defecto
+        document.getElementById(`wsp-${index}`).href = `https://wa.me/541122956069?text=Hola Rentcomp, quiero consultar por ${prod}`;
     });
 
-    function updateWspLink(id, producto, color) {
-        const mensaje = encodeURIComponent(`Hola Rentcomp, quiero un ${producto} de color ${color}`);
-        document.getElementById(`wsp-${id}`).href = `https://wa.me/541122956069?text=${mensaje}`;
-    }
+    // Lógica del menú hamburguesa
+    const menuToggle = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    menuToggle.onclick = () => {
+        navList.classList.toggle('active');
+    };
 </script>
 
 </body>
