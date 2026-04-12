@@ -5,79 +5,251 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contacto - RentCompInformática</title>
     <meta name="description" content="Ponte en contacto con RentCompInformática para consultas y pedidos personalizados.">
-    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        :root {
+            --primary: #3f51b5;
+            --accent: #ffc107;
+            --dark: #1a1a1a;
+            --white: #ffffff;
+            --success: #25d366;
+            --gray-light: #f4f4f4;
+            --shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--gray-light);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* HEADER Y NAVEGACIÓN DESPLEGABLE */
+        header {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo h1 { font-size: 1.4rem; }
+        .logo h1 span { color: var(--accent); }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li { position: relative; }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 24px 15px;
+            display: block;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover { color: var(--accent); }
+
+        .nav-active { border-bottom: 3px solid var(--accent); }
+
+        /* Estilos Menú Desplegable (Dropdown) */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: var(--dark);
+            min-width: 180px;
+            top: 100%;
+            left: 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-menu li a {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .dropdown:hover .dropdown-menu { display: block; }
+
+        /* SECCIÓN PRINCIPAL */
+        .container {
+            flex: 1;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        /* LAS 3 VENTANAS (Grid de 3 columnas) */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Una al lado de la otra */
+            gap: 25px;
+        }
+
+        .contact-card {
+            background: var(--white);
+            padding: 40px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-card:hover { transform: translateY(-10px); }
+
+        .icon-circle {
+            width: 65px;
+            height: 65px;
+            background-color: var(--gray-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .contact-card h3 { margin-bottom: 15px; color: var(--dark); }
+        .contact-card p { color: #666; font-size: 0.95rem; margin-bottom: 20px; }
+
+        /* BOTONES */
+        .btn-contact {
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: var(--white);
+            transition: 0.3s;
+        }
+
+        .btn-wa { background-color: var(--success); }
+        .btn-mail { background-color: var(--primary); }
+        .btn-ig { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+
+        .btn-contact:hover { opacity: 0.9; transform: scale(1.02); }
+
+        /* PIE DE PAGINA (Footer) */
+        footer {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 40px 5%;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .footer-content p { margin-bottom: 10px; font-size: 0.9rem; }
+        .footer-content a { color: var(--accent); text-decoration: none; }
+
+        /* RESPONSIVE (Para celulares se ponen una abajo de otra) */
+        @media (max-width: 900px) {
+            header { height: auto; padding: 15px; flex-direction: column; }
+            nav ul { margin-top: 15px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .dropdown-menu { position: static; box-shadow: none; width: 100%; text-align: center; }
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <div class="logo">
-            <h1>RentCompInformática</h1>
+            <h1>RentComp<span>Informática</span></h1>
         </div>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li>
-                    <a href="#">Productos</a>
-                    <ul class="dropdown">
+                <li class="dropdown">
+                    <a href="#">Productos ▾</a>
+                    <ul class="dropdown-menu">
                         <li><a href="productos-informatica.html">Informática</a></li>
                         <li><a href="productos-3d.html">Impresión 3D</a></li>
                     </ul>
                 </li>
-                <li><a href="contactos.html">Contactos</a></li>
+                <li><a href="contactos.html" class="nav-active">Contactos</a></li>
                 <li><a href="https://www.instagram.com/rentcompinformatica/" target="_blank">Instagram</a></li>
             </ul>
         </nav>
     </header>
 
-    <main id="contacto-main">
-        <section class="container" style="padding: 50px 5%; max-width: 900px; margin: 0 auto;">
+    <main class="container">
+        <section class="contact-header">
             <h2>Hablemos de tu Próximo Pedido</h2>
-            <p>Puedes contactarnos por WhatsApp o a través de nuestro correo electrónico. ¡Estamos para ayudarte!</p>
+            <p>Estamos para ayudarte. Elige el medio que prefieras.</p>
+        </section>
 
-            <div class="contact-info" style="margin-top: 40px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
-                
-                <div class="info-item" style="text-align: center;">
-                    <h3>WhatsApp</h3>
-                    <p style="font-size: 1.1em;">Consultas y Pedidos Personalizados.</p>
-                    <a href="https://wa.me/541122956069" target="_blank" class="cta-button" style="background-color: #25d366;">Enviar WhatsApp</a>
-                </div>
-
-                <div class="info-item" style="text-align: center;">
-    <h3>Correo Electrónico</h3>
-    <p style="font-size: 1.1em;">Consultas generales y cotizaciones.</p>
-    <p style="font-weight: bold;">
-        <a href="mailto:rentcompinformatica@gmail.com?subject=Quiero%20consultar%20precio%20de%20producto" 
-           style="color: #3f51b5; text-decoration: none;">
-            rentcompinformatica@gmail.com
-        </a>
-    </p>
-    <p style="font-size: 0.9em; margin-top: 5px;">
-        Haz clic en la dirección para abrir tu correo.
-    </p>
-</div>
-                
-                <div class="info-item" style="text-align: center;">
-                    <h3>Redes Sociales</h3>
-                    <p style="font-size: 1.1em;">Síguenos para ver novedades.</p>
-                    <a href="https://www.instagram.com/rentcompinformatica/" target="_blank" class="cta-button">Ver Instagram</a>
-                </div>
-
-            </div>
+        <div class="contact-grid">
             
-            </section>
+            <article class="contact-card">
+                <div>
+                    <div class="icon-circle">💬</div>
+                    <h3>WhatsApp</h3>
+                    <p>Consultas rápidas y pedidos personalizados vía chat.</p>
+                </div>
+                <a href="https://wa.me/541122956069" target="_blank" class="btn-contact btn-wa">Enviar Mensaje</a>
+            </article>
+
+            <article class="contact-card">
+                <div>
+                    <div class="icon-circle">✉️</div>
+                    <h3>Correo</h3>
+                    <p>Para consultas generales, presupuestos y cotizaciones.</p>
+                </div>
+                <a href="mailto:rentcompinformatica@gmail.com" class="btn-contact btn-mail">Enviar Email</a>
+            </article>
+
+            <article class="contact-card">
+                <div>
+                    <div class="icon-circle">📸</div>
+                    <h3>Instagram</h3>
+                    <p>Síguenos para ver novedades, stock y trabajos en 3D.</p>
+                </div>
+                <a href="https://www.instagram.com/rentcompinformatica/" target="_blank" class="btn-contact btn-ig">Ver Perfil</a>
+            </article>
+
+        </div>
     </main>
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 RentCompInformática. Todos los derechos reservados.</p>
-            <p>Contacto Rápido: <a href="https://wa.me/541157513044" target="_blank">WhatsApp</a> | Email: rentcompinformatica@gmail.com
-
-</p>
+            <p>&copy; 2026 <strong>RentCompInformática</strong>. Todos los derechos reservados.</p>
+            <p>Atención en: Mariano Acosta - Ferrari - Merlo</p>
+            <p>
+                <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> | 
+                rentcompinformatica@gmail.com
+            </p>
         </div>
     </footer>
 
+    <script>
+        console.log("Sección de contactos cargada.");
+    </script>
 </body>
-
 </html>
-
-
