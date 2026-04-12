@@ -5,285 +5,279 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informática - Alcohol Isopropílico | RentCompInformática</title>
     <meta name="description" content="Alcohol Isopropílico para limpieza de componentes electrónicos. Consulta precios por tamaño.">
-    <link rel="stylesheet" href="styles.css"> 
+    
     <style>
-        /* Estilos para resaltar el enlace activo */
-        .nav-informatica { border-bottom: 3px solid #ffc107; }
+        :root {
+            --primary: #3f51b5;
+            --accent: #ffc107;
+            --success: #25D366;
+            --text: #333;
+            --bg-light: #f8f9fa;
+        }
 
-        /* Estilos específicos de la Tabla */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: #fff;
+        }
+
+        /* Navegación */
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 1rem 5%;
+        }
+
+        .logo h1 span { color: var(--accent); }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        nav a { color: white; text-decoration: none; font-weight: 500; }
+        .nav-informatica { border-bottom: 3px solid var(--accent); }
+
+        /* Contenedor Principal */
         .product-detail {
-            padding: 40px 5%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .product-info-grid {
-            display: flex;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-        .product-image {
-            flex: 1;
-            min-width: 300px;
-            background-color: #f0f0f0;
-            height: 350px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2em;
-        }
-        .product-specs {
-            flex: 2;
-            min-width: 300px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        /* Estilos de la Tabla */
+        .hero-title { text-align: center; margin-bottom: 30px; }
+        .hero-title h1 { color: var(--primary); font-size: 2.5rem; }
+        
+        .delivery-tag {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 10px;
+            border: 1px solid #ffeeba;
+        }
+
+        /* Grid */
+        .product-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 850px) {
+            .product-info-grid { grid-template-columns: 1fr; }
+        }
+
+        .product-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Tabla de Precios */
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
         .specs-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            min-width: 600px;
         }
-        .specs-table th, .specs-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+
         .specs-table th {
-            background-color: #3f51b5;
+            background: var(--primary);
             color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .specs-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .specs-table tr:hover { background: #f1f3f9; }
+
+        .price-text {
+            color: #d32f2f;
             font-weight: bold;
+            font-size: 1.1rem;
         }
-        .specs-table tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        .stock-tag {
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 0.85rem;
+            background: #e8f5e9;
+            padding: 4px 8px;
+            border-radius: 4px;
         }
-        .specs-table .action-cell {
+
+        /* Botón WhatsApp */
+        .btn-ws {
+            background: var(--success);
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn-ws:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); }
+
+        .wholesale-box {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--bg-light);
+            border-left: 5px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: white;
             text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <h1>RentCompInformática</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li>
-                    <a href="#" class="nav-informatica">Productos</a> 
-                    <ul class="dropdown">
-                        <li><a href="productos-informatica.html" class="nav-informatica">Informática</a></li>
-                        <li><a href="productos-3d.html">Impresión 3D</a></li>
-                    </ul>
-                </li>
-                <li><a href="contactos.html">Contactos</a></li>
-                <li><a href="https://www.instagram.com/rentcompinformatica/" target="_blank">Instagram</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo"><h1>RentComp<span>Informática</span></h1></div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos-informatica.html" class="nav-informatica">Informática</a></li>
+            <li><a href="productos-3d.html">Impresión 3D</a></li>
+            <li><a href="contactos.html">Contactos</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <main class="product-detail">
+<main class="product-detail">
+    <div class="hero-title">
         <h1>Alcohol Isopropílico (99.9%)</h1>
-        <p>El limpiador esencial para electrónica, placas base, lentes y pantallas. No deja residuos y se evapora rápidamente.</p>
-        <p><h2><i>Entrega Ferrari, Mariano Acosta y/o Merlo (centro)</i></h2></p>
-        <div class="product-info-grid">
-    <div class="product-image">
-        <img src="Imagen/alcohol.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+        <p>Pureza garantizada para limpieza técnica de alta precisión.</p>
+        <div class="delivery-tag">Entrega en Ferrari, Mariano Acosta y Merlo Centro</div>
     </div>
-    
-    </div>
-            
-            <div class="product-specs">
-                <h3>Opciones de Compra y Precios</h3>
-                
-                <table class="specs-table">
-    <thead>
-        <tr>
-            <th>Tamaño / Volumen</th>
-            <th>Uso Recomendado</th>
-            <th>En Stock</th>
-            <th>Precio</th> 
-            <th class="action-cell">WhatsApp</th> 
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>**20 Litros**</td>
-            <td>Kit y reparaciones mayores (uso intensivo).</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$230.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%2020%20Litro%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>**10 Litros**</td>
-            <td>Kit y reparaciones medias.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$115.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%2010%20Litro%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
 
-        <tr>
-            <td>**5 Litros**</td>
-            <td>Kit y reparaciones medias.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$59.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%205%20Litro%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>**2 Litros**</td>
-            <td>Kit y reparaciones menores.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$25.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%202%20Litro%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>**1 Litro**</td>
-            <td>Mantenimiento frecuente de equipos.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$12.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%201%20Litro%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>**500 ml**</td>
-            <td>Uso doméstico y limpieza ocasional.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$6.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%20500%20ml%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-        
-        <tr>
-            <td>**250 ml**</td>
-            <td>Kits de viaje y reparaciones menores.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$3.000</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%20250%20ml%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-
-        <tr>
-            <td>**125 ml**</td>
-            <td>Kits de viaje y reparaciones menores.</td>
-            <td>En Stock</td>
-            <td style="color: red; font-weight: bold;">$1.700</td>
-            <td class="action-cell">
-                <a href="https://wa.me/541122956069?text=Hola%20buenas,%20quiero%20125%20ml%20de%20alcohol%20isoprop%C3%ADlico,%20gracias." 
-           target="_blank"
-           style="display: inline-block; background-color: #25D366; color: white; 
-                  font-weight: bold; font-size: 16px; text-align: center; 
-                  text-decoration: none; border-radius: 8px; padding: 12px 40px; 
-                  box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-            WhatsApp
-        </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
-                <h3 style="margin-top: 40px;">Compra por mayor consultar por Whatsapp antes de comprar</h3>
-                <h3 style="margin-top: 40px;">Especificaciones Técnicas</h3>
-                <ul style="list-style-type: disc; padding-left: 20px;">
+    <div class="product-info-grid">
+        <aside>
+            <div class="product-image">
+                <img src="Imagen/alcohol.jpg" alt="Alcohol Isopropílico">
+            </div>
+            <div style="margin-top: 20px;">
+                <h3>Especificaciones</h3>
+                <ul style="padding-left: 20px; margin-top: 10px;">
                     <li>Pureza: 99.9%</li>
-                    <li>Libre de residuos: Sí</li>
-                    <li>Secado: Rápido</li>
-                    <a href="https://www.argentina.gob.ar/sites/default/files/guia_desinfectantes_y_antisepticos_septiembre_2021.pdf" target="_blank">Usos del Alcohol Isopropílico</a>
+                    <li>No deja residuos</li>
+                    <li>Evaporación ultra rápida</li>
                 </ul>
             </div>
-        </div>
-    </main>
+        </aside>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 RentCompInformática. Todos los derechos reservados.</p>
-            <p>Contacto Rápido: <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> | Email: rentcompinformatica@gmail.com</p>
-        </div>
-    </footer>
+        <section>
+            <h3>Opciones de Compra y Precios</h3>
+            <div class="table-container">
+                <table class="specs-table">
+                    <thead>
+                        <tr>
+                            <th>Tamaño</th>
+                            <th>Uso Recomendado</th>
+                            <th>Stock</th>
+                            <th>Precio</th>
+                            <th>Pedido</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>20 Litros</strong></td>
+                            <td>Uso intensivo / Profesional</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$230.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%2020L%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>10 Litros</strong></td>
+                            <td>Reparaciones medias</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$115.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%2010L%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>5 Litros</strong></td>
+                            <td>Reparaciones medias</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$59.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%205L%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2 Litros</strong></td>
+                            <td>Reparaciones menores</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$25.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%202L%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>1 Litro</strong></td>
+                            <td>Mantenimiento frecuente</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$12.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%201L%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>500 ml</strong></td>
+                            <td>Uso doméstico / Limpieza</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$6.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%20500ml%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>250 ml</strong></td>
+                            <td>Kits de viaje</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$3.000</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%20250ml%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                        <tr>
+                            <td><strong>125 ml</strong></td>
+                            <td>Reparaciones puntuales</td>
+                            <td><span class="stock-tag">En Stock</span></td>
+                            <td class="price-text">$1.700</td>
+                            <td><a href="https://wa.me/541122956069?text=Hola!%20Quiero%20125ml%20de%20isopropilico" class="btn-ws">WhatsApp</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="wholesale-box">
+                <p><strong>📢 Venta Mayorista:</strong> Si necesitás mayores cantidades o sos técnico, consultanos por WhatsApp para obtener precios especiales por volumen.</p>
+            </div>
+        </section>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 RentCompInformática. Especialistas en insumos técnicos.</p>
+    <p>Mariano Acosta, Buenos Aires.</p>
+</footer>
 
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
