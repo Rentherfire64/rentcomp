@@ -8,12 +8,67 @@
     <link rel="stylesheet" href="styles.css"> 
 
     <style>
+        /* Globales y Reseteo básico para que el dropdown funcione */
+        body { font-family: sans-serif; margin: 0; padding: 0; }
+        
+        /* Navegación y Dropdown */
+        nav ul { list-style: none; padding: 0; display: flex; gap: 20px; }
+        nav ul li { position: relative; }
+        nav a { text-decoration: none; color: inherit; padding: 5px 10px; display: block; }
+        
+        .dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            list-style: none;
+            padding: 10px;
+            min-width: 150px;
+            z-index: 100;
+        }
+        
+        nav ul li:hover .dropdown { display: block; }
+
+        /* Estilo para resaltar enlaces */
+        .nav-productos, .nav-inicio { border-bottom: 3px solid #ffc107; }
+
+        /* Hero Section */
+        #hero {
+            background-color: #3f51b5;
+            color: white;
+            padding: 60px 5%;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 15px;
+            background-color: #ffc107;
+            color: #000;
+        }
+        .cta-button:hover { transform: scale(1.05); }
+
+        /* Servicios Grid */
+        #servicios { padding: 40px 5%; text-align: center; }
+        .servicios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .servicio-item { padding: 20px; border: 1px solid #eee; border-radius: 8px; }
+
+        /* Product Cards */
         .product-card-container {
             display: flex;
             justify-content: center;
             gap: 40px;
             padding: 50px 5%;
-            flex-wrap: wrap; /* Para que se ajusten en móviles */
+            flex-wrap: wrap;
         }
         .product-card {
             background-color: white;
@@ -25,57 +80,55 @@
             text-align: center;
             transition: transform 0.3s;
         }
-        .product-card:hover {
-            transform: translateY(-8px);
-        }
+        .product-card:hover { transform: translateY(-8px); }
+        
         .card-image-placeholder {
-            height: 200px; /* Tamaño fijo para las imágenes */
+            height: 250px;
             background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            color: #777;
-            font-weight: bold;
+            overflow: hidden;
         }
-        /* ESTILO CORREGIDO: Asegura que la imagen ocupe el placeholder */
         .card-image-placeholder img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ajusta la imagen para que cubra todo el espacio (puede recortar bordes) */
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            object-fit: cover;
         }
-        .card-content {
-            padding: 25px;
+        .card-content { padding: 25px; }
+        .card-content h3 { color: #3f51b5; margin-top: 0; font-size: 1.8em; }
+
+        /* Botón WhatsApp Flotante */
+        .wsp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-decoration: none;
         }
-        .card-content h3 {
-            color: #3f51b5;
-            margin-top: 0;
-            font-size: 1.8em;
-        }
-        /* Estilo para resaltar el enlace activo en la navegación */
-        .nav-productos {
-             border-bottom: 3px solid #ffc107; 
-        }
-        
-        /* Estilo para resaltar el enlace 'Inicio' cuando estés en la página principal */
-        .nav-inicio { 
-             border-bottom: 3px solid #ffc107; 
-        }
+
+        footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 40px; }
+        footer a { color: #ffc107; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">
-            <h1>RentCompInformática</h1>
+        <div class="logo" style="text-align: center; padding: 20px;">
+            <h1 style="margin: 0; color: #3f51b5;">RentCompInformática</h1>
         </div>
-        <nav>
+        <nav style="display: flex; justify-content: center; background: #f8f9fa; padding: 10px 0;">
             <ul>
                 <li><a href="index.html" class="nav-inicio">Inicio</a></li> 
                 <li>
-                    <a href="#">Productos</a>
+                    <a href="#">Productos ▾</a>
                     <ul class="dropdown">
                         <li><a href="productos-informatica.html">Informática</a></li>
                         <li><a href="productos-3d.html">Impresión 3D</a></li>
@@ -86,6 +139,15 @@
             </ul>
         </nav>
     </header>
+
+    <section id="hero">
+        <div class="hero-content">
+            <h2>Tu Solución en Informática y Novedades 3D Personalizadas.</h2>
+            <p>Descubre nuestra variedad de accesorios tecnológicos y nuestra línea exclusiva de impresión 3D.</p>
+            <a href="#productos-main" class="cta-button">Ver Productos</a> 
+        </div>
+    </section>
+
     <section id="servicios">
         <h3>Nuestros Servicios Destacados</h3>
         <div class="servicios-grid">
@@ -103,6 +165,7 @@
             </div>
         </div>
     </section>
+
     <main id="productos-main">
         <section style="text-align: center; padding-top: 40px;">
             <h2>Explora Nuestras Líneas de Productos</h2>
@@ -134,25 +197,18 @@
             </div>
 
         </div>
-
     </main>
-    <section id="hero">
-        <div class="hero-content">
-            <h2>Tu Solución en Informática y Novedades 3D Personalizadas.</h2>
-            <p>Descubre nuestra variedad de accesorios tecnológicos y nuestra línea exclusiva de impresión 3D.</p>
-            <a href="#" class="cta-button">Entrá Acá</a> 
-        </div>
-    </section>
 
-
+    <a href="https://wa.me/541122956069" class="wsp-float" target="_blank">
+        <svg viewBox="0 0 32 32" style="width:35px; fill:white;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.733 5.48 2.01 7.788l-2.01 7.212 7.379-1.935c2.19 1.189 4.693 1.868 7.357 1.868 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.392 0-4.639-0.612-6.599-1.685l-0.472-0.259-4.394 1.152 1.173-4.212-0.285-0.453c-1.213-1.931-1.921-4.217-1.921-6.671 0-7.362 5.986-13.348 13.348-13.348s13.348 5.986 13.348 13.348-5.986 13.348-13.348 13.348zM22.518 19.335c-0.357-0.178-2.112-1.042-2.441-1.161s-0.569-0.178-0.808 0.178c-0.239 0.357-0.925 1.161-1.134 1.399s-0.418 0.268-0.776 0.090c-0.357-0.178-1.509-0.557-2.875-1.777-1.063-0.948-1.781-2.119-1.989-2.476s-0.022-0.551 0.156-0.728c0.161-0.159 0.357-0.418 0.537-0.626s0.239-0.357 0.357-0.596c0.119-0.239 0.060-0.447-0.030-0.626s-0.808-1.947-1.107-2.671c-0.291-0.706-0.588-0.61-0.808-0.621s-0.447-0.013-0.686-0.013c-0.239 0-0.626 0.090-0.954 0.447s-1.252 1.222-1.252 2.981c0 1.759 1.282 3.458 1.461 3.701s2.523 3.853 6.111 5.401c0.853 0.368 1.519 0.588 2.039 0.753 0.857 0.272 1.637 0.234 2.253 0.142 0.687-0.103 2.112-0.864 2.411-1.699s0.298-1.549 0.209-1.699c-0.090-0.149-0.328-0.239-0.686-0.417z"></path></svg>
+    </a>
     
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 RentCompInformática. Todos los derechos reservados.</p>
+            <p>&copy; 2026 RentCompInformática. Todos los derechos reservados.</p>
             <p>Contacto Rápido: <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> | Email: rentcompinformatica@gmail.com</p>
         </div>
     </footer>
 
 </body>
 </html>
-
