@@ -33,18 +33,20 @@
 
         .logo h1 { font-size: 1.5rem; margin: 0; letter-spacing: 1px; }
 
-        /* Icono Hamburguesa (Oculto en PC) */
+        /* Icono Hamburguesa */
         .menu-toggle {
             display: none;
             flex-direction: column;
             cursor: pointer;
             gap: 5px;
+            transition: 0.3s;
         }
         .menu-toggle span {
             width: 25px;
             height: 3px;
             background-color: white;
             transition: 0.3s;
+            transform-origin: left;
         }
 
         /* Navegación Desktop */
@@ -55,7 +57,7 @@
             display: flex;
             align-items: center;
         }
-        nav ul li { margin-left: 25px; position: relative; }
+        nav ul li { margin-left: 25px; }
         nav ul li a {
             color: white;
             text-decoration: none;
@@ -71,7 +73,7 @@
             gap: 40px;
             padding: 50px 5%;
             flex-wrap: wrap;
-            perspective: 1000px; /* Necesario para el efecto 3D */
+            perspective: 1000px;
         }
 
         .product-card {
@@ -86,7 +88,6 @@
         }
 
         .product-card:hover {
-            /* Efecto de inclinación 3D */
             transform: rotateX(5deg) rotateY(-5deg) scale(1.02);
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
@@ -104,9 +105,9 @@
         }
         .product-card:hover img { transform: scale(1.1); }
 
-        .card-content { padding: 25px; transform: translateZ(30px); /* Eleva el texto en 3D */ }
+        .card-content { padding: 25px; transform: translateZ(30px); }
 
-        /* 4. Hero Section con Gradiente Animado */
+        /* 4. Hero Section */
         #hero {
             background: linear-gradient(-45deg, #3f51b5, #1a237e, #3949ab, #283593);
             background-size: 400% 400%;
@@ -118,6 +119,12 @@
             text-align: center;
             color: white;
         }
+        
+        .hero-content h2 { 
+            font-size: 2.5rem; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3); 
+        }
+
         @keyframes gradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -136,21 +143,12 @@
             box-shadow: 0 5px 15px rgba(255,193,7,0.4);
             position: relative;
             overflow: hidden;
+            border: none;
+            cursor: pointer;
         }
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255,255,255,0.2);
-            transform: rotate(45deg);
-            transition: 0.5s;
-        }
-        .cta-button:hover::after { left: 100%; }
+        .cta-button:hover { transform: translateY(-3px); }
 
-        /* 5. Estilos para Móvil (Hamburguesa) */
+        /* 5. Estilos para Móvil */
         @media (max-width: 768px) {
             .menu-toggle { display: flex; z-index: 1001; }
             
@@ -163,22 +161,21 @@
                 background-color: #3f51b5;
                 flex-direction: column;
                 justify-content: center;
-                transition: 0.4s;
+                transition: 0.4s ease-in-out;
                 box-shadow: -5px 0 15px rgba(0,0,0,0.2);
             }
 
             nav ul.active { right: 0; }
             nav ul li { margin: 20px 0; }
-            nav ul li a { font-size: 1.2rem; }
-
-            .hero-content h2 { font-size: 1.8rem; }
+            
+            .product-card-container { gap: 25px; }
         }
 
-        /* WhatsApp Flotante */
+        /* WhatsApp Flotante con Animación de Pulso */
         .wsp-float {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             background-color: #25d366;
             width: 60px;
             height: 60px;
@@ -189,10 +186,18 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             z-index: 2000;
             transition: 0.3s;
+            animation: pulse-green 2s infinite;
         }
-        .wsp-float:hover { transform: scale(1.1) rotate(15deg); }
 
-        footer { background: #1a237e; color: white; padding: 30px; text-align: center; }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .wsp-float:hover { transform: scale(1.1) rotate(10deg); }
+
+        footer { background: #1a237e; color: white; padding: 40px 20px; text-align: center; }
     </style>
 </head>
 <body>
@@ -228,50 +233,72 @@
 
     <main id="productos-main">
         <div class="product-card-container">
+            <!-- Tarjeta Informática -->
             <div class="product-card">
                 <div class="card-image-placeholder">
-                    <img src="Imagen/alcohol1.jpg" alt="Informática">
+                    <img src="Imagen/alcohol1.jpg" alt="Insumos para limpieza técnica de computadoras" loading="lazy">
                 </div>
                 <div class="card-content">
                     <h3>Insumos Técnicos</h3>
-                    <p>Limpieza y mantenimiento profesional para tus equipos.</p>
+                    <p>Limpieza y mantenimiento profesional para prolongar la vida útil de tus equipos.</p>
                     <a href="productos-informatica.html" class="cta-button">Explorar</a>
                 </div>
             </div>
 
+            <!-- Tarjeta 3D -->
             <div class="product-card">
                  <div class="card-image-placeholder">
-                    <img src="Imagen/images.jpg" alt="Impresión 3D">
+                    <img src="Imagen/images.jpg" alt="Ejemplos de impresión 3D personalizada" loading="lazy">
                 </div>
                 <div class="card-content">
                     <h3>Galería 3D</h3>
-                    <p>Mates, llaveros y diseños exclusivos personalizados.</p>
+                    <p>Mates, llaveros y piezas técnicas exclusivas con diseño personalizado.</p>
                     <a href="productos-3d.html" class="cta-button">Ver Diseños</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <a href="https://wa.me/541122956069" class="wsp-float" target="_blank">
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/541122956069" class="wsp-float" target="_blank" aria-label="Contactar por WhatsApp">
         <svg viewBox="0 0 32 32" style="width:30px; fill:white;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.733 5.48 2.01 7.788l-2.01 7.212 7.379-1.935c2.19 1.189 4.693 1.868 7.357 1.868 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.392 0-4.639-0.612-6.599-1.685l-0.472-0.259-4.394 1.152 1.173-4.212-0.285-0.453c-1.213-1.931-1.921-4.217-1.921-6.671 0-7.362 5.986-13.348 13.348-13.348s13.348 5.986 13.348 13.348-5.986 13.348-13.348 13.348zM22.518 19.335c-0.357-0.178-2.112-1.042-2.441-1.161s-0.569-0.178-0.808 0.178c-0.239 0.357-0.925 1.161-1.134 1.399s-0.418 0.268-0.776 0.090c-0.357-0.178-1.509-0.557-2.875-1.777-1.063-0.948-1.781-2.119-1.989-2.476s-0.022-0.551 0.156-0.728c0.161-0.159 0.357-0.418 0.537-0.626s0.239-0.357 0.357-0.596c0.119-0.239 0.060-0.447-0.030-0.626s-0.808-1.947-1.107-2.671c-0.291-0.706-0.588-0.61-0.808-0.621s-0.447-0.013-0.686-0.013c-0.239 0-0.626 0.090-0.954 0.447s-1.252 1.222-1.252 2.981c0 1.759 1.282 3.458 1.461 3.701s2.523 3.853 6.111 5.401c0.853 0.368 1.519 0.588 2.039 0.753 0.857 0.272 1.637 0.234 2.253 0.142 0.687-0.103 2.112-0.864 2.411-1.699s0.298-1.549 0.209-1.699c-0.090-0.149-0.328-0.239-0.686-0.417z"></path></svg>
     </a>
 
     <footer>
-        <p>&copy; 2026 RentCompInformática. Tecnología y Diseño.</p>
+        <p>&copy; 2026 RentCompInformática. Merlo, Buenos Aires.<br>Tecnología y Diseño 3D.</p>
     </footer>
 
     <script>
         const menuToggle = document.getElementById('mobile-menu');
         const navList = document.getElementById('nav-list');
+        const navLinks = document.querySelectorAll('#nav-list a');
 
+        // Abrir/Cerrar menú
         menuToggle.addEventListener('click', () => {
             navList.classList.toggle('active');
             
-            // Animación básica de las rayitas
+            // Animación del icono
             const spans = menuToggle.getElementsByTagName('span');
-            spans[0].style.transform = navList.classList.contains('active') ? 'rotate(45deg) translate(5px, 6px)' : 'none';
-            spans[1].style.opacity = navList.classList.contains('active') ? '0' : '1';
-            spans[2].style.transform = navList.classList.contains('active') ? 'rotate(-45deg) translate(5px, -6px)' : 'none';
+            if(navList.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(2px, 1px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(2px, -1px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Cerrar menú al hacer clic en un link (mejor UX en móviles)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('active');
+                const spans = menuToggle.getElementsByTagName('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
         });
     </script>
 
