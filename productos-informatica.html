@@ -3,106 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insumos de Informática - RentCompInformática</title>
-    <meta name="description" content="Catálogo de insumos de informática en Mariano Acosta y Merlo.">
-    
+    <title>Insumos Informática - RentComp</title>
     <style>
         :root {
             --primary: #3f51b5;
+            --dark: #1a237e;
             --accent: #ffc107;
-            --dark: #1a1a1a;
-            --white: #ffffff;
-            --gray-light: #f4f4f4;
+            --gray-light: #f0f2f5;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--gray-light); color: #333; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--gray-light);
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* HEADER Y NAVEGACIÓN DESPLEGABLE */
         header {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 0 5%;
-            height: 70px;
+            background-color: #1a1a1a; /* Darker header for contrast */
+            color: white;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .logo h1 { font-size: 1.4rem; }
         .logo h1 span { color: var(--accent); }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-        }
+        .menu-toggle { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .menu-toggle span { width: 25px; height: 3px; background: white; transition: 0.3s; }
 
-        nav ul li { position: relative; }
-
-        nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            padding: 24px 15px;
-            display: block;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
+        nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 20px; }
+        nav ul li a { color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
         nav ul li a:hover { color: var(--accent); }
 
-        .nav-active { border-bottom: 3px solid var(--accent); }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; flex: 1; }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { color: var(--primary); font-size: 2.2rem; margin-bottom: 10px; }
 
-        /* Estilos Dropdown */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background-color: var(--dark);
-            min-width: 180px;
-            top: 100%;
-            left: 0;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        }
-
-        .dropdown-menu li a {
-            padding: 12px 20px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid #333;
-        }
-
-        .dropdown:hover .dropdown-menu { display: block; }
-
-        /* CONTENIDO PRINCIPAL */
-        .container {
-            flex: 1;
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .section-header h2 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        /* TARJETAS DE PRODUCTO */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -110,146 +47,104 @@
         }
 
         .product-card {
-            background: var(--white);
-            border-radius: 12px;
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease;
         }
-
         .product-card:hover { transform: translateY(-5px); }
 
-        /* LA VENTANA DE IMAGEN (Sin cortes) */
         .image-window {
-            width: 100%;
             height: 250px;
-            background-color: #fff;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 15px;
+            background: #fff;
             border-bottom: 1px solid #eee;
         }
+        .image-window img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        .image-window img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain; /* Muestra la imagen entera siempre */
-        }
-
-        .product-content {
-            padding: 20px;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-content h3 {
-            margin-bottom: 10px;
-            color: var(--dark);
-        }
-
-        .product-content p {
-            color: #666;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            flex-grow: 1;
-        }
+        .product-content { padding: 25px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-content h3 { margin-bottom: 15px; color: #333; }
+        .product-content p { color: #666; font-size: 0.95rem; margin-bottom: 25px; flex-grow: 1; }
 
         .cta-button {
             background-color: var(--primary);
-            color: var(--white);
+            color: white;
             text-decoration: none;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 12px 25px;
+            border-radius: 50px;
             font-weight: bold;
             transition: 0.3s;
         }
+        .cta-button:hover { background-color: var(--dark); transform: scale(1.05); }
 
-        .cta-button:hover { background-color: #2c3e50; }
+        footer { background: #1a1a1a; color: white; padding: 40px 20px; text-align: center; margin-top: 50px; }
 
-        /* FOOTER */
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 40px 5%;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        .footer-content p { margin-bottom: 10px; font-size: 0.9rem; }
-        .footer-content a { color: var(--accent); text-decoration: none; }
-
-        /* RESPONSIVE */
         @media (max-width: 768px) {
-            header { height: auto; padding: 15px; flex-direction: column; }
-            nav ul { margin-top: 15px; }
-            nav ul li a { padding: 10px; }
-            .dropdown-menu { position: static; box-shadow: none; width: 100%; text-align: center; }
+            .menu-toggle { display: flex; }
+            nav ul {
+                position: fixed; top: 0; right: -100%; width: 75%; height: 100vh;
+                background: #1a1a1a; flex-direction: column; justify-content: center;
+                align-items: center; transition: 0.4s;
+            }
+            nav ul.active { right: 0; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">
-            <h1>RentComp<span>Informática</span></h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li class="dropdown">
-                    <a href="#" class="nav-active">Productos ▾</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="productos-informatica.html">Informática</a></li>
-                        <li><a href="productos-3d.html">Impresión 3D</a></li>
-                    </ul>
-                </li>
-                <li><a href="contactos.html">Contactos</a></li>
-                <li><a href="https://www.instagram.com/rentcompinformatica/" target="_blank">Instagram</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <div class="logo"><h1>RentComp<span>Informática</span></h1></div>
+    <div class="menu-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+    </div>
+    <nav>
+        <ul id="nav-list">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos-informatica.html">Informática</a></li>
+            <li><a href="productos-3d.html">Impresión 3D</a></li>
+            <li><a href="contactos.html">Contactos</a></li>
+        </ul>
+    </nav>
+</header>
 
-    <main class="container">
-        <div class="section-header">
-            <h2>Insumos de Informática</h2>
-            <p>Componentes y limpieza para el máximo rendimiento de tu PC.</p>
-        </div>
+<main class="container">
+    <div class="section-header">
+        <h2>Insumos Profesionales</h2>
+        <p>Soluciones técnicas para el mantenimiento de tus equipos.</p>
+    </div>
 
-        <div class="product-grid">
-            
-            <article class="product-card">
-                <div class="image-window">
-                    <img src="Imagen/alcohol.jpg" alt="Alcohol Isopropílico RentComp">
-                </div>
-                <div class="product-content">
-                    <h3>Alcohol Isopropílico</h3>
-                    <p>Limpiador de alta pureza (99.9%) para componentes electrónicos. No deja residuos y seca al instante.</p>
-                    <a href="alcohol.html" class="cta-button">Ver Precios</a>
-                </div>
-            </article>
-
+    <div class="product-grid">
+        <article class="product-card">
+            <div class="image-window">
+                <img src="Imagen/alcohol.jpg" alt="Alcohol Isopropílico RentComp" loading="lazy">
             </div>
-    </main>
+            <div class="product-content">
+                <h3>Alcohol Isopropílico</h3>
+                <p>Pureza del 99.9%. Ideal para limpiar placas base, lentes y sensores sin dejar humedad ni residuos.</p>
+                <a href="https://wa.me/541122956069?text=Hola, consulto precio por Alcohol Isopropílico" class="cta-button">Consultar Precio</a>
+            </div>
+        </article>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2026 <strong>RentCompInformática</strong>. Todos los derechos reservados.</p>
-            <p>Mariano Acosta - Ferrari - Merlo Centro</p>
-            <p>
-                <a href="https://wa.me/541122956069" target="_blank">WhatsApp</a> | 
-                Email: rentcompinformatica@gmail.com
-            </p>
-        </div>
-    </footer>
+        <!-- Podés duplicar este 'article' para agregar más productos como Aire Comprimido, Pasta Térmica, etc. -->
+    </div>
+</main>
 
-    <script>
-        // Pequeño script para manejar el click en móviles si es necesario
-        console.log("Catálogo RentComp listo.");
-    </script>
+<footer>
+    <p>&copy; 2026 RentCompInformática. Soporte Técnico e Insumos.<br>Mariano Acosta - Merlo Centro.</p>
+</footer>
+
+<script>
+    const menuToggle = document.getElementById('mobile-menu');
+    const navList = document.getElementById('nav-list');
+    menuToggle.onclick = () => {
+        navList.classList.toggle('active');
+    };
+</script>
 </body>
 </html>
