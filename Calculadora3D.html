@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rentcomp Informática - Cotizador Automático de Impresión 3D</title>
+    <title>Rentcomp Informática - Cotizador de Impresión 3D</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- JSZip for parsing .3mf zip contents client-side -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <!-- Chart.js for breakdown visual representation -->
+    <!-- Chart.js for visual cost breakdown -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,13 +40,11 @@
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Custom Webkit Scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
         
-        /* Drag Zone Active Pulse */
         .drag-active {
             border-color: #38bdf8 !important;
             background-color: rgba(14, 165, 233, 0.08) !important;
@@ -55,7 +53,6 @@
 </head>
 <body class="h-full bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-cyan-500 selection:text-white">
 
-    <!-- HEADER -->
     <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -66,7 +63,7 @@
                     <h1 class="font-bold text-lg leading-none bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
                         Rentcomp Informática
                     </h1>
-                    <p class="text-xs text-slate-400 font-medium">Cotizador Automático (.gcode / .3mf)</p>
+                    <p class="text-xs text-slate-400 font-medium">Cotizador Automático (.3mf / .gcode)</p>
                 </div>
             </div>
             
@@ -79,9 +76,11 @@
         </div>
     </header>
 
+    <!-- NOTIFICATION CONTAINER (Replaces browser alert) -->
+    <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 max-w-md w-full px-4 pointer-events-none"></div>
+
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        <!-- LEFT COLUMN: FILE DROPZONE & CONFIGURATIONS (7 cols) -->
         <div class="lg:col-span-7 space-y-6">
             
             <!-- DROPZONE FILE UPLOADER -->
@@ -92,7 +91,7 @@
                         <h2>Carga Automática de Archivo</h2>
                     </div>
                     <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700">
-                        Cura, Prusa, Bambu, Orca, Creality
+                        Bambu, Orca, Prusa, Cura, Creality
                     </span>
                 </div>
 
@@ -106,20 +105,20 @@
                         </div>
                         <div>
                             <p class="text-sm font-semibold text-slate-200">
-                                Arrastrá acá tu archivo <span class="text-cyan-400 font-bold">.gcode</span> o <span class="text-cyan-400 font-bold">.3mf</span>
+                                Arrastrá acá tu archivo <span class="text-cyan-400 font-bold">.3mf</span> o <span class="text-cyan-400 font-bold">.gcode</span>
                             </p>
-                            <p class="text-xs text-slate-400 mt-0.5">o hacé clic para seleccionar desde tu computadora</p>
+                            <p class="text-xs text-slate-400 mt-0.5">o hacé clic para seleccionar desde tu equipo</p>
                         </div>
                     </div>
 
-                    <!-- File Loaded Status Badge (Hidden by default) -->
+                    <!-- File Loaded Status Badge -->
                     <div id="fileLoadedBadge" class="hidden flex items-center justify-between bg-slate-900 border border-cyan-500/40 p-3 rounded-lg text-left">
                         <div class="flex items-center gap-3 overflow-hidden">
                             <div class="w-10 h-10 rounded-lg bg-cyan-950 text-cyan-400 flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-file-code text-lg"></i>
                             </div>
                             <div class="truncate">
-                                <p id="fileNameDisplay" class="text-xs font-bold text-slate-100 truncate">archivo.gcode</p>
+                                <p id="fileNameDisplay" class="text-xs font-bold text-slate-100 truncate">archivo.3mf</p>
                                 <p id="fileMetaDisplay" class="text-[11px] text-cyan-400 font-medium">Extraído: 0g | 0h 0m</p>
                             </div>
                         </div>
@@ -291,7 +290,6 @@
 
         </div>
 
-        <!-- RIGHT COLUMN: RESULTS & SUMMARY (5 cols) -->
         <div class="lg:col-span-5 space-y-6">
             
             <!-- PRECIO FINAL DESTACADO CARD -->
@@ -310,7 +308,7 @@
                 </div>
 
                 <p class="text-xs text-slate-400 mb-6">
-                    Mantiene exactamente tu margen deseado descontando costos fijos y comisiones.
+                    Garantiza exactamente tu margen deseado cubriendo costos y comisiones.
                 </p>
 
                 <!-- DESGLOSE RESUMEN -->
@@ -380,14 +378,13 @@
     <!-- FOOTER -->
     <footer class="mt-auto border-t border-slate-800 py-4 bg-slate-900/50">
         <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            Rentcomp Informática &copy; <span id="year">2026</span> - Sistema de Cotización Técnica de Impresión 3D
+            Rentcomp Informática &copy; <span id="year">2026</span> - Cotizador Técnico Profesional
         </div>
     </footer>
 
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Application State
         let chartInstance = null;
         let listaPiezas = [];
 
@@ -423,8 +420,39 @@
             fileMetaDisplay: document.getElementById('fileMetaDisplay')
         };
 
+        // Custom UI Notification Banner
+        function showNotification(message, type = 'warning') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            const isWarning = type === 'warning';
+            const bgClass = isWarning ? 'bg-amber-950/90 border-amber-600/60 text-amber-200' : 'bg-rose-950/90 border-rose-600/60 text-rose-200';
+            const iconClass = isWarning ? 'fa-triangle-exclamation text-amber-400' : 'fa-circle-xmark text-rose-400';
+
+            toast.className = `pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-2xl backdrop-blur-md transition-all duration-300 transform translate-y-2 opacity-0 ${bgClass}`;
+            toast.innerHTML = `
+                <i class="fa-solid ${iconClass} text-lg mt-0.5"></i>
+                <div class="flex-1 text-xs leading-relaxed">
+                    ${message}
+                </div>
+                <button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 7000);
+        }
+
         function initEvents() {
-            // Recalculate on any input change
             Object.values(inputs).forEach(input => {
                 if (input) {
                     input.addEventListener('input', calcularTodo);
@@ -432,7 +460,6 @@
                 }
             });
 
-            // Range slider sync
             inputs.porcentajeGananciaSlider.addEventListener('input', (e) => {
                 inputs.porcentajeGananciaInput.value = e.target.value;
                 calcularTodo();
@@ -443,7 +470,6 @@
                 calcularTodo();
             });
 
-            // Platform Commission Custom toggle
             inputs.selectPlataforma.addEventListener('change', (e) => {
                 if (e.target.value === 'custom') {
                     inputs.containerCustomComision.classList.remove('hidden');
@@ -453,7 +479,6 @@
                 calcularTodo();
             });
 
-            // Drag and Drop Zone Logic
             const dropZone = document.getElementById('dropZone');
 
             dropZone.addEventListener('click', () => inputs.fileInput.click());
@@ -476,9 +501,8 @@
 
             dropZone.addEventListener('drop', (e) => {
                 const dt = e.dataTransfer;
-                const files = dt.files;
-                if (files.length > 0) {
-                    procesarArchivo(files[0]);
+                if (dt.files && dt.files.length > 0) {
+                    procesarArchivo(dt.files[0]);
                 }
             });
 
@@ -493,25 +517,22 @@
                 limpiarArchivo();
             });
 
-            // Combo / Historial
             document.getElementById('btnAgregarHistorial').addEventListener('click', agregarAHistorial);
             document.getElementById('btnVaciarHistorial').addEventListener('click', () => {
                 listaPiezas = [];
                 renderHistorial();
             });
 
-            // First pass
             calcularTodo();
         }
 
-        // Preset Helper
         function setPresetHora(valor) {
             inputs.costoHoraMaquina.value = valor;
             calcularTodo();
         }
 
         // =======================================================
-        // GCODE & 3MF FILE PARSING ENGINE
+        // ADVANCED .3MF / .GCODE MULTI-FILE ZIP PARSER
         // =======================================================
         async function procesarArchivo(file) {
             const fileName = file.name.toLowerCase();
@@ -519,85 +540,118 @@
             try {
                 if (fileName.endsWith('.gcode')) {
                     const text = await file.text();
-                    parsearGcode(text, file.name);
+                    const resultado = extraerMetadatosDeTexto(text);
+                    if (resultado.encontrado) {
+                        aplicarDatosExtraidos(resultado, file.name);
+                    } else {
+                        showNotification('Se cargó el archivo .gcode pero no contiene información de gramos o tiempo. Por favor ingresalos manualmente.', 'warning');
+                        aplicarDatosParciales(file.name);
+                    }
                 } else if (fileName.endsWith('.3mf')) {
                     const zip = await JSZip.loadAsync(file);
-                    // Search for inner .gcode file inside the 3MF package
-                    const gcodePath = Object.keys(zip.files).find(path => path.toLowerCase().endsWith('.gcode'));
-                    if (gcodePath) {
-                        const text = await zip.files[gcodePath].async('string');
-                        parsearGcode(text, file.name);
+                    
+                    let bestResult = { gramos: 0, minutos: 0, encontrado: false };
+                    
+                    // Scan ALL readable text files inside .3mf container regardless of folder location
+                    const candidateFiles = Object.keys(zip.files).filter(path => {
+                        const lower = path.toLowerCase();
+                        return lower.endsWith('.gcode') || 
+                               lower.endsWith('.config') || 
+                               lower.endsWith('.xml') || 
+                               lower.endsWith('.txt') ||
+                               lower.includes('metadata/');
+                    });
+
+                    for (const path of candidateFiles) {
+                        try {
+                            const content = await zip.files[path].async('string');
+                            const parsed = extraerMetadatosDeTexto(content);
+                            
+                            if (parsed.gramos > bestResult.gramos) bestResult.gramos = parsed.gramos;
+                            if (parsed.minutos > bestResult.minutos) bestResult.minutos = parsed.minutos;
+                            if (parsed.encontrado) bestResult.encontrado = true;
+                        } catch (err) {
+                            // Ignore non-text files inside zip
+                        }
+                    }
+
+                    if (bestResult.encontrado && (bestResult.gramos > 0 || bestResult.minutos > 0)) {
+                        aplicarDatosExtraidos(bestResult, file.name);
                     } else {
-                        alert('No se encontraron metadatos de impresoras/laminado dentro de este archivo .3mf.');
+                        showNotification('El archivo .3mf cargado es un modelo 3D sin laminado previo (o no incluye metadatos de impresión). Podés ingresar los gramos y tiempo manualmente.', 'warning');
+                        aplicarDatosParciales(file.name);
                     }
                 } else {
-                    alert('Por favor selecciona un archivo válido (.gcode o .3mf)');
+                    showNotification('Formato no soportado. Seleccioná un archivo .3mf o .gcode', 'error');
                 }
             } catch (err) {
-                console.error("Error al procesar el archivo:", err);
-                alert("Hubo un error al leer el archivo. Verifica que esté bien generado.");
+                console.error("Error al procesar archivo:", err);
+                showNotification('No se pudo descomprimir el archivo. Verificá que el .3mf sea un proyecto válido.', 'error');
             }
         }
 
-        function parsearGcode(gcodeText, filename) {
+        function extraerMetadatosDeTexto(texto) {
             let gramos = 0;
-            let minutosTotales = 0;
+            let minutos = 0;
+            let encontrado = false;
 
-            // --- FILAMENT WEIGHT REGEX MATCHERS ---
-            // Cura: ;Filament used: 14.25g  OR  ; filament weight [g] = 14.25
-            // Prusa/Orca/Bambu: ; filament_weight = 14.25  OR  ; filament used [g] = 14.25
-            // Creality: ;used_filament_g = 14.25
+            // 1. GRAMS REGEX PATTERNS (Bambu, Orca, Prusa, Cura, XML attributes)
             const gramosRegexes = [
-                /;(?:filament used \[g\]|filament weight \(g\)|filament_weight|used_filament_g|Filament used)\s*[:=]\s*([\d\.]+)/i,
+                /(?:filament used \[g\]|filament_weight|used_filament_g|weight|used_g|filament_weight_type)\s*[:=]\s*["']?([\d\.]+)/i,
+                /weight\s*=\s*["']([\d\.]+)["']/i,
+                /<plate[^>]*weight\s*=\s*["']([\d\.]+)["']/i,
                 /;\s*Filament used\s*:\s*([\d\.]+)g/i,
                 /;\s*used_filament\s*=\s*([\d\.]+)/i
             ];
 
             for (let reg of gramosRegexes) {
-                const match = gcodeText.match(reg);
+                const match = texto.match(reg);
                 if (match && match[1]) {
-                    gramos = parseFloat(match[1]);
-                    break;
+                    const val = parseFloat(match[1]);
+                    if (!isNaN(val) && val > 0) {
+                        gramos = val;
+                        encontrado = true;
+                        break;
+                    }
                 }
             }
 
-            // --- PRINT TIME REGEX MATCHERS ---
-            // Cura: ;TIME:4500 (in seconds)
-            // Prusa/Bambu/Orca: ; estimated printing time (normal mode) = 1h 15m 30s
-            // Creality: ;Print time: 1h 15m
-            const timeSecondsMatch = gcodeText.match(/;TIME\s*:\s*(\d+)/i);
+            // 2. TIME REGEX PATTERNS
+            // Seconds
+            const timeSecondsMatch = texto.match(/(?:TIME|prediction|total_time)\s*[:=]\s*["']?(\d+)["']?/i);
             if (timeSecondsMatch && timeSecondsMatch[1]) {
-                minutosTotales = parseFloat(timeSecondsMatch[1]) / 60;
-            } else {
-                const stringTimeMatch = gcodeText.match(/;(?:estimated printing time|Print time|print_time)\s*[:=]\s*([^\r\n]+)/i);
-                if (stringTimeMatch && stringTimeMatch[1]) {
-                    minutosTotales = parsearTiempoTexto(stringTimeMatch[1]);
+                const sec = parseFloat(timeSecondsMatch[1]);
+                if (sec > 0) {
+                    minutos = sec / 60;
+                    encontrado = true;
                 }
             }
 
-            // Update Form UI
-            if (gramos > 0) {
-                inputs.pesoGramos.value = gramos.toFixed(1);
+            // Textual formats (e.g., "1h 15m 30s" or "45m 10s")
+            if (minutos === 0) {
+                const stringTimeMatch = texto.match(/(?:estimated printing time|Print time|print_time|prediction)\s*[:=]\s*["']?([^"'\r\n]+)["']?/i);
+                if (stringTimeMatch && stringTimeMatch[1]) {
+                    const parsedMins = parsearTiempoTexto(stringTimeMatch[1]);
+                    if (parsedMins > 0) {
+                        minutos = parsedMins;
+                        encontrado = true;
+                    }
+                }
             }
 
-            if (minutosTotales > 0) {
-                const hs = Math.floor(minutosTotales / 60);
-                const mins = Math.round(minutosTotales % 60);
-                inputs.tiempoHoras.value = hs;
-                inputs.tiempoMinutos.value = mins;
+            // XML Attribute time
+            if (minutos === 0) {
+                const xmlTimeMatch = texto.match(/<plate[^>]*time\s*=\s*["']([\d\.]+)["']/i);
+                if (xmlTimeMatch && xmlTimeMatch[1]) {
+                    const sec = parseFloat(xmlTimeMatch[1]);
+                    if (sec > 0) {
+                        minutos = sec / 60;
+                        encontrado = true;
+                    }
+                }
             }
 
-            // Auto-update piece name with file title
-            const cleanName = filename.replace(/\.(gcode|3mf)$/i, '').replace(/[-_]/g, ' ');
-            inputs.nombrePieza.value = cleanName;
-
-            // Show loaded badge
-            outputs.dropZonePrompt.classList.add('hidden');
-            outputs.fileLoadedBadge.classList.remove('hidden');
-            outputs.fileNameDisplay.textContent = filename;
-            outputs.fileMetaDisplay.textContent = `Extraído: ${gramos.toFixed(1)}g | ${Math.floor(minutosTotales/60)}h ${Math.round(minutosTotales%60)}m`;
-
-            calcularTodo();
+            return { gramos, minutos, encontrado };
         }
 
         function parsearTiempoTexto(cadena) {
@@ -610,7 +664,45 @@
             if (minsMatch) totalMins += parseInt(minsMatch[1]);
             if (segsMatch) totalMins += parseInt(segsMatch[1]) / 60;
 
+            // If it was just a raw number without units
+            if (!horasMatch && !minsMatch && !segsMatch && !isNaN(cadena)) {
+                totalMins = parseFloat(cadena) / 60;
+            }
+
             return totalMins;
+        }
+
+        function aplicarDatosExtraidos(datos, filename) {
+            if (datos.gramos > 0) {
+                inputs.pesoGramos.value = datos.gramos.toFixed(1);
+            }
+
+            if (datos.minutos > 0) {
+                const hs = Math.floor(datos.minutos / 60);
+                const mins = Math.round(datos.minutos % 60);
+                inputs.tiempoHoras.value = hs;
+                inputs.tiempoMinutos.value = mins;
+            }
+
+            const cleanName = filename.replace(/\.(gcode|3mf)$/i, '').replace(/[-_]/g, ' ');
+            inputs.nombrePieza.value = cleanName;
+
+            outputs.dropZonePrompt.classList.add('hidden');
+            outputs.fileLoadedBadge.classList.remove('hidden');
+            outputs.fileNameDisplay.textContent = filename;
+            outputs.fileMetaDisplay.textContent = `Extraído: ${datos.gramos.toFixed(1)}g | ${Math.floor(datos.minutos/60)}h ${Math.round(datos.minutos%60)}m`;
+
+            calcularTodo();
+        }
+
+        function aplicarDatosParciales(filename) {
+            const cleanName = filename.replace(/\.(gcode|3mf)$/i, '').replace(/[-_]/g, ' ');
+            inputs.nombrePieza.value = cleanName;
+
+            outputs.dropZonePrompt.classList.add('hidden');
+            outputs.fileLoadedBadge.classList.remove('hidden');
+            outputs.fileNameDisplay.textContent = filename;
+            outputs.fileMetaDisplay.textContent = `Ingresá peso y tiempo manualmente`;
         }
 
         function limpiarArchivo() {
@@ -623,27 +715,22 @@
         // FINANCIAL CALCULATION ENGINE
         // =======================================================
         function calcularTodo() {
-            // 1. Filamento
             const precioRollo = parseFloat(inputs.precioFilamento.value) || 0;
             const gramos = parseFloat(inputs.pesoGramos.value) || 0;
             const costoGramo = precioRollo / 1000;
             const costoFilamento = gramos * costoGramo;
 
-            // 2. Tiempo y Máquina
             const horas = parseFloat(inputs.tiempoHoras.value) || 0;
             const minutos = parseFloat(inputs.tiempoMinutos.value) || 0;
             const tiempoTotalHoras = horas + (minutos / 60);
             const tarifaMaquina = parseFloat(inputs.costoHoraMaquina.value) || 0;
             const costoMaquina = tiempoTotalHoras * tarifaMaquina;
 
-            // 3. Extras
             const manoObra = parseFloat(inputs.costoManoObra.value) || 0;
             const insumosExtras = parseFloat(inputs.costoInsumosExtras.value) || 0;
 
-            // COSTO DIRECTO TOTAL
             const costoBaseTotal = costoFilamento + costoMaquina + manoObra + insumosExtras;
 
-            // 4. Ganancia y Comisión
             const porcentajeGanancia = (parseFloat(inputs.porcentajeGananciaInput.value) || 0) / 100;
             
             let porcentajeComision = 0;
@@ -653,8 +740,6 @@
                 porcentajeComision = (parseFloat(inputs.selectPlataforma.value) || 0) / 100;
             }
 
-            // FÓRMULA DE MARGEN REAL EN PRECIO FINAL:
-            // PrecioFinal = CostoBase / (1 - (%Ganancia + %Comision))
             let precioSugerido = 0;
             let montoGanancia = 0;
             let montoComision = 0;
@@ -666,13 +751,11 @@
                 montoGanancia = precioSugerido * porcentajeGanancia;
                 montoComision = precioSugerido * porcentajeComision;
             } else {
-                // Previene división por cero o resultados negativos si % sumados >= 100
                 precioSugerido = costoBaseTotal * (1 + porcentajeGanancia + porcentajeComision);
                 montoGanancia = costoBaseTotal * porcentajeGanancia;
                 montoComision = costoBaseTotal * porcentajeComision;
             }
 
-            // Render Results in UI
             outputs.precioFinal.textContent = Math.round(precioSugerido).toLocaleString('es-AR');
             outputs.costoBase.textContent = '$' + Math.round(costoBaseTotal).toLocaleString('es-AR');
             outputs.gananciaNeta.textContent = '$' + Math.round(montoGanancia).toLocaleString('es-AR');
@@ -680,7 +763,6 @@
             outputs.costoMaquina.textContent = '$' + Math.round(costoMaquina).toLocaleString('es-AR');
             outputs.comision.textContent = '$' + Math.round(montoComision).toLocaleString('es-AR');
 
-            // Render Chart
             actualizarGrafico(costoFilamento, costoMaquina, (manoObra + insumosExtras), montoGanancia, montoComision);
 
             return {
@@ -702,11 +784,11 @@
                 datasets: [{
                     data: [filamento, maquina, extras, ganancia, comision],
                     backgroundColor: [
-                        '#0ea5e9', // cyan-500
-                        '#0284c7', // cyan-600
-                        '#64748b', // slate-500
-                        '#10b981', // emerald-500
-                        '#f59e0b'  // amber-500
+                        '#0ea5e9',
+                        '#0284c7',
+                        '#64748b',
+                        '#10b981',
+                        '#f59e0b'
                     ],
                     borderWidth: 0
                 }]
@@ -747,7 +829,7 @@
         }
 
         // =======================================================
-        // COMBO / ITEM LIST MANAGEMENT
+        // COMBO / HISTORIAL MANAGEMENT
         // =======================================================
         function agregarAHistorial() {
             const calc = calcularTodo();
@@ -804,7 +886,6 @@
             renderHistorial();
         }
 
-        // Initialize App on Load
         window.onload = function() {
             initEvents();
         };
