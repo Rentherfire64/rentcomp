@@ -1,894 +1,482 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-950">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rentcomp Informática - Cotizador de Impresión 3D</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- JSZip for parsing .3mf zip contents client-side -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <!-- Chart.js for visual cost breakdown -->
+    <title>Calculadora de Presupuestos 3D - Rentcomp Informática</title>
+    <!-- Chart.js para gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            dark: '#0f172a',
-                            card: '#1e293b'
-                        }
-                    }
-                }
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --card-border: #1f2937;
+            --accent-blue: #2563eb;
+            --accent-cyan: #06b6d4;
+            --accent-hover: #1d4ed8;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #60a5fa, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
             }
         }
-    </script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-        
-        .drag-active {
-            border-color: #38bdf8 !important;
-            background-color: rgba(14, 165, 233, 0.08) !important;
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #d1d5db;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            color: var(--text-main);
+            padding: 0.65rem 0.85rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-preset {
+            background-color: #374151;
+            color: #d1d5db;
+            border: none;
+            padding: 0.35rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .btn-preset:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-action {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 0.85rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-top: 1rem;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        /* Resultados */
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1f2937;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        .result-item.highlight {
+            background: rgba(37, 99, 235, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--accent-cyan);
+        }
+
+        .chart-container {
+            position: relative;
+            max-width: 250px;
+            margin: 1rem auto;
+        }
+
+        /* Lista de Piezas / Combos */
+        .combo-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .combo-table th, .combo-table td {
+            padding: 0.6rem;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .combo-table th {
+            color: var(--text-muted);
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            color: var(--danger);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .total-combo {
+            margin-top: 1rem;
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--success);
         }
     </style>
 </head>
-<body class="h-full bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-cyan-500 selection:text-white">
+<body>
 
-    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-cube"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg leading-none bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
-                        Rentcomp Informática
-                    </h1>
-                    <p class="text-xs text-slate-400 font-medium">Cotizador Automático (.3mf / .gcode)</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-950 text-cyan-400 border border-cyan-800/60">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                    ARS ($)
-                </span>
-            </div>
-        </div>
+<div class="container">
+    <header>
+        <h1>Rentcomp Informática</h1>
+        <p>Calculadora Profesional de Presupuestos de Impresión 3D</p>
     </header>
 
-    <!-- NOTIFICATION CONTAINER (Replaces browser alert) -->
-    <div id="toastContainer" class="fixed top-20 right-4 z-50 space-y-2 max-w-md w-full px-4 pointer-events-none"></div>
+    <div class="grid">
+        <!-- Panel de Configuración e Insumos -->
+        <div class="card">
+            <h2>⚙️ Parámetros de la Pieza</h2>
+            
+            <div class="form-group">
+                <label for="nombrePieza">Nombre de la pieza / Trabajo</label>
+                <input type="text" id="nombrePieza" value="Soporte Personalizado">
+            </div>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="form-group">
+                <label for="pesoGramo">Peso de la Pieza (Gramos)</label>
+                <input type="number" id="pesoGramo" value="14" min="0" step="0.1" oninput="calcular()">
+            </div>
+
+            <div class="input-row">
+                <div class="form-group" style="flex: 1;">
+                    <label for="tiempoHoras">Horas</label>
+                    <input type="number" id="tiempoHoras" value="1" min="0" oninput="calcular()">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="tiempoMinutos">Minutos</label>
+                    <input type="number" id="tiempoMinutos" value="0" min="0" max="59" oninput="calcular()">
+                </div>
+            </div>
+
+            <h2 style="margin-top: 1.5rem;">💰 Costos y Parámetros</h2>
+
+            <div class="form-group">
+                <label for="precioKg">Precio Filamento (1 kg ARS)</label>
+                <input type="number" id="precioKg" value="28999" oninput="calcular()">
+            </div>
+
+            <div class="form-group">
+                <label for="horaMaquina">Valor Hora Máquina (ARS)</label>
+                <input type="number" id="horaMaquina" value="1800" oninput="calcular()">
+                <div class="preset-buttons">
+                    <button class="btn-preset" onclick="setValor('horaMaquina', 1300)">$1.300 (Económica)</button>
+                    <button class="btn-preset" onclick="setValor('horaMaquina', 1800)">$1.800 (Estándar)</button>
+                    <button class="btn-preset" onclick="setValor('horaMaquina', 2900)">$2.900 (Técnica)</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="margenGanancia">Ganancia Neta Deseada (%)</label>
+                <input type="number" id="margenGanancia" value="100" min="0" oninput="calcular()">
+            </div>
+
+            <div class="form-group">
+                <label for="comision">Medio de Cobro / Comisión</label>
+                <select id="comision" onchange="calcular()">
+                    <option value="0">Efectivo / Transferencia (0%)</option>
+                    <option value="10">Mercado Pago / POS (10%)</option>
+                    <option value="14">Mercado Libre / Tienda (14%)</option>
+                </select>
+            </div>
+
+            <button class="btn-action" onclick="agregarACombo()">➕ Agregar este Ítem al Presupuesto</button>
+        </div>
+
+        <!-- Panel de Resultados y Combos -->
+        <div>
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <h2>📊 Resumen del Cálculo</h2>
+                <div class="results-list">
+                    <div class="result-item">
+                        <span>Costo Filamento:</span>
+                        <span id="resFilamento">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Costo Hora Máquina:</span>
+                        <span id="resMaquina">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>Costo Total de Producción:</span>
+                        <span id="resCostoTotal">$0</span>
+                    </div>
+                    <div class="result-item highlight">
+                        <span>Precio de Venta Sugerido:</span>
+                        <span id="resPrecioFinal">$0</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="chartCostos"></canvas>
+                </div>
+            </div>
+
+            <!-- Lista Acumulada para Combos -->
+            <div class="card">
+                <h2>📋 Detalle del Combo / Trabajo Global</h2>
+                <table class="combo-table">
+                    <thead>
+                        <tr>
+                            <th>Pieza</th>
+                            <th>Peso</th>
+                            <th>Tiempo</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCombo">
+                        <!-- Ítems agregados dinámicamente -->
+                    </tbody>
+                </table>
+                <div class="total-combo">
+                    Total Presupuesto: <span id="resTotalCombo">$0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let myChart = null;
+    let comboItems = [];
+
+    function setValor(id, valor) {
+        document.getElementById(id).value = valor;
+        calcular();
+    }
+
+    function calcular() {
+        // Obtener valores de entrada
+        const peso = parseFloat(document.getElementById('pesoGramo').value) || 0;
+        const horas = parseFloat(document.getElementById('tiempoHoras').value) || 0;
+        const minutos = parseFloat(document.getElementById('tiempoMinutos').value) || 0;
+        const precioKg = parseFloat(document.getElementById('precioKg').value) || 0;
+        const horaMaquina = parseFloat(document.getElementById('horaMaquina').value) || 0;
+        const margenPorcentaje = parseFloat(document.getElementById('margenGanancia').value) || 0;
+        const comisionPorcentaje = parseFloat(document.getElementById('comision').value) || 0;
+
+        // Cálculos
+        const costoFilamento = (precioKg / 1000) * peso;
+        const tiempoTotalHoras = horas + (minutos / 60);
+        const costoMaquina = tiempoTotalHoras * horaMaquina;
+        const costoDirecto = costoFilamento + costoMaquina;
+
+        // Fórmula de Margen Real sobre Venta Final
+        // Precio = CostoDirecto * (1 + Margen%) / (1 - %Comision)
+        const comisionDecimal = comisionPorcentaje / 100;
+        const margenDecimal = margenPorcentaje / 100;
+
+        let precioFinal = 0;
+        if (comisionDecimal < 1) {
+            const precioSinComision = costoDirecto * (1 + margenDecimal);
+            precioFinal = precioSinComision / (1 - comisionDecimal);
+        }
+
+        const gananciaLimpia = (precioFinal * (1 - comisionDecimal)) - costoDirecto;
+        const montoComision = precioFinal * comisionDecimal;
+
+        // Renderizar Resultados
+        document.getElementById('resFilamento').innerText = formatARS(costoFilamento);
+        document.getElementById('resMaquina').innerText = formatARS(costoMaquina);
+        document.getElementById('resCostoTotal').innerText = formatARS(costoDirecto);
+        document.getElementById('resPrecioFinal').innerText = formatARS(precioFinal);
+
+        // Actualizar Gráfico
+        renderChart(costoDirecto, Math.max(0, gananciaLimpia), montoComision);
+
+        return {
+            nombre: document.getElementById('nombrePieza').value || 'Pieza',
+            peso,
+            tiempoTexto: `${horas}h ${minutos}m`,
+            precioFinal
+        };
+    }
+
+    function formatARS(valor) {
+        return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(valor);
+    }
+
+    function renderChart(costo, ganancia, comision) {
+        const ctx = document.getElementById('chartCostos').getContext('2d');
         
-        <div class="lg:col-span-7 space-y-6">
-            
-            <!-- DROPZONE FILE UPLOADER -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center gap-2 text-cyan-400 font-semibold text-sm">
-                        <i class="fa-solid fa-file-import"></i>
-                        <h2>Carga Automática de Archivo</h2>
-                    </div>
-                    <span class="text-[11px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded-md border border-slate-700">
-                        Bambu, Orca, Prusa, Cura, Creality
-                    </span>
-                </div>
-
-                <!-- Drag & Drop Box -->
-                <div id="dropZone" class="border-2 border-dashed border-slate-700 hover:border-cyan-500/70 rounded-xl p-6 text-center cursor-pointer bg-slate-950/50 hover:bg-slate-900/50 transition-all group relative overflow-hidden">
-                    <input type="file" id="fileInput" accept=".gcode,.3mf" class="hidden">
-                    
-                    <div id="dropZonePrompt" class="space-y-2">
-                        <div class="w-12 h-12 mx-auto rounded-full bg-slate-800 group-hover:bg-cyan-950 group-hover:text-cyan-400 text-slate-400 flex items-center justify-center transition-colors">
-                            <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-slate-200">
-                                Arrastrá acá tu archivo <span class="text-cyan-400 font-bold">.3mf</span> o <span class="text-cyan-400 font-bold">.gcode</span>
-                            </p>
-                            <p class="text-xs text-slate-400 mt-0.5">o hacé clic para seleccionar desde tu equipo</p>
-                        </div>
-                    </div>
-
-                    <!-- File Loaded Status Badge -->
-                    <div id="fileLoadedBadge" class="hidden flex items-center justify-between bg-slate-900 border border-cyan-500/40 p-3 rounded-lg text-left">
-                        <div class="flex items-center gap-3 overflow-hidden">
-                            <div class="w-10 h-10 rounded-lg bg-cyan-950 text-cyan-400 flex items-center justify-center flex-shrink-0">
-                                <i class="fa-solid fa-file-code text-lg"></i>
-                            </div>
-                            <div class="truncate">
-                                <p id="fileNameDisplay" class="text-xs font-bold text-slate-100 truncate">archivo.3mf</p>
-                                <p id="fileMetaDisplay" class="text-[11px] text-cyan-400 font-medium">Extraído: 0g | 0h 0m</p>
-                            </div>
-                        </div>
-                        <button type="button" id="btnRemoveFile" class="text-slate-500 hover:text-rose-400 p-2 transition-colors">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 1: Material & Filamento -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2 text-sm">
-                    <i class="fa-solid fa-spool"></i>
-                    <h2>1. Material & Filamento</h2>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Precio Rollo 1 kg ($ ARS)</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-2.5 text-slate-500 text-sm">$</span>
-                            <input type="number" id="precioFilamento" value="28999" step="500" min="0"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Peso Consumido (Gramos)</label>
-                        <div class="relative">
-                            <input type="number" id="pesoGramos" value="14" min="0" step="0.1"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-10 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 transition-colors">
-                            <span class="absolute right-3 top-2.5 text-xs text-slate-500 font-medium">g</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 2: Tiempo e Impresora -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2 text-sm">
-                    <i class="fa-solid fa-clock"></i>
-                    <h2>2. Tiempo & Hora de Máquina</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Tiempo Estimado</label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="relative">
-                                <input type="number" id="tiempoHoras" value="1" min="0"
-                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                                <span class="absolute right-2.5 top-2.5 text-xs text-slate-500">hs</span>
-                            </div>
-                            <div class="relative">
-                                <input type="number" id="tiempoMinutos" value="0" min="0" max="59"
-                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                                <span class="absolute right-2.5 top-2.5 text-xs text-slate-500">min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Valor por Hora de Máquina ($ ARS)</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-2.5 text-slate-500 text-sm">$</span>
-                            <input type="number" id="costoHoraMaquina" value="1800" step="100" min="0"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Presets valor hora -->
-                <div>
-                    <span class="text-xs text-slate-400 block mb-2 font-medium">Presets sugeridos por hora:</span>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button type="button" onclick="setPresetHora(1300)" class="py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:border-cyan-500 hover:text-cyan-400 transition-all text-center">
-                            $1.300 <span class="block text-[10px] text-slate-500 font-normal">Básica</span>
-                        </button>
-                        <button type="button" onclick="setPresetHora(1800)" class="py-1.5 px-2 bg-slate-950 border border-cyan-800/60 rounded-lg text-xs font-medium text-cyan-400 hover:border-cyan-500 transition-all text-center">
-                            $1.800 <span class="block text-[10px] text-slate-400 font-normal">Estándar</span>
-                        </button>
-                        <button type="button" onclick="setPresetHora(2900)" class="py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:border-cyan-500 hover:text-cyan-400 transition-all text-center">
-                            $2.900 <span class="block text-[10px] text-slate-500 font-normal">Pro / Técnica</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 3: Post-procesamiento & Costos Extras -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2 text-sm">
-                    <i class="fa-solid fa-user-gear"></i>
-                    <h2>3. Post-Procesado & Costos Adicionales</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Mano de Obra / Preparación ($)</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-2.5 text-slate-500 text-sm">$</span>
-                            <input type="number" id="costoManoObra" value="0" step="100" min="0"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-medium text-slate-400 mb-1">Empaque & Adicionales ($)</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-2.5 text-slate-500 text-sm">$</span>
-                            <input type="number" id="costoInsumosExtras" value="100" step="50" min="0"
-                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION 4: Margen y Comercialización -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2 text-sm">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <h2>4. Ganancia Neta & Canal de Venta</h2>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between items-center mb-1">
-                            <label class="text-xs font-medium text-slate-400">Porcentaje de Ganancia Deseado (%)</label>
-                            <div class="flex items-center gap-1">
-                                <input type="number" id="porcentajeGananciaInput" value="50" min="0" max="500" class="w-16 bg-slate-950 border border-slate-800 rounded text-center text-xs py-1 text-cyan-400 font-bold focus:outline-none focus:border-cyan-500">
-                                <span class="text-xs text-cyan-400 font-bold">%</span>
-                            </div>
-                        </div>
-                        <input type="range" id="porcentajeGananciaSlider" min="0" max="200" value="50" step="5"
-                            class="w-full h-2 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-cyan-500">
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Medio de Cobro / Plataforma</label>
-                            <select id="selectPlataforma" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                                <option value="0">Efectivo / Transferencia (0%)</option>
-                                <option value="10" selected>Mercado Pago / Link (10%)</option>
-                                <option value="14">Mercado Libre / Tienda (14%)</option>
-                                <option value="custom">Personalizada...</option>
-                            </select>
-                        </div>
-
-                        <div id="containerCustomComision" class="hidden">
-                            <label class="block text-xs font-medium text-slate-400 mb-1">Comisión Personalizada (%)</label>
-                            <div class="relative">
-                                <input type="number" id="comisionCustomInput" value="10" min="0" max="100" step="0.5"
-                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                                <span class="absolute right-3 top-2.5 text-xs text-slate-500">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DETALLES DE LA PIEZA / BOTON DE GUARDADO -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex gap-3 items-center">
-                <input type="text" id="nombrePieza" placeholder="Nombre de la Pieza / Trabajo" value="Pieza 3D Personalizada"
-                    class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
-                <button id="btnAgregarHistorial" class="bg-cyan-600 hover:bg-cyan-500 text-white font-semibold px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg shadow-cyan-600/20 whitespace-nowrap active:scale-[0.98]">
-                    <i class="fa-solid fa-plus"></i> Agregar al Combo
-                </button>
-            </div>
-
-        </div>
-
-        <div class="lg:col-span-5 space-y-6">
-            
-            <!-- PRECIO FINAL DESTACADO CARD -->
-            <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-slate-900/90 border-2 border-cyan-500/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
-                
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400">Precio Sugerido de Venta</span>
-                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Recomendado</span>
-                </div>
-
-                <div class="flex items-baseline gap-1 my-2">
-                    <span class="text-2xl font-bold text-cyan-400">$</span>
-                    <span id="resPrecioFinal" class="text-4xl sm:text-5xl font-black tracking-tight text-white">0</span>
-                    <span class="text-xs text-slate-500 font-medium ml-1">ARS</span>
-                </div>
-
-                <p class="text-xs text-slate-400 mb-6">
-                    Garantiza exactamente tu margen deseado cubriendo costos y comisiones.
-                </p>
-
-                <!-- DESGLOSE RESUMEN -->
-                <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800">
-                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Directo Total</span>
-                        <span id="resCostoBase" class="text-base font-bold text-slate-200">$0</span>
-                    </div>
-
-                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[11px] text-slate-400 block mb-0.5">Ganancia Neta</span>
-                        <span id="resGananciaNeta" class="text-base font-bold text-emerald-400">$0</span>
-                    </div>
-
-                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Filamento</span>
-                        <span id="resCostoFilamento" class="text-sm font-semibold text-slate-300">$0</span>
-                    </div>
-
-                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Máquina</span>
-                        <span id="resCostoMaquina" class="text-sm font-semibold text-slate-300">$0</span>
-                    </div>
-
-                    <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 col-span-2 flex justify-between items-center">
-                        <span class="text-[11px] text-slate-400">Comisión de Plataforma</span>
-                        <span id="resComision" class="text-sm font-semibold text-amber-400">$0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GRAFICO DE DISTRIBUCION -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
-                    <i class="fa-solid fa-chart-pie text-cyan-400"></i> Distribución de Costos y Ganancia
-                </h3>
-                <div class="h-44 relative flex items-center justify-center">
-                    <canvas id="costChart"></canvas>
-                </div>
-            </div>
-
-            <!-- HISTORIAL / LISTA DE COMBOS -->
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group text-cyan-400"></i> Presupuesto Acumulado / Combo
-                    </h3>
-                    <button id="btnVaciarHistorial" class="text-[11px] text-slate-500 hover:text-rose-400 transition-colors">
-                        Vaciar
-                    </button>
-                </div>
-
-                <div id="listaHistorial" class="space-y-2 max-h-52 overflow-y-auto pr-1">
-                    <p class="text-xs text-slate-500 text-center py-4 italic">No hay piezas en la lista.</p>
-                </div>
-
-                <div id="totalComboContainer" class="hidden mt-3 pt-3 border-t border-slate-800 flex justify-between items-center">
-                    <span class="text-xs font-semibold text-slate-300">Total Combo Final:</span>
-                    <span id="resTotalCombo" class="text-lg font-black text-cyan-400">$0</span>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="mt-auto border-t border-slate-800 py-4 bg-slate-900/50">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            Rentcomp Informática &copy; <span id="year">2026</span> - Cotizador Técnico Profesional
-        </div>
-    </footer>
-
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        let chartInstance = null;
-        let listaPiezas = [];
-
-        // DOM Inputs
-        const inputs = {
-            precioFilamento: document.getElementById('precioFilamento'),
-            pesoGramos: document.getElementById('pesoGramos'),
-            tiempoHoras: document.getElementById('tiempoHoras'),
-            tiempoMinutos: document.getElementById('tiempoMinutos'),
-            costoHoraMaquina: document.getElementById('costoHoraMaquina'),
-            costoManoObra: document.getElementById('costoManoObra'),
-            costoInsumosExtras: document.getElementById('costoInsumosExtras'),
-            porcentajeGananciaInput: document.getElementById('porcentajeGananciaInput'),
-            porcentajeGananciaSlider: document.getElementById('porcentajeGananciaSlider'),
-            selectPlataforma: document.getElementById('selectPlataforma'),
-            comisionCustomInput: document.getElementById('comisionCustomInput'),
-            containerCustomComision: document.getElementById('containerCustomComision'),
-            nombrePieza: document.getElementById('nombrePieza'),
-            fileInput: document.getElementById('fileInput')
-        };
-
-        // DOM Outputs
-        const outputs = {
-            precioFinal: document.getElementById('resPrecioFinal'),
-            costoBase: document.getElementById('resCostoBase'),
-            gananciaNeta: document.getElementById('resGananciaNeta'),
-            costoFilamento: document.getElementById('resCostoFilamento'),
-            costoMaquina: document.getElementById('resCostoMaquina'),
-            comision: document.getElementById('resComision'),
-            dropZonePrompt: document.getElementById('dropZonePrompt'),
-            fileLoadedBadge: document.getElementById('fileLoadedBadge'),
-            fileNameDisplay: document.getElementById('fileNameDisplay'),
-            fileMetaDisplay: document.getElementById('fileMetaDisplay')
-        };
-
-        // Custom UI Notification Banner
-        function showNotification(message, type = 'warning') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            
-            const isWarning = type === 'warning';
-            const bgClass = isWarning ? 'bg-amber-950/90 border-amber-600/60 text-amber-200' : 'bg-rose-950/90 border-rose-600/60 text-rose-200';
-            const iconClass = isWarning ? 'fa-triangle-exclamation text-amber-400' : 'fa-circle-xmark text-rose-400';
-
-            toast.className = `pointer-events-auto flex items-start gap-3 p-4 rounded-xl border shadow-2xl backdrop-blur-md transition-all duration-300 transform translate-y-2 opacity-0 ${bgClass}`;
-            toast.innerHTML = `
-                <i class="fa-solid ${iconClass} text-lg mt-0.5"></i>
-                <div class="flex-1 text-xs leading-relaxed">
-                    ${message}
-                </div>
-                <button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white transition-colors">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            `;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 7000);
+        if (myChart) {
+            myChart.destroy();
         }
 
-        function initEvents() {
-            Object.values(inputs).forEach(input => {
-                if (input) {
-                    input.addEventListener('input', calcularTodo);
-                    input.addEventListener('change', calcularTodo);
-                }
-            });
-
-            inputs.porcentajeGananciaSlider.addEventListener('input', (e) => {
-                inputs.porcentajeGananciaInput.value = e.target.value;
-                calcularTodo();
-            });
-
-            inputs.porcentajeGananciaInput.addEventListener('input', (e) => {
-                inputs.porcentajeGananciaSlider.value = e.target.value;
-                calcularTodo();
-            });
-
-            inputs.selectPlataforma.addEventListener('change', (e) => {
-                if (e.target.value === 'custom') {
-                    inputs.containerCustomComision.classList.remove('hidden');
-                } else {
-                    inputs.containerCustomComision.classList.add('hidden');
-                }
-                calcularTodo();
-            });
-
-            const dropZone = document.getElementById('dropZone');
-
-            dropZone.addEventListener('click', () => inputs.fileInput.click());
-
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.add('drag-active');
-                }, false);
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.remove('drag-active');
-                }, false);
-            });
-
-            dropZone.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                if (dt.files && dt.files.length > 0) {
-                    procesarArchivo(dt.files[0]);
-                }
-            });
-
-            inputs.fileInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) {
-                    procesarArchivo(e.target.files[0]);
-                }
-            });
-
-            document.getElementById('btnRemoveFile').addEventListener('click', (e) => {
-                e.stopPropagation();
-                limpiarArchivo();
-            });
-
-            document.getElementById('btnAgregarHistorial').addEventListener('click', agregarAHistorial);
-            document.getElementById('btnVaciarHistorial').addEventListener('click', () => {
-                listaPiezas = [];
-                renderHistorial();
-            });
-
-            calcularTodo();
-        }
-
-        function setPresetHora(valor) {
-            inputs.costoHoraMaquina.value = valor;
-            calcularTodo();
-        }
-
-        // =======================================================
-        // ADVANCED .3MF / .GCODE MULTI-FILE ZIP PARSER
-        // =======================================================
-        async function procesarArchivo(file) {
-            const fileName = file.name.toLowerCase();
-
-            try {
-                if (fileName.endsWith('.gcode')) {
-                    const text = await file.text();
-                    const resultado = extraerMetadatosDeTexto(text);
-                    if (resultado.encontrado) {
-                        aplicarDatosExtraidos(resultado, file.name);
-                    } else {
-                        showNotification('Se cargó el archivo .gcode pero no contiene información de gramos o tiempo. Por favor ingresalos manualmente.', 'warning');
-                        aplicarDatosParciales(file.name);
-                    }
-                } else if (fileName.endsWith('.3mf')) {
-                    const zip = await JSZip.loadAsync(file);
-                    
-                    let bestResult = { gramos: 0, minutos: 0, encontrado: false };
-                    
-                    // Scan ALL readable text files inside .3mf container regardless of folder location
-                    const candidateFiles = Object.keys(zip.files).filter(path => {
-                        const lower = path.toLowerCase();
-                        return lower.endsWith('.gcode') || 
-                               lower.endsWith('.config') || 
-                               lower.endsWith('.xml') || 
-                               lower.endsWith('.txt') ||
-                               lower.includes('metadata/');
-                    });
-
-                    for (const path of candidateFiles) {
-                        try {
-                            const content = await zip.files[path].async('string');
-                            const parsed = extraerMetadatosDeTexto(content);
-                            
-                            if (parsed.gramos > bestResult.gramos) bestResult.gramos = parsed.gramos;
-                            if (parsed.minutos > bestResult.minutos) bestResult.minutos = parsed.minutos;
-                            if (parsed.encontrado) bestResult.encontrado = true;
-                        } catch (err) {
-                            // Ignore non-text files inside zip
-                        }
-                    }
-
-                    if (bestResult.encontrado && (bestResult.gramos > 0 || bestResult.minutos > 0)) {
-                        aplicarDatosExtraidos(bestResult, file.name);
-                    } else {
-                        showNotification('El archivo .3mf cargado es un modelo 3D sin laminado previo (o no incluye metadatos de impresión). Podés ingresar los gramos y tiempo manualmente.', 'warning');
-                        aplicarDatosParciales(file.name);
-                    }
-                } else {
-                    showNotification('Formato no soportado. Seleccioná un archivo .3mf o .gcode', 'error');
-                }
-            } catch (err) {
-                console.error("Error al procesar archivo:", err);
-                showNotification('No se pudo descomprimir el archivo. Verificá que el .3mf sea un proyecto válido.', 'error');
-            }
-        }
-
-        function extraerMetadatosDeTexto(texto) {
-            let gramos = 0;
-            let minutos = 0;
-            let encontrado = false;
-
-            // 1. GRAMS REGEX PATTERNS (Bambu, Orca, Prusa, Cura, XML attributes)
-            const gramosRegexes = [
-                /(?:filament used \[g\]|filament_weight|used_filament_g|weight|used_g|filament_weight_type)\s*[:=]\s*["']?([\d\.]+)/i,
-                /weight\s*=\s*["']([\d\.]+)["']/i,
-                /<plate[^>]*weight\s*=\s*["']([\d\.]+)["']/i,
-                /;\s*Filament used\s*:\s*([\d\.]+)g/i,
-                /;\s*used_filament\s*=\s*([\d\.]+)/i
-            ];
-
-            for (let reg of gramosRegexes) {
-                const match = texto.match(reg);
-                if (match && match[1]) {
-                    const val = parseFloat(match[1]);
-                    if (!isNaN(val) && val > 0) {
-                        gramos = val;
-                        encontrado = true;
-                        break;
-                    }
-                }
-            }
-
-            // 2. TIME REGEX PATTERNS
-            // Seconds
-            const timeSecondsMatch = texto.match(/(?:TIME|prediction|total_time)\s*[:=]\s*["']?(\d+)["']?/i);
-            if (timeSecondsMatch && timeSecondsMatch[1]) {
-                const sec = parseFloat(timeSecondsMatch[1]);
-                if (sec > 0) {
-                    minutos = sec / 60;
-                    encontrado = true;
-                }
-            }
-
-            // Textual formats (e.g., "1h 15m 30s" or "45m 10s")
-            if (minutos === 0) {
-                const stringTimeMatch = texto.match(/(?:estimated printing time|Print time|print_time|prediction)\s*[:=]\s*["']?([^"'\r\n]+)["']?/i);
-                if (stringTimeMatch && stringTimeMatch[1]) {
-                    const parsedMins = parsearTiempoTexto(stringTimeMatch[1]);
-                    if (parsedMins > 0) {
-                        minutos = parsedMins;
-                        encontrado = true;
-                    }
-                }
-            }
-
-            // XML Attribute time
-            if (minutos === 0) {
-                const xmlTimeMatch = texto.match(/<plate[^>]*time\s*=\s*["']([\d\.]+)["']/i);
-                if (xmlTimeMatch && xmlTimeMatch[1]) {
-                    const sec = parseFloat(xmlTimeMatch[1]);
-                    if (sec > 0) {
-                        minutos = sec / 60;
-                        encontrado = true;
-                    }
-                }
-            }
-
-            return { gramos, minutos, encontrado };
-        }
-
-        function parsearTiempoTexto(cadena) {
-            let totalMins = 0;
-            const horasMatch = cadena.match(/(\d+)\s*h/i);
-            const minsMatch = cadena.match(/(\d+)\s*m/i);
-            const segsMatch = cadena.match(/(\d+)\s*s/i);
-
-            if (horasMatch) totalMins += parseInt(horasMatch[1]) * 60;
-            if (minsMatch) totalMins += parseInt(minsMatch[1]);
-            if (segsMatch) totalMins += parseInt(segsMatch[1]) / 60;
-
-            // If it was just a raw number without units
-            if (!horasMatch && !minsMatch && !segsMatch && !isNaN(cadena)) {
-                totalMins = parseFloat(cadena) / 60;
-            }
-
-            return totalMins;
-        }
-
-        function aplicarDatosExtraidos(datos, filename) {
-            if (datos.gramos > 0) {
-                inputs.pesoGramos.value = datos.gramos.toFixed(1);
-            }
-
-            if (datos.minutos > 0) {
-                const hs = Math.floor(datos.minutos / 60);
-                const mins = Math.round(datos.minutos % 60);
-                inputs.tiempoHoras.value = hs;
-                inputs.tiempoMinutos.value = mins;
-            }
-
-            const cleanName = filename.replace(/\.(gcode|3mf)$/i, '').replace(/[-_]/g, ' ');
-            inputs.nombrePieza.value = cleanName;
-
-            outputs.dropZonePrompt.classList.add('hidden');
-            outputs.fileLoadedBadge.classList.remove('hidden');
-            outputs.fileNameDisplay.textContent = filename;
-            outputs.fileMetaDisplay.textContent = `Extraído: ${datos.gramos.toFixed(1)}g | ${Math.floor(datos.minutos/60)}h ${Math.round(datos.minutos%60)}m`;
-
-            calcularTodo();
-        }
-
-        function aplicarDatosParciales(filename) {
-            const cleanName = filename.replace(/\.(gcode|3mf)$/i, '').replace(/[-_]/g, ' ');
-            inputs.nombrePieza.value = cleanName;
-
-            outputs.dropZonePrompt.classList.add('hidden');
-            outputs.fileLoadedBadge.classList.remove('hidden');
-            outputs.fileNameDisplay.textContent = filename;
-            outputs.fileMetaDisplay.textContent = `Ingresá peso y tiempo manualmente`;
-        }
-
-        function limpiarArchivo() {
-            inputs.fileInput.value = '';
-            outputs.dropZonePrompt.classList.remove('hidden');
-            outputs.fileLoadedBadge.classList.add('hidden');
-        }
-
-        // =======================================================
-        // FINANCIAL CALCULATION ENGINE
-        // =======================================================
-        function calcularTodo() {
-            const precioRollo = parseFloat(inputs.precioFilamento.value) || 0;
-            const gramos = parseFloat(inputs.pesoGramos.value) || 0;
-            const costoGramo = precioRollo / 1000;
-            const costoFilamento = gramos * costoGramo;
-
-            const horas = parseFloat(inputs.tiempoHoras.value) || 0;
-            const minutos = parseFloat(inputs.tiempoMinutos.value) || 0;
-            const tiempoTotalHoras = horas + (minutos / 60);
-            const tarifaMaquina = parseFloat(inputs.costoHoraMaquina.value) || 0;
-            const costoMaquina = tiempoTotalHoras * tarifaMaquina;
-
-            const manoObra = parseFloat(inputs.costoManoObra.value) || 0;
-            const insumosExtras = parseFloat(inputs.costoInsumosExtras.value) || 0;
-
-            const costoBaseTotal = costoFilamento + costoMaquina + manoObra + insumosExtras;
-
-            const porcentajeGanancia = (parseFloat(inputs.porcentajeGananciaInput.value) || 0) / 100;
-            
-            let porcentajeComision = 0;
-            if (inputs.selectPlataforma.value === 'custom') {
-                porcentajeComision = (parseFloat(inputs.comisionCustomInput.value) || 0) / 100;
-            } else {
-                porcentajeComision = (parseFloat(inputs.selectPlataforma.value) || 0) / 100;
-            }
-
-            let precioSugerido = 0;
-            let montoGanancia = 0;
-            let montoComision = 0;
-
-            const divisor = 1 - (porcentajeGanancia + porcentajeComision);
-
-            if (divisor > 0) {
-                precioSugerido = costoBaseTotal / divisor;
-                montoGanancia = precioSugerido * porcentajeGanancia;
-                montoComision = precioSugerido * porcentajeComision;
-            } else {
-                precioSugerido = costoBaseTotal * (1 + porcentajeGanancia + porcentajeComision);
-                montoGanancia = costoBaseTotal * porcentajeGanancia;
-                montoComision = costoBaseTotal * porcentajeComision;
-            }
-
-            outputs.precioFinal.textContent = Math.round(precioSugerido).toLocaleString('es-AR');
-            outputs.costoBase.textContent = '$' + Math.round(costoBaseTotal).toLocaleString('es-AR');
-            outputs.gananciaNeta.textContent = '$' + Math.round(montoGanancia).toLocaleString('es-AR');
-            outputs.costoFilamento.textContent = '$' + Math.round(costoFilamento).toLocaleString('es-AR');
-            outputs.costoMaquina.textContent = '$' + Math.round(costoMaquina).toLocaleString('es-AR');
-            outputs.comision.textContent = '$' + Math.round(montoComision).toLocaleString('es-AR');
-
-            actualizarGrafico(costoFilamento, costoMaquina, (manoObra + insumosExtras), montoGanancia, montoComision);
-
-            return {
-                precioSugerido,
-                costoBaseTotal,
-                montoGanancia,
-                montoComision,
-                costoFilamento,
-                costoMaquina,
-                gramos
-            };
-        }
-
-        function actualizarGrafico(filamento, maquina, extras, ganancia, comision) {
-            const ctx = document.getElementById('costChart').getContext('2d');
-
-            const data = {
-                labels: ['Filamento', 'Máquina', 'Extras', 'Ganancia Neta', 'Comisión'],
+        myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Costo Directo', 'Ganancia Neta', 'Comisión / Impuesto'],
                 datasets: [{
-                    data: [filamento, maquina, extras, ganancia, comision],
-                    backgroundColor: [
-                        '#0ea5e9',
-                        '#0284c7',
-                        '#64748b',
-                        '#10b981',
-                        '#f59e0b'
-                    ],
+                    data: [costo, ganancia, comision],
+                    backgroundColor: ['#ef4444', '#10b981', '#f59e0b'],
                     borderWidth: 0
                 }]
-            };
-
-            if (chartInstance) {
-                chartInstance.data = data;
-                chartInstance.update();
-            } else {
-                chartInstance = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                                labels: {
-                                    color: '#94a3b8',
-                                    font: { size: 10 }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.label || '';
-                                        let value = context.raw || 0;
-                                        return `${label}: $${Math.round(value).toLocaleString('es-AR')}`;
-                                    }
-                                }
-                            }
-                        },
-                        cutout: '65%'
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
                     }
-                });
+                },
+                cutout: '70%'
             }
-        }
+        });
+    }
 
-        // =======================================================
-        // COMBO / HISTORIAL MANAGEMENT
-        // =======================================================
-        function agregarAHistorial() {
-            const calc = calcularTodo();
-            const nombre = inputs.nombrePieza.value || 'Pieza 3D';
+    function agregarACombo() {
+        const itemActual = calcular();
+        if (itemActual.precioFinal <= 0) return;
 
-            listaPiezas.push({
-                nombre: nombre,
-                precio: Math.round(calc.precioSugerido),
-                gramos: calc.gramos
-            });
+        comboItems.push(itemActual);
+        actualizarTablaCombo();
+    }
 
-            renderHistorial();
-        }
+    function eliminarItem(index) {
+        comboItems.splice(index, 1);
+        actualizarTablaCombo();
+    }
 
-        function renderHistorial() {
-            const container = document.getElementById('listaHistorial');
-            const containerTotal = document.getElementById('totalComboContainer');
-            const resTotalCombo = document.getElementById('resTotalCombo');
+    function actualizarTablaCombo() {
+        const tbody = document.getElementById('tablaCombo');
+        tbody.innerHTML = '';
+        let total = 0;
 
-            if (listaPiezas.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4 italic">No hay piezas en la lista.</p>`;
-                containerTotal.classList.add('hidden');
-                return;
-            }
+        comboItems.forEach((item, index) => {
+            total += item.precioFinal;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${item.nombre}</td>
+                <td>${item.peso} g</td>
+                <td>${item.tiempoTexto}</td>
+                <td>${formatARS(item.precioFinal)}</td>
+                <td><button class="btn-danger" onclick="eliminarItem(${index})">✕</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
 
-            container.innerHTML = '';
-            let total = 0;
+        document.getElementById('resTotalCombo').innerText = formatARS(total);
+    }
 
-            listaPiezas.forEach((pieza, index) => {
-                total += pieza.precio;
-                const item = document.createElement('div');
-                item.className = 'flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs';
-                item.innerHTML = `
-                    <div class="truncate mr-2">
-                        <span class="font-medium text-slate-200 block truncate">${pieza.nombre}</span>
-                        <span class="text-[10px] text-slate-500">${pieza.gramos}g</span>
-                    </div>
-                    <div class="flex items-center gap-2 flex-shrink-0">
-                        <span class="font-bold text-cyan-400">$${pieza.precio.toLocaleString('es-AR')}</span>
-                        <button onclick="eliminarDelHistorial(${index})" class="text-slate-500 hover:text-rose-400 p-1">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(item);
-            });
+    // Inicializar al cargar
+    calcular();
+</script>
 
-            resTotalCombo.textContent = '$' + total.toLocaleString('es-AR');
-            containerTotal.classList.remove('hidden');
-        }
-
-        function eliminarDelHistorial(index) {
-            listaPiezas.splice(index, 1);
-            renderHistorial();
-        }
-
-        window.onload = function() {
-            initEvents();
-        };
-    </script>
 </body>
 </html>
