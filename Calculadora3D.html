@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentcomp Informática - Cotizador Profesional Impresión 3D</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            dark: '#0b132b',
+                            card: '#1c2541'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* Input number spin buttons removal optional or styled */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-950 text-slate-100 flex flex-col antialiased selection:bg-cyan-500 selection:text-white">
+
+    <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-none bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+                        Rentcomp Informática
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium">Cotizador Profesional de Impresión 3D</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-950/80 text-cyan-400 border border-cyan-800/50">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    ARS (Pesos Argentinos)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- LEFT COLUMN: CONTROLS & INPUTS (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+            
+            <!-- SECTION 1: Filamento -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all duration-200 hover:border-slate-700">
+                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-spool"></i>
+                    <h2>1. Material & Filamento</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Precio Rollo 1 kg ($ ARS)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <input type="number" id="precioFilamento" value="28999" step="500" min="0"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Peso Consumido (Gramos)</label>
+                        <div class="relative">
+                            <input type="number" id="pesoGramos" value="14" min="0" step="1"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-10 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors">
+                            <span class="absolute right-3 top-2.5 text-xs text-slate-500 font-medium">g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: Tiempo e Impresora -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all duration-200 hover:border-slate-700">
+                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-clock"></i>
+                    <h2>2. Tiempo & Uso de Máquina</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Tiempo de Impresión</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="relative">
+                                <input type="number" id="tiempoHoras" value="1" min="0"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                                <span class="absolute right-2.5 top-2.5 text-xs text-slate-500">hs</span>
+                            </div>
+                            <div class="relative">
+                                <input type="number" id="tiempoMinutos" value="0" min="0" max="59"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                                <span class="absolute right-2.5 top-2.5 text-xs text-slate-500">min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Valor por Hora de Máquina ($)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <input type="number" id="costoHoraMaquina" value="1800" step="100" min="0"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Presets valor hora -->
+                <div>
+                    <span class="text-xs text-slate-400 block mb-2 font-medium">Presets rápidos por hora:</span>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="setPresetHora(1300)" class="py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:border-cyan-500 hover:text-cyan-400 transition-all text-center">
+                            $1.300 <span class="block text-[10px] text-slate-500 font-normal">Económica</span>
+                        </button>
+                        <button type="button" onclick="setPresetHora(1800)" class="py-1.5 px-2 bg-slate-950 border border-cyan-800/60 rounded-lg text-xs font-medium text-cyan-400 hover:border-cyan-500 transition-all text-center">
+                            $1.800 <span class="block text-[10px] text-slate-400 font-normal">Estándar</span>
+                        </button>
+                        <button type="button" onclick="setPresetHora(2900)" class="py-1.5 px-2 bg-slate-950 border border-slate-800 rounded-lg text-xs font-medium text-slate-300 hover:border-cyan-500 hover:text-cyan-400 transition-all text-center">
+                            $2.900 <span class="block text-[10px] text-slate-500 font-normal">Pro / Técnica</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Post-procesamiento & Costos Extras -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all duration-200 hover:border-slate-700">
+                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-user-gear"></i>
+                    <h2>3. Mano de Obra & Costos Fijos</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Mano de Obra / Slicing / Lijado ($)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <input type="number" id="costoManoObra" value="0" step="100" min="0"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Empaque & Insumos Extras ($)</label>
+                        <div class="relative">
+                            <span class="absolute left-3 top-2.5 text-slate-500">$</span>
+                            <input type="number" id="costoInsumosExtras" value="100" step="50" min="0"
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-7 pr-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Margen y Comercialización -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl transition-all duration-200 hover:border-slate-700">
+                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-semibold border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h2>4. Ganancia & Canal de Venta</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- Range Slider de Ganancia -->
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-xs font-medium text-slate-400">Ganancia Deseada (%)</label>
+                            <div class="flex items-center gap-1">
+                                <input type="number" id="porcentajeGananciaInput" value="50" min="0" max="500" class="w-16 bg-slate-950 border border-slate-800 rounded text-center text-xs py-1 text-cyan-400 font-bold focus:outline-none focus:border-cyan-500">
+                                <span class="text-xs text-cyan-400 font-bold">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="porcentajeGananciaSlider" min="0" max="200" value="50" step="5"
+                            class="w-full h-2 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Medio de Cobro / Plataforma</label>
+                            <select id="selectPlataforma" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                                <option value="0">Efectivo / Transferencia (0%)</option>
+                                <option value="10" selected>Mercado Pago / Link (10%)</option>
+                                <option value="14">Mercado Libre / Tienda (14%)</option>
+                                <option value="custom">Personalizada...</option>
+                            </select>
+                        </div>
+
+                        <div id="containerCustomComision" class="hidden">
+                            <label class="block text-xs font-medium text-slate-400 mb-1">Comisión Personalizada (%)</label>
+                            <div class="relative">
+                                <input type="number" id="comisionCustomInput" value="10" min="0" max="100" step="0.5"
+                                    class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-3 pr-8 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
+                                <span class="absolute right-3 top-2.5 text-xs text-slate-500">%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETALLES DE LA PIEZA PARA EL HISTORIAL / PRESUPUESTO -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-medium text-slate-400">Nombre o Descripción de la Pieza</label>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="nombrePieza" placeholder="Ej: Soporte Auriculares / Engranaje" value="Pieza 3D Personalizada"
+                        class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500">
+                    <button id="btnAgregarHistorial" class="bg-cyan-600 hover:bg-cyan-500 text-white font-medium px-4 py-2 rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg shadow-cyan-600/20">
+                        <i class="fa-solid fa-plus"></i> Guardar Combo
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: RESULTS & SUMMARY (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+            
+            <!-- PRECIO FINAL DESTACADO CARD -->
+            <div class="bg-gradient-to-b from-slate-900 to-slate-900/90 border-2 border-cyan-500/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400">Precio Sugerido de Venta</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Final Recomendado</span>
+                </div>
+
+                <div class="flex items-baseline gap-1 my-2">
+                    <span class="text-2xl font-bold text-cyan-400">$</span>
+                    <span id="resPrecioFinal" class="text-4xl sm:text-5xl font-black tracking-tight text-white">0</span>
+                </div>
+
+                <p class="text-xs text-slate-400 mb-6">
+                    Incluye cobertura de costos directos, amortización de máquina, margen deseado y comisiones.
+                </p>
+
+                <!-- DESGLOSE RESUMEN -->
+                <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800">
+                    <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Base Total</span>
+                        <span id="resCostoBase" class="text-base font-bold text-slate-200">$0</span>
+                    </div>
+
+                    <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[11px] text-slate-400 block mb-0.5">Ganancia Neta</span>
+                        <span id="resGananciaNeta" class="text-base font-bold text-emerald-400">$0</span>
+                    </div>
+
+                    <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Filamento</span>
+                        <span id="resCostoFilamento" class="text-sm font-semibold text-slate-300">$0</span>
+                    </div>
+
+                    <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                        <span class="text-[11px] text-slate-400 block mb-0.5">Costo Máquina</span>
+                        <span id="resCostoMaquina" class="text-sm font-semibold text-slate-300">$0</span>
+                    </div>
+                </div>
+
+                <!-- ACCIONES Y BOTÓN WHATSAPP -->
+                <div class="mt-6 flex flex-col gap-2">
+                    <button id="btnCopiarWS" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-emerald-600/20 active:scale-[0.99]">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Copiar Presupuesto WhatsApp
+                    </button>
+                    <div id="toastCopiado" class="hidden text-center text-xs text-emerald-400 font-medium py-1">
+                        <i class="fa-solid fa-check"></i> ¡Presupuesto copiado al portapapeles!
+                    </div>
+                </div>
+            </div>
+
+            <!-- GRAFICO DE DISTRIBUCION -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-chart-pie text-cyan-400"></i> Distribución del Precio Final
+                </h3>
+                <div class="h-48 relative flex items-center justify-center">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+
+            <!-- HISTORIAL / COMBOS LISTA -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-cyan-400"></i> Piezas Guardadas / Combo
+                    </h3>
+                    <button id="btnVaciarHistorial" class="text-[11px] text-slate-500 hover:text-rose-400 transition-colors">
+                        Vaciar
+                    </button>
+                </div>
+
+                <div id="listaHistorial" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+                    <p class="text-xs text-slate-500 text-center py-4 italic">No hay piezas agregadas al combo.</p>
+                </div>
+
+                <div id="totalComboContainer" class="hidden mt-3 pt-3 border-t border-slate-800 flex justify-between items-center">
+                    <span class="text-xs font-semibold text-slate-300">Total Combo:</span>
+                    <span id="resTotalCombo" class="text-base font-bold text-cyan-400">$0</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-slate-800 py-4 bg-slate-900/50">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            Rentcomp Informática &copy; <span id="year">2026</span> - Cotizador de Impresión 3D Profesional
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Global State & Chart Reference
+        let chartInstance = null;
+        let listaPiezas = [];
+
+        // DOM Inputs
+        const inputs = {
+            precioFilamento: document.getElementById('precioFilamento'),
+            pesoGramos: document.getElementById('pesoGramos'),
+            tiempoHoras: document.getElementById('tiempoHoras'),
+            tiempoMinutos: document.getElementById('tiempoMinutos'),
+            costoHoraMaquina: document.getElementById('costoHoraMaquina'),
+            costoManoObra: document.getElementById('costoManoObra'),
+            costoInsumosExtras: document.getElementById('costoInsumosExtras'),
+            porcentajeGananciaInput: document.getElementById('porcentajeGananciaInput'),
+            porcentajeGananciaSlider: document.getElementById('porcentajeGananciaSlider'),
+            selectPlataforma: document.getElementById('selectPlataforma'),
+            comisionCustomInput: document.getElementById('comisionCustomInput'),
+            containerCustomComision: document.getElementById('containerCustomComision'),
+            nombrePieza: document.getElementById('nombrePieza')
+        };
+
+        // DOM Outputs
+        const outputs = {
+            precioFinal: document.getElementById('resPrecioFinal'),
+            costoBase: document.getElementById('resCostoBase'),
+            gananciaNeta: document.getElementById('resGananciaNeta'),
+            costoFilamento: document.getElementById('resCostoFilamento'),
+            costoMaquina: document.getElementById('resCostoMaquina'),
+            toastCopiado: document.getElementById('toastCopiado')
+        };
+
+        function initEvents() {
+            // Listen to all inputs to recalculate dynamically
+            Object.values(inputs).forEach(input => {
+                if (input) {
+                    input.addEventListener('input', calcularTodo);
+                    input.addEventListener('change', calcularTodo);
+                }
+            });
+
+            // Sync Slider with Input
+            inputs.porcentajeGananciaSlider.addEventListener('input', (e) => {
+                inputs.porcentajeGananciaInput.value = e.target.value;
+                calcularTodo();
+            });
+
+            inputs.porcentajeGananciaInput.addEventListener('input', (e) => {
+                inputs.porcentajeGananciaSlider.value = e.target.value;
+                calcularTodo();
+            });
+
+            // Select Platform Custom Toggle
+            inputs.selectPlataforma.addEventListener('change', (e) => {
+                if (e.target.value === 'custom') {
+                    inputs.containerCustomComision.classList.remove('hidden');
+                } else {
+                    inputs.containerCustomComision.classList.add('hidden');
+                }
+                calcularTodo();
+            });
+
+            // Copy to WhatsApp
+            document.getElementById('btnCopiarWS').addEventListener('click', copiarPresupuestoWhatsApp);
+
+            // Combo / Historial
+            document.getElementById('btnAgregarHistorial').addEventListener('click', agregarAHistorial);
+            document.getElementById('btnVaciarHistorial').addEventListener('click', () => {
+                listaPiezas = [];
+                renderHistorial();
+            });
+
+            // Initial calculation
+            calcularTodo();
+        }
+
+        // Preset Helper
+        function setPresetHora(valor) {
+            inputs.costoHoraMaquina.value = valor;
+            calcularTodo();
+        }
+
+        function calcularTodo() {
+            // 1. Filamento
+            const precioRollo = parseFloat(inputs.precioFilamento.value) || 0;
+            const gramos = parseFloat(inputs.pesoGramos.value) || 0;
+            const costoGramo = precioRollo / 1000;
+            const costoFilamento = gramos * costoGramo;
+
+            // 2. Tiempo y Máquina
+            const horas = parseFloat(inputs.tiempoHoras.value) || 0;
+            const minutos = parseFloat(inputs.tiempoMinutos.value) || 0;
+            const tiempoTotalHoras = horas + (minutos / 60);
+            const tarifaMaquina = parseFloat(inputs.costoHoraMaquina.value) || 0;
+            const costoMaquina = tiempoTotalHoras * tarifaMaquina;
+
+            // 3. Extras
+            const manoObra = parseFloat(inputs.costoManoObra.value) || 0;
+            const insumosExtras = parseFloat(inputs.costoInsumosExtras.value) || 0;
+
+            // COSTO BASE TOTAL
+            const costoBaseTotal = costoFilamento + costoMaquina + manoObra + insumosExtras;
+
+            // 4. Ganancia y Comisión
+            const porcentajeGanancia = (parseFloat(inputs.porcentajeGananciaInput.value) || 0) / 100;
+            
+            let porcentajeComision = 0;
+            if (inputs.selectPlataforma.value === 'custom') {
+                porcentajeComision = (parseFloat(inputs.comisionCustomInput.value) || 0) / 100;
+            } else {
+                porcentajeComision = (parseFloat(inputs.selectPlataforma.value) || 0) / 100;
+            }
+
+            // CALCULO DE PRECIO FINAL
+            // Formula Recomendada de Margen Real:
+            // PrecioFinal = (CostoBase * (1 + %Ganancia)) / (1 - %Comision)
+            let precioSugerido = 0;
+            let montoGanancia = 0;
+            let montoComision = 0;
+
+            if (porcentajeComision < 1) {
+                const subtotalConGanancia = costoBaseTotal * (1 + porcentajeGanancia);
+                precioSugerido = subtotalConGanancia / (1 - porcentajeComision);
+                montoComision = precioSugerido * porcentajeComision;
+                montoGanancia = costoBaseTotal * porcentajeGanancia;
+            }
+
+            // Format numbers
+            outputs.precioFinal.textContent = Math.round(precioSugerido).toLocaleString('es-AR');
+            outputs.costoBase.textContent = '$' + Math.round(costoBaseTotal).toLocaleString('es-AR');
+            outputs.gananciaNeta.textContent = '$' + Math.round(montoGanancia).toLocaleString('es-AR');
+            outputs.costoFilamento.textContent = '$' + Math.round(costoFilamento).toLocaleString('es-AR');
+            outputs.costoMaquina.textContent = '$' + Math.round(costoMaquina).toLocaleString('es-AR');
+
+            // Render/Update Chart
+            actualizarGrafico(costoFilamento, costoMaquina, (manoObra + insumosExtras), montoGanancia, montoComision);
+
+            return {
+                precioSugerido,
+                costoBaseTotal,
+                montoGanancia,
+                montoComision,
+                costoFilamento,
+                costoMaquina,
+                tiempoTotalHoras,
+                gramos
+            };
+        }
+
+        function actualizarGrafico(filamento, maquina, extras, ganancia, comision) {
+            const ctx = document.getElementById('costChart').getContext('2d');
+
+            const data = {
+                labels: ['Filamento', 'Máquina', 'Extras/Mano Obra', 'Ganancia', 'Comisión'],
+                datasets: [{
+                    data: [filamento, maquina, extras, ganancia, comision],
+                    backgroundColor: [
+                        '#0ea5e9', // cyan-500
+                        '#0284c7', // cyan-600
+                        '#64748b', // slate-500
+                        '#10b981', // emerald-500
+                        '#f59e0b'  // amber-500
+                    ],
+                    borderWidth: 0
+                }]
+            };
+
+            if (chartInstance) {
+                chartInstance.data = data;
+                chartInstance.update();
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    color: '#94a3b8',
+                                    font: { size: 11 }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        let value = context.raw || 0;
+                                        return `${label}: $${Math.round(value).toLocaleString('es-AR')}`;
+                                    }
+                                }
+                            }
+                        },
+                        cutout: '65%'
+                    }
+                });
+            }
+        }
+
+        function copiarPresupuestoWhatsApp() {
+            const calc = calcularTodo();
+            const nombre = inputs.nombrePieza.value || 'Pieza 3D Personalizada';
+            const hs = inputs.tiempoHoras.value;
+            const min = inputs.tiempoMinutos.value;
+
+            const mensaje = `📌 *PRESUPUESTO IMPRESIÓN 3D - Rentcomp Informática*\n` +
+                `----------------------------------------\n` +
+                `📦 *Pieza:* ${nombre}\n` +
+                `⚖️ *Peso aprox:* ${calc.gramos}g\n` +
+                `⏱️ *Tiempo estimado:* ${hs}h ${min}m\n` +
+                `----------------------------------------\n` +
+                `💰 *PRECIO FINAL:* $${Math.round(calc.precioSugerido).toLocaleString('es-AR')} ARS\n` +
+                `----------------------------------------\n` +
+                `✅ *Incluye:* Material de alta calidad, calibración e impresión.\n` +
+                `💬 *Consultas o confirmación de pedido respondiendo a este mensaje.*`;
+
+            // Clipboard execute command fallback
+            const areaTexto = document.createElement('textarea');
+            areaTexto.value = mensaje;
+            document.body.appendChild(areaTexto);
+            areaTexto.select();
+            try {
+                document.execCommand('copy');
+                outputs.toastCopiado.classList.remove('hidden');
+                setTimeout(() => outputs.toastCopiado.classList.add('hidden'), 3000);
+            } catch (err) {
+                console.error('Error al copiar', err);
+            }
+            document.body.removeChild(areaTexto);
+        }
+
+        function agregarAHistorial() {
+            const calc = calcularTodo();
+            const nombre = inputs.nombrePieza.value || 'Pieza 3D';
+
+            listaPiezas.push({
+                nombre: nombre,
+                precio: Math.round(calc.precioSugerido),
+                gramos: calc.gramos
+            });
+
+            renderHistorial();
+        }
+
+        function renderHistorial() {
+            const container = document.getElementById('listaHistorial');
+            const containerTotal = document.getElementById('totalComboContainer');
+            const resTotalCombo = document.getElementById('resTotalCombo');
+
+            if (listaPiezas.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4 italic">No hay piezas agregadas al combo.</p>`;
+                containerTotal.classList.add('hidden');
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+
+            listaPiezas.forEach((pieza, index) => {
+                total += pieza.precio;
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-xs';
+                item.innerHTML = `
+                    <div>
+                        <span class="font-medium text-slate-200 block">${pieza.nombre}</span>
+                        <span class="text-[10px] text-slate-500">${pieza.gramos}g</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-cyan-400">$${pieza.precio.toLocaleString('es-AR')}</span>
+                        <button onclick="eliminarDelHistorial(${index})" class="text-slate-500 hover:text-rose-400">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+
+            resTotalCombo.textContent = '$' + total.toLocaleString('es-AR');
+            containerTotal.classList.remove('hidden');
+        }
+
+        function eliminarDelHistorial(index) {
+            listaPiezas.splice(index, 1);
+            renderHistorial();
+        }
+
+        // Initialize App on load
+        window.onload = function() {
+            initEvents();
+        };
+    </script>
+</body>
+</html>
